@@ -1,0 +1,75 @@
+.main {
+  position: relative;
+}
+
+.navBar {
+  color: #5b5a5a;
+  height: 50px;
+  display: flex;
+  border: solid 1px black;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  width: 100vw;
+}
+
+.logo {
+  font-weight: 600;
+  margin-left: 40px;
+}
+
+.nav {
+  margin-right: 50px;
+  display: flex;
+  gap: 50px;
+}
+
+.posts {
+  padding-top: 100px;
+  margin: 0 50px;
+}
+.posts .post {
+  border: solid 1px black;
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 10px;
+  margin-bottom: 50px;
+  align-items: center;
+}
+.posts .post .postImageContainer {
+  height: 250px;
+}
+.posts .post .postImage {
+  display: block;
+  height: 250px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  width: 100%;
+}
+.posts .post .postContents {
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  padding: 0 10px;
+}
+.posts .post .postContents .postTitle {
+  font-size: 20px;
+}
+.posts .post .postContents .postWriting {
+  overflow-y: scroll;
+}
+.posts .post .info {
+  display: flex;
+  gap: 10px;
+  font-size: 15px;
+  margin: 7px 0;
+}
+.posts .post .info .author {
+  font-weight: 800;
+  color: #5b5a5a;
+}
+.posts .post .info .date {
+  color: #6d6c6c;
+}
+/*# sourceMappingURL=main.module.css.map */
