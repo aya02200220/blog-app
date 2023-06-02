@@ -1,5 +1,12 @@
-.main {
-  position: relative;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.mainContainer {
+  padding-top: 100px;
+  margin: 0 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .navBar {
   color: #5b5a5a;
@@ -17,25 +24,29 @@
 }
 
 .nav {
-  margin-right: 50px;
   display: flex;
+  margin-right: 50px;
   gap: 50px;
 }
 
 .posts {
-  padding-top: 100px;
-  margin: 0 50px;
+  display: grid;
+  place-content: center;
+  place-items: center;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
 
   .post {
     border: solid 1px black;
-    max-width: 100%;
+    max-width: 500px;
     display: grid;
     grid-template-columns: 0.9fr 1.1fr;
     gap: 10px;
-    margin-bottom: 50px;
     align-items: center;
+
     .postImageContainer {
       height: 250px;
+      position: relative;
     }
     .postImage {
       display: block;
@@ -43,19 +54,56 @@
       object-fit: cover;
       width: 100%;
     }
+    .authorContainer {
+      // display: flex;
+      // justify-content: center;
+      // align-items: center;
+      // color: #444444;
+      // position: absolute;
+      // width: 90%;
+      // bottom: 7px;
+      // left: 50%;
+      // transform: translate(-50%, 2%);
+      // -webkit-transform: translate(-50%, 2%);
+      // -ms-transform: translate(-50%, 2%);
+      // overflow-wrap: break-word;
+      // line-height: 13px;
+      // background-color: aliceblue;
+
+      .authorName {
+        position: absolute;
+        align-items: center;
+        color: #444444;
+        position: absolute;
+        width: 95%;
+        bottom: 7px;
+        left: 50%;
+        transform: translate(-50%, 2%);
+        -webkit-transform: translate(-50%, 2%);
+        -ms-transform: translate(-50%, 2%);
+        overflow-wrap: break-word;
+        line-height: 13px;
+        background-color: rgba(240, 248, 255, 0.409);
+        padding: 6px 6px;
+        border-radius: 4px;
+      }
+    }
     .postContents {
       height: 250px;
-
       display: flex;
       flex-direction: column;
       padding: 0 10px;
       // width: 50%;
       .postTitle {
-        font-size: 20px;
-        // font-weight: 500;
+        line-height: 21px;
+        padding-top: 5px;
+        font-size: 18px;
+        font-weight: 500;
         // margin-bottom: 10px;
       }
       .postWriting {
+        line-height: 15px;
+        font-size: 15px;
         overflow-y: scroll;
       }
     }
@@ -63,16 +111,92 @@
     .info {
       display: flex;
       gap: 10px;
-      font-size: 15px;
+      font-size: 13px;
       margin: 7px 0;
 
       .author {
-        font-weight: 800;
+        font-weight: 600;
         color: #5b5a5a;
       }
       .date {
+        width: 100%;
         color: #6d6c6c;
       }
     }
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .mainContainer {
+    margin: 0 20px;
+  }
+  .nav {
+    margin-right: 20px;
+    gap: 20px;
+  }
+  .posts {
+    padding-top: 70px;
+    display: grid;
+    gap: 15px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+
+    .post {
+      border: solid 1px black;
+      max-width: 500px;
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 10px;
+      // margin-bottom: 50px;
+      align-items: center;
+      .postImageContainer {
+      }
+      .postImage {
+      }
+      .postContents {
+        .postTitle {
+          line-height: 17.5px;
+        }
+        .postWriting {
+          line-height: 15px;
+        }
+      }
+
+      .info {
+        font-size: 12px;
+        flex-direction: column;
+        gap: 0;
+        line-height: 15px;
+        .author {
+        }
+        .date {
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 500px) {
+}
+
+////////// LOGIN/REGISTER /////////////////
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 80%;
+  max-width: 500px;
+  justify-content: center;
+  align-items: center;
+  // border: solid 1px black;
+  .loginTitle {
+    font-size: 30px;
+    font-weight: 500;
+    text-align: center;
+    padding-bottom: 20px;
+  }
+  .textPassword {
+    width: 90%;
+  }
+  .textUsername {
+    width: 90%;
   }
 }

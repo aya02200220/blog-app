@@ -1,7 +1,16 @@
-import React from "react";
+import Header from "./Header";
+import styles from "../styles/main.module.scss";
+import { Outlet } from "react-router-dom";
 
 const Layout = () => {
-  return <div>Layout</div>;
+  return (
+    <div>
+      <main className={styles.main}>
+        <Header />
+        <Outlet />
+      </main>
+    </div>
+  );
 };
 
 export default Layout;

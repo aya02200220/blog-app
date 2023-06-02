@@ -1,26 +1,26 @@
-import { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { Route, Routes } from "react-router-dom";
 
 import styles from "./styles/main.module.scss";
 
-import Header from "./components/Header";
-import Post from "./components/post";
+import Layout from "./components/Layout";
+import IndexPage from "./components/Pages/IndexPage";
+import LoginPage from "./components/Pages/LoginPage";
+import RegisterPage from "./components/Pages/RegisterPage";
+import { UserContextProvider } from "./components/UserContext";
 
 function App() {
   return (
-    <Routes>
-      <Route
-        index
-        element={
-          <main className={styles.main}>
-            <Header />
-            <Post />
-          </main>
-        }
-      />
-      <Route path={"/login"} element={<div>Login</div>} />
-      <Route path={"/register"} element={<div>Register</div>} />
-    </Routes>
+    <UserContextProvider>
+      <Toaster />
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<IndexPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+        </Route>
+      </Routes>
+    </UserContextProvider>
   );
 }
 
