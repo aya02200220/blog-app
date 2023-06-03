@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { Navigate } from "react-router-dom";
+import { UserContext } from "../UserContext";
 
 import styles from "../../styles/main.module.scss";
 import TextField from "@mui/material/TextField";
@@ -10,6 +11,7 @@ const LoginPage = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
+  const { setUserInfo } = useContext(UserContext);
 
   const login = async (e) => {
     e.preventDefault();
@@ -21,6 +23,9 @@ const LoginPage = () => {
       credentials: "include",
     });
     if (data.status === 200) {
+      data.json().then((userInfo) => {
+        setUserInfo(userInfo);
+      });
       setRedirect(true);
       toast.success("You are logged in!");
     } else {

@@ -40,7 +40,7 @@ app.post("/login", async (req, res) => {
     // Login
     jwt.sign({ userName, id: userInfo._id }, secret, {}, (err, token) => {
       if (err) throw err;
-      res.cookie("token", token).json("ok");
+      res.cookie("token", token).json({ id: userInfo._id, userName });
     });
   } else {
     res.status(404).json("wrong credentials");
