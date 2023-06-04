@@ -47,7 +47,7 @@ const LoginPage = () => {
           required
           id="outlined-basic"
           label="User name"
-          variant="outlined"
+          variant="filled"
         />
 
         <TextField
@@ -58,7 +58,7 @@ const LoginPage = () => {
           required
           id="outlined-basic"
           label="Password"
-          variant="outlined"
+          variant="filled"
         />
 
         <Button className={styles.registerButton} title={"Login"} />

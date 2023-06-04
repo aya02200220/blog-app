@@ -175,6 +175,9 @@
   }
 }
 @media screen and (max-width: 500px) {
+  .logo {
+    margin-left: 20px;
+  }
 }
 
 ////////// LOGIN/REGISTER /////////////////
@@ -198,5 +201,20 @@
   }
   .textUsername {
     width: 90%;
+  }
+}
+
+/////////////// CREATE POST ////////////////////
+.postForm {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  .postTitle {
+  }
+  .postSummary {
+  }
+  .postFile {
+  }
+  .postButton {
   }
 }

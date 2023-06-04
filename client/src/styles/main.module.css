@@ -141,6 +141,11 @@
     line-height: 15px;
   }
 }
+@media screen and (max-width: 500px) {
+  .logo {
+    margin-left: 20px;
+  }
+}
 .loginForm {
   display: flex;
   flex-direction: column;
@@ -161,5 +166,11 @@
 }
 .loginForm .textUsername {
   width: 90%;
+}
+
+.postForm {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 /*# sourceMappingURL=main.module.css.map */
