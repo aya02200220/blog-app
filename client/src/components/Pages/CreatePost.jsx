@@ -1,10 +1,10 @@
 import styles from "../../styles/main.module.scss";
 import TextField from "@mui/material/TextField";
-import { MuiFileInput } from "mui-file-input";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useState } from "react";
 import Button from "../Buttons/Button";
+import { Navigate } from "react-router-dom";
 
 const modules = {
   toolbar: [
@@ -35,29 +35,30 @@ const formats = [
 ];
 
 const CreatePost = () => {
-  const [value, setValue] = useState(null);
-
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");
   const [content, setContent] = useState("");
   const [files, setFiles] = useState("");
+  const [redirect, setRedirect] = useState(false);
 
-  const data = new FormData();
-  data.set("title", title);
-  data.set("summary", summary);
-  data.set("content", content);
-  data.set("file", files[0]);
-
-  const handleChange = (newValue) => {
-    setFiles(newValue);
-  };
-
-  const createNewPost = (e) => {
+  const createNewPost = async (e) => {
+    const data = new FormData();
+    data.set("title", title);
+    data.set("summary", summary);
+    data.set("content", content);
+    data.set("file", files[0]);
     e.preventDefault();
-    console.log(files);
-    // fetch("http://localhost:4000/post");
+    const res = await fetch("http://localhost:4000/post", {
+      method: "POST",
+      body: data,
+    });
+    if (res.ok) {
+      setRedirect(true);
+    }
   };
-
+  if (redirect) {
+    return <Navigate to="/" />;
+  }
   return (
     <div className={styles.mainContainer}>
       <form className={styles.postForm} onSubmit={createNewPost}>
@@ -69,7 +70,7 @@ const CreatePost = () => {
           variant="outlined"
           placeholder="Title"
         ></TextField>
-        <p>ssss{content}</p>
+
         <TextField
           type="summary"
           value={summary}
@@ -78,11 +79,8 @@ const CreatePost = () => {
           variant="outlined"
           placeholder="Summary"
         ></TextField>
-        <MuiFileInput
-          className={styles.postFile}
-          value={files}
-          onChange={handleChange}
-        />
+
+        <input type="file" onChange={(ev) => setFiles(ev.target.files)} />
         <ReactQuill
           value={content}
           onChange={(newValue) => setContent(newValue)}
