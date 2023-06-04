@@ -39,7 +39,7 @@ const Post = ({ title, summary, cover, content, createdAt, author }) => {
         <div className={styles.postImageContainer}>
           <div className={styles.authorContainer}>
             <a href="" className={styles.authorName}>
-              {author}
+              {author.userName}
             </a>
           </div>
           <img
@@ -52,7 +52,7 @@ const Post = ({ title, summary, cover, content, createdAt, author }) => {
           <h2 className={styles.postTitle}>{title}</h2>
           <div className={styles.info}>
             <a href="" className={styles.author}>
-              {author}
+              {author.userName}
             </a>
             <time>{formatISO9075(new Date(createdAt))}</time>
           </div>
