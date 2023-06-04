@@ -1,8 +1,9 @@
 import styles from "../styles/main.module.scss";
+import { formatISO9075 } from "date-fns";
 
-const Post = ({ title, summary, cover, contnt, createdAt }) => {
+const Post = ({ title, summary, cover, content, createdAt, author }) => {
   return (
-    <section className={`${styles["posts"]} ${styles["mainContainer"]}`}>
+    <>
       {/* <div className={styles.post}>
         <div className={styles.postImageContainer}>
           <div className={styles.authorContainer}>
@@ -38,7 +39,7 @@ const Post = ({ title, summary, cover, contnt, createdAt }) => {
         <div className={styles.postImageContainer}>
           <div className={styles.authorContainer}>
             <a href="" className={styles.authorName}>
-              Aya ishimura
+              {author}
             </a>
           </div>
           <img
@@ -51,14 +52,14 @@ const Post = ({ title, summary, cover, contnt, createdAt }) => {
           <h2 className={styles.postTitle}>{title}</h2>
           <div className={styles.info}>
             <a href="" className={styles.author}>
-              Aya ishimura
+              {author}
             </a>
-            <time>{createdAt}</time>
+            <time>{formatISO9075(new Date(createdAt))}</time>
           </div>
           <p className={styles.postWriting}>{summary}</p>
         </div>
       </div>
-    </section>
+    </>
   );
 };
 

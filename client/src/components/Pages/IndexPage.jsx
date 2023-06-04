@@ -1,3 +1,4 @@
+import styles from "../../styles/main.module.scss";
 import { useEffect, useState } from "react";
 import Post from "../post";
 
@@ -11,7 +12,13 @@ const IndexPage = () => {
     });
   }, []);
 
-  return <>{posts.length > 0 && posts.map((post) => <Post {...post} />)}</>;
+  return (
+    <>
+      <section className={`${styles["posts"]} ${styles["mainContainer"]}`}>
+        {posts.length > 0 && posts.map((post) => <Post {...post} />)}
+      </section>
+    </>
+  );
 };
 
 export default IndexPage;

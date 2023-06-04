@@ -66,23 +66,37 @@ app.post("/logout", (req, res) => {
 app.post("/post", uploadMiddleware.single("file"), async (req, res) => {
   const { originalname, path } = req.file;
   const parts = originalname.split(".");
-  const extension = parts[parts.length - 1];
-  const newPath = path + "." + extension;
+  const ext = parts[parts.length - 1];
+  const newPath = path + "." + ext;
   fs.renameSync(path, newPath);
 
-  const { title, summary, content } = req.body;
-  const newPost = await Post.create({
-    title,
-    summary,
-    content,
-    cover: newPath,
+  const { token } = req.cookies;
+  jwt.verify(token, secret, {}, async (err, info) => {
+    if (err) throw err;
+    const { title, summary, content } = req.body;
+    const postDoc = await Post.create({
+      title,
+      summary,
+      content,
+      cover: newPath,
+      author: info.id,
+    });
+    res.json(postDoc);
   });
-
-  res.json(newPost);
 });
 
 app.get("/post", async (req, res) => {
-  res.json(await Post.find());
+  res.json(
+    // await Post.find().populate("author", ["userName"])
+    await Post.find()
+    // .sort({ createdAt: -1 })
+    // .limit(20)
+  );
 });
+
+// app.get("/post", async (req, res) => {
+//   res.json(await Post.find().populate("author", ["userName"]));
+//   res.json(await Post.find());
+// });
 
 app.listen(4000);
