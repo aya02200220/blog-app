@@ -36,11 +36,11 @@
   place-content: center;
   place-items: center;
   gap: 20px;
-  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
 }
 .posts .post {
   border: solid 1px black;
-  max-width: 500px;
+  width: 400px;
   display: grid;
   grid-template-columns: 0.9fr 1.1fr;
   gap: 10px;
@@ -76,34 +76,43 @@
 }
 .posts .post .postContents {
   height: 250px;
+  min-width: 60%;
   display: flex;
   flex-direction: column;
-  padding: 0 10px;
+  padding: 5px 10px;
 }
 .posts .post .postContents .postTitle {
-  line-height: 21px;
-  padding-top: 5px;
+  line-height: 19px;
+  padding-top: 10px;
   font-size: 18px;
-  font-weight: 500;
-}
-.posts .post .postContents .postWriting {
-  line-height: 15px;
-  font-size: 15px;
+  font-weight: 600;
+  max-height: 45px;
   overflow-y: scroll;
+  margin-bottom: 10px;
 }
-.posts .post .info {
+.posts .post .postContents .info {
   display: flex;
+  color: #5b5a5a;
   gap: 10px;
   font-size: 13px;
-  margin: 7px 0;
 }
-.posts .post .info .author {
+.posts .post .postContents .info .author {
   font-weight: 600;
   color: #5b5a5a;
 }
-.posts .post .info .date {
+.posts .post .postContents .info .date {
   width: 100%;
   color: #6d6c6c;
+}
+.posts .post .postContents .postWriting {
+  padding: 8px 0;
+  margin-bottom: 10px;
+  line-height: 15px;
+  font-size: 15px;
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+  overflow-y: scroll;
 }
 
 @media screen and (max-width: 700px) {
@@ -114,19 +123,18 @@
     margin-right: 20px;
     gap: 20px;
   }
-  .posts {
-    padding-top: 70px;
-    display: grid;
-    gap: 15px;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  }
   .posts .post {
-    border: solid 1px black;
-    max-width: 500px;
-    display: grid;
-    grid-template-columns: 0.9fr 1.1fr;
+    grid-template-columns: inherit;
+    max-width: 300px;
     gap: 10px;
-    align-items: center;
+  }
+  .posts .post .postImageContainer {
+    max-width: 300px;
+    height: 250px;
+  }
+  .posts .post .postContents {
+    max-width: 300px;
+    max-height: 150px;
   }
   .posts .post .postContents .postTitle {
     line-height: 17.5px;
@@ -136,8 +144,7 @@
   }
   .posts .post .info {
     font-size: 12px;
-    flex-direction: column;
-    gap: 0;
+    gap: 10px;
     line-height: 15px;
   }
 }
@@ -172,5 +179,88 @@
   display: flex;
   flex-direction: column;
   gap: 5px;
+}
+.postPage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.postPage a {
+  color: #26798e;
+  text-decoration: underline;
+}
+.postPage img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: auto 0;
+  margin: 10px 0;
+}
+.postPage .postPageTitle {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 30px;
+  margin-bottom: 10px;
+}
+.postPage .postPageTime {
+  font-size: 15px;
+  line-height: 15px;
+  color: #5b5a5a;
+  margin-bottom: 2px;
+}
+.postPage .postPageAuthor {
+  font-size: 15px;
+  line-height: 15px;
+  margin-bottom: 10px;
+}
+.postPage .postPageEdit {
+  border: solid 1px black;
+  border-radius: 4px;
+  padding: 5px 15px;
+  text-decoration: none;
+  margin-bottom: 5px;
+}
+.postPage .postPageEdit .postPageEditButton {
+  display: inline-block;
+  text-decoration: none;
+}
+.postPage .postPageEdit .postPageEditIcon {
+  margin-right: 4px;
+}
+.postPage .postPageImgContainer {
+  max-width: 1100px;
+  margin-bottom: 10px;
+  max-height: 300px;
+  display: flex;
+  overflow: hidden;
+}
+.postPage .postPageImgContainer .postPageImg {
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center center;
+     object-position: center center;
+  width: 100%;
+}
+.postPage .postPageContent {
+  font-size: 16px;
+  line-height: 22px;
+  max-width: 1100px;
+}
+
+@media screen and (max-width: 700px) {
+  .postPageImgContainer {
+    padding: 0 60px;
+  }
+  .postPageContent {
+    padding: 0 60px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .postPageContent {
+    padding: 0 20px;
+  }
 }
 /*# sourceMappingURL=main.module.css.map */

@@ -15,6 +15,7 @@ const app = express();
 app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
 app.use(express.json());
 app.use(cookieParser());
+app.use("/uploads", express.static(__dirname + "/uploads"));
 
 mongoose.connect(
   "mongodb+srv://blog-app:blog-app123@cluster0.nv5qviq.mongodb.net/?retryWrites=true&w=majority"
@@ -74,28 +75,54 @@ app.post("/post", uploadMiddleware.single("file"), async (req, res) => {
   jwt.verify(token, secret, {}, async (err, info) => {
     if (err) throw err;
     const { title, summary, content } = req.body;
-    const postDoc = await Post.create({
+    const newPost = await Post.create({
       title,
       summary,
       content,
       cover: newPath,
       author: info.id,
     });
-    res.json(postDoc);
+    res.json(newPost);
+  });
+});
+
+app.put("/post", uploadMiddleware.single("file"), async (req, res) => {
+  let newPath = null;
+  if (req.file) {
+    const { originalname, path } = req.file;
+    const parts = originalname.split(".");
+    const ext = parts[parts.length - 1];
+    const newPath = path + "." + ext;
+    fs.renameSync(path, newPath);
+  }
+  const { token } = req.cookies;
+  jwt.verify(token, secret, {}, async (err, info) => {
+    if (err) throw err;
+    const { title, summary, content } = req.body;
+    const newPost = await Post.create({
+      title,
+      summary,
+      content,
+      cover: newPath,
+      author: info.id,
+    });
+    res.json(newPost);
   });
 });
 
 app.get("/post", async (req, res) => {
   res.json(
-    await Post.find().populate("author", ["userName"])
-    // .sort({ createdAt: -1 })
-    // .limit(20)
+    await Post.find()
+      .populate("author", ["userName"])
+      .sort({ createdAt: -1 })
+      .limit(15)
   );
 });
 
-// app.get("/post", async (req, res) => {
-//   res.json(await Post.find().populate("author", ["userName"]));
-//   res.json(await Post.find());
-// });
+app.get("/post/:id", async (req, res) => {
+  const { id } = req.params;
+  const postInfo = await Post.findById(id).populate("author", ["userName"]);
+  res.json(postInfo);
+});
 
 app.listen(4000);
