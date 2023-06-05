@@ -92,9 +92,10 @@ app.put("/post", uploadMiddleware.single("file"), async (req, res) => {
     const { originalname, path } = req.file;
     const parts = originalname.split(".");
     const ext = parts[parts.length - 1];
-    const newPath = path + "." + ext;
+    newPath = path + "." + ext;
     fs.renameSync(path, newPath);
   }
+
   const { token } = req.cookies;
   jwt.verify(token, secret, {}, async (err, info) => {
     if (err) throw err;
@@ -102,15 +103,15 @@ app.put("/post", uploadMiddleware.single("file"), async (req, res) => {
     const postDoc = await Post.findById(id);
     const isAuthor = JSON.stringify(postDoc.author) === JSON.stringify(info.id);
     if (!isAuthor) {
-      return res.status(400).json("You are not the author");
+      return res.status(400).json("you are not the author");
     }
-
-    await postDoc.update({
+    await postDoc.updateOne({
       title,
       summary,
       content,
-      cover: newPath ? newPath : newDoc.cover,
+      cover: newPath ? newPath : postDoc.cover,
     });
+
     res.json(postDoc);
   });
 });
