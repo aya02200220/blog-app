@@ -2,6 +2,12 @@ import { NavLink, Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import styles from "../styles/main.module.scss";
 import { UserContext } from "./UserContext";
+import toast from "react-hot-toast";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+
+import { LoginIcon } from "./LoginIcon";
 
 const Header = () => {
   const { setUserInfo, userInfo } = useContext(UserContext);
@@ -22,6 +28,7 @@ const Header = () => {
       method: "POST",
     });
     setUserInfo(null);
+    toast.success("You are logged out!");
   }
 
   const userName = userInfo?.userName;
@@ -29,18 +36,33 @@ const Header = () => {
   return (
     <header className={styles.navBar}>
       <NavLink to="/" className={styles.logo}>
-        My Blog
+        MERN-Blog
       </NavLink>
       <nav className={styles.nav}>
         {userName && (
           <>
-            <NavLink to="/create">Create new post</NavLink>
-            <a onClick={logout}>Logout</a>
+            <NavLink className={styles.nav1} to="/create">
+              Create new post
+            </NavLink>
+            <a onClick={logout}>
+              <LoginIcon letter={userName.charAt(0)} />
+            </a>
+
+            <a className={styles.nav3} onClick={logout}>
+              {/* <LoginIcon letter={userName.charAt(0)} /> */}
+              Logout
+              <FontAwesomeIcon
+                className={styles.nav4}
+                icon={faArrowRightFromBracket}
+              />
+            </a>
           </>
         )}
         {!userName && (
           <>
-            <NavLink to="/login">Login</NavLink>
+            <NavLink className={styles.nav1} to="/login">
+              Login
+            </NavLink>
             <NavLink to="/register">Resister</NavLink>
           </>
         )}

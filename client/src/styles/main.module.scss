@@ -4,30 +4,61 @@
 
 .mainContainer {
   padding-top: 100px;
-  margin: 0 100px;
+  margin: 0 90px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .navBar {
   color: #5b5a5a;
-  height: 50px;
+  height: 60px;
   display: flex;
   border: solid 1px black;
   justify-content: space-between;
   align-items: center;
   position: fixed;
   width: 100vw;
+  a {
+    cursor: pointer;
+  }
 }
 .logo {
+  font-size: 20px;
   font-weight: 600;
   margin-left: 40px;
 }
 
 .nav {
   display: flex;
+  justify-content: center;
+  align-items: center;
   margin-right: 50px;
-  gap: 50px;
+  .nav1 {
+    margin-right: 20px;
+  }
+  .nav2 {
+    margin-right: 1px;
+  }
+  .nav3 {
+  }
+  .nav4 {
+    padding-left: 5px;
+  }
+}
+//////////// Login Icon //////////////
+.loginIcon {
+  border-radius: 50px;
+  background-color: #26798e;
+  width: 30px;
+  height: 30px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: 600;
+  margin-right: 5px;
+  padding-bottom: 2px;
 }
 
 .posts {
@@ -36,8 +67,8 @@
   place-content: center;
   place-items: center;
   gap: 20px;
-  // grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  justify-content: center;
 
   .post {
     border: solid 1px black;
@@ -140,19 +171,24 @@
     margin: 0 20px;
   }
   .nav {
-    margin-right: 20px;
-    gap: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 50px;
+    .nav1 {
+      margin-right: 20px;
+    }
+    .nav2 {
+      margin-right: 1px;
+    }
+    .nav3 {
+    }
+    .nav4 {
+      padding-left: 5px;
+    }
   }
   .posts {
-    // padding-top: 70px;
-    // display: grid;
-    // gap: 15px;
-    // grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-
     .post {
-      // border: solid 1px black;
-      // max-width: 500px;
-      // display: grid;
       grid-template-columns: inherit;
       max-width: 300px;
       gap: 10px;
@@ -170,7 +206,7 @@
           line-height: 17.5px;
         }
         .postWriting {
-          line-height: 15px;
+          line-height: 18px;
         }
       }
 
