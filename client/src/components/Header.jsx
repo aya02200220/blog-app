@@ -1,4 +1,4 @@
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Navigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import styles from "../styles/main.module.scss";
 import { UserContext } from "./UserContext";
@@ -44,12 +44,12 @@ const Header = () => {
             <NavLink className={styles.nav1} to="/create">
               Create new post
             </NavLink>
+
             <a onClick={logout}>
               <LoginIcon letter={userName.charAt(0)} />
             </a>
 
             <a className={styles.nav3} onClick={logout}>
-              {/* <LoginIcon letter={userName.charAt(0)} /> */}
               Logout
               <FontAwesomeIcon
                 className={styles.nav4}

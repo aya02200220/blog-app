@@ -2,7 +2,8 @@ import styles from "../../styles/main.module.scss";
 import TextField from "@mui/material/TextField";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
+import { UserContext } from "../UserContext";
 import Button from "../Buttons/Button";
 import { Navigate } from "react-router-dom";
 
@@ -35,10 +36,13 @@ const formats = [
 ];
 
 const CreatePost = () => {
+  // const { userInfo } = useContext(UserContext);
+
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");
   const [content, setContent] = useState("");
   const [files, setFiles] = useState("");
+  // const [loginCheck, setLoginCheck] = useState(false);
   const [redirect, setRedirect] = useState(false);
 
   const createNewPost = async (e) => {
@@ -57,6 +61,17 @@ const CreatePost = () => {
       setRedirect(true);
     }
   };
+
+  // console.log(userInfo.id === undefined);
+  // if (!userInfo.id === undefined) {
+  //   setLoginCheck(true);
+  // }
+
+  // useEffect(() => {
+  //   if (!loginCheck) {
+  //     setRedirect(true);
+  //   }
+  // }, [loginCheck]);
 
   if (redirect) {
     return <Navigate to="/" />;

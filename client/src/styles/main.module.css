@@ -88,7 +88,7 @@
      object-fit: cover;
   width: 100%;
 }
-.posts .post .authorContainer .authorName {
+.posts .post .authorName {
   position: absolute;
   align-items: center;
   color: #444444;
@@ -192,7 +192,26 @@
 }
 @media screen and (max-width: 500px) {
   .logo {
+    text-align: left;
+    font-size: 15px;
+    line-height: 15px;
     margin-left: 20px;
+  }
+  .nav {
+    font-size: 12px;
+    margin-right: 20px;
+  }
+  .nav .nav1 {
+    width: 55px;
+    line-height: 10px;
+    text-align: center;
+    margin-right: 10px;
+  }
+  .nav .nav2 {
+    margin-right: 1px;
+  }
+  .nav .nav4 {
+    padding-left: 5px;
   }
 }
 .loginForm {
@@ -224,6 +243,7 @@
   gap: 5px;
 }
 .postPage {
+  padding-bottom: 50px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -260,7 +280,7 @@
   margin-bottom: 10px;
 }
 .postPage .postPageEdit {
-  border: solid 1px black;
+  background-color: #79aed6;
   border-radius: 4px;
   padding: 5px 15px;
   text-decoration: none;

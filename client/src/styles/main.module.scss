@@ -91,40 +91,25 @@
       object-fit: cover;
       width: 100%;
     }
-    .authorContainer {
-      // display: flex;
-      // justify-content: center;
-      // align-items: center;
-      // color: #444444;
-      // position: absolute;
-      // width: 90%;
-      // bottom: 7px;
-      // left: 50%;
-      // transform: translate(-50%, 2%);
-      // -webkit-transform: translate(-50%, 2%);
-      // -ms-transform: translate(-50%, 2%);
-      // overflow-wrap: break-word;
-      // line-height: 13px;
-      // background-color: aliceblue;
 
-      .authorName {
-        position: absolute;
-        align-items: center;
-        color: #444444;
-        position: absolute;
-        width: 95%;
-        bottom: 7px;
-        left: 50%;
-        transform: translate(-50%, 2%);
-        -webkit-transform: translate(-50%, 2%);
-        -ms-transform: translate(-50%, 2%);
-        overflow-wrap: break-word;
-        line-height: 13px;
-        background-color: rgba(240, 248, 255, 0.409);
-        padding: 6px 6px;
-        border-radius: 4px;
-      }
+    .authorName {
+      position: absolute;
+      align-items: center;
+      color: #444444;
+      position: absolute;
+      width: 95%;
+      bottom: 7px;
+      left: 50%;
+      transform: translate(-50%, 2%);
+      -webkit-transform: translate(-50%, 2%);
+      -ms-transform: translate(-50%, 2%);
+      overflow-wrap: break-word;
+      line-height: 13px;
+      background-color: rgba(240, 248, 255, 0.409);
+      padding: 6px 6px;
+      border-radius: 4px;
     }
+
     .postContents {
       height: 250px;
       min-width: 60%;
@@ -230,7 +215,29 @@
     // grid-template-rows: 0.9fr 1.1fr;
   }
   .logo {
+    text-align: left;
+    font-size: 15px;
+    line-height: 15px;
     margin-left: 20px;
+  }
+  .nav {
+    font-size: 12px;
+    margin-right: 20px;
+
+    .nav1 {
+      width: 55px;
+      line-height: 10px;
+      text-align: center;
+      margin-right: 10px;
+    }
+    .nav2 {
+      margin-right: 1px;
+    }
+    .nav3 {
+    }
+    .nav4 {
+      padding-left: 5px;
+    }
   }
 }
 
@@ -281,6 +288,7 @@
 }
 /////////////// POST PAGE////////////////////
 .postPage {
+  padding-bottom: 50px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -317,7 +325,8 @@
   }
 
   .postPageEdit {
-    border: solid 1px black;
+    // border: solid 1px black;
+    background-color: #79aed6;
     border-radius: 4px;
     padding: 5px 15px;
     text-decoration: none;
