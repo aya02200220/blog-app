@@ -98,15 +98,20 @@ app.put("/post", uploadMiddleware.single("file"), async (req, res) => {
   const { token } = req.cookies;
   jwt.verify(token, secret, {}, async (err, info) => {
     if (err) throw err;
-    const { title, summary, content } = req.body;
-    const newPost = await Post.create({
+    const { id, title, summary, content } = req.body;
+    const postDoc = await Post.findById(id);
+    const isAuthor = JSON.stringify(postDoc.author) === JSON.stringify(info.id);
+    if (!isAuthor) {
+      return res.status(400).json("You are not the author");
+    }
+
+    await postDoc.update({
       title,
       summary,
       content,
-      cover: newPath,
-      author: info.id,
+      cover: newPath ? newPath : newDoc.cover,
     });
-    res.json(newPost);
+    res.json(postDoc);
   });
 });
 
