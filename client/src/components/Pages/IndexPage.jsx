@@ -1,6 +1,8 @@
 import styles from "../../styles/main.module.scss";
 import { useEffect, useState } from "react";
-import Post from "../post";
+// import Post from "../Post";
+// import Post2 from "../Post2";
+import Post3 from "../Post3";
 
 const IndexPage = () => {
   const [posts, setPosts] = useState([]);
@@ -15,7 +17,8 @@ const IndexPage = () => {
   return (
     <>
       <section className={`${styles["posts"]} ${styles["mainContainer"]}`}>
-        {posts.length > 0 && posts.map((post) => <Post {...post} />)}
+        {posts.length > 0 && posts.map((post) => <Post3 {...post} />)}
+        {/* {posts.length > 0 && posts.map((post) => <Post {...post} />)} */}
       </section>
     </>
   );
