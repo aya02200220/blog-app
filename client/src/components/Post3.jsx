@@ -1,4 +1,7 @@
 import React from "react";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
 import cx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
@@ -6,8 +9,12 @@ import Box from "@material-ui/core/Box";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
+
+// import { IconButton } from "@material-ui/core";
+import { FavoriteBorderRounded, FavoriteRounded } from "@material-ui/icons";
+
 import IconButton from "@material-ui/core/IconButton";
-import FavoriteBorderRounded from "@material-ui/icons/FavoriteBorderRounded";
+// import FavoriteBorderRounded from "@material-ui/icons/FavoriteBorderRounded";
 import Share from "@material-ui/icons/Share";
 import { useSoftRiseShadowStyles } from "@mui-treasury/styles/shadow/softRise";
 import { useSlopeCardMediaStyles } from "@mui-treasury/styles/cardMedia/slope";
@@ -16,7 +23,10 @@ import TextInfoContent from "@mui-treasury/components/content/textInfo";
 
 const useStyles = makeStyles(() => ({
   root: {
-    maxWidth: 304,
+    width: 350,
+    height: 550,
+    maxWidth: 350,
+    maxHeight: 450,
     margin: "auto",
   },
   content: {
@@ -33,38 +43,63 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export const Post3 = React.memo(function PostCard() {
+export const Post3 = React.memo(function PostCard({
+  _id,
+  title,
+  summary,
+  cover,
+  content,
+  createdAt,
+  author,
+}) {
   const cardStyles = useStyles();
   const mediaStyles = useSlopeCardMediaStyles();
   const shadowStyles = useSoftRiseShadowStyles();
   const textCardContentStyles = useN01TextInfoContentStyles();
+
+  const navigate = useNavigate();
+
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  const handleFavoriteClick = (postId) => {
+    setIsFavorite(!isFavorite);
+    console.log("yayyyyy");
+    // ここにお気に入りの状態をサーバーに送信する処理などを追加することもできます
+  };
+
   return (
-    <Card className={cx(cardStyles.root, shadowStyles.root)}>
-      <CardMedia
-        classes={mediaStyles}
-        image={
-          "https://images.unsplash.com/photo-1517147177326-b37599372b73?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2229&q=80"
-        }
-      />
-      <Avatar className={cardStyles.avatar} src={"https://i.pravatar.cc/300"} />
-      <CardContent className={cardStyles.content}>
-        <TextInfoContent
-          classes={textCardContentStyles}
-          heading={"First Snow Storm"}
-          body={
-            "Snow storm coming in Sommaroy island, Arctic Norway. This is something that you definitely wanna see in your life."
-          }
+    <Link to={`/post/${_id}`}>
+      <Card className={cx(cardStyles.root, shadowStyles.root)}>
+        <CardMedia
+          classes={mediaStyles}
+          image={"http://localhost:4000/" + cover}
         />
-      </CardContent>
-      <Box px={2} pb={2} mt={-1}>
-        <IconButton>
-          <Share />
-        </IconButton>
-        <IconButton>
-          <FavoriteBorderRounded />
-        </IconButton>
-      </Box>
-    </Card>
+        <Avatar
+          className={cardStyles.avatar}
+          src={"https://i.pravatar.cc/300"}
+        />
+        <CardContent className={cardStyles.content}>
+          <TextInfoContent
+            classes={textCardContentStyles}
+            heading={title}
+            body={summary}
+          />
+        </CardContent>
+        <Box px={2} pb={2} mt={-1}>
+          <IconButton>
+            <Share />
+          </IconButton>
+          <IconButton
+            onClick={(e) => {
+              e.preventDefault();
+              handleFavoriteClick(_id);
+            }}
+          >
+            {isFavorite ? <FavoriteRounded /> : <FavoriteBorderRounded />}
+          </IconButton>
+        </Box>
+      </Card>
+    </Link>
   );
 });
 

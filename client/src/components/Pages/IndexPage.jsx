@@ -18,7 +18,6 @@ const IndexPage = () => {
     <>
       <section className={`${styles["posts"]} ${styles["mainContainer"]}`}>
         {posts.length > 0 && posts.map((post) => <Post {...post} />)}
-        {/* {posts.length > 0 && posts.map((post) => <Post {...post} />)} */}
       </section>
     </>
   );

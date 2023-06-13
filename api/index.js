@@ -131,4 +131,42 @@ app.get("/post/:id", async (req, res) => {
   res.json(postInfo);
 });
 
+app.post("/favorites", async (req, res) => {
+  const { postId } = req.body;
+  const { token } = req.cookies;
+  jwt.verify(token, secret, {}, async (err, info) => {
+    if (err) {
+      res.status(401).json({ message: "認証エラー" });
+    } else {
+      try {
+        const user = await User.findById(info.id);
+        user.favorites.push(postId);
+        await user.save();
+        res.status(200).json({ message: "お気に入りに追加されました" });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "サーバーエラーが発生しました" });
+      }
+    }
+  });
+});
+
+app.get("/favorites", async (req, res) => {
+  const { token } = req.cookies;
+  jwt.verify(token, secret, {}, async (err, info) => {
+    if (err) {
+      res.status(401).json({ message: "認証エラー" });
+    } else {
+      try {
+        const user = await User.findById(info.id).populate("favorites");
+        const favorites = user.favorites;
+        res.status(200).json(favorites);
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "サーバーエラーが発生しました" });
+      }
+    }
+  });
+});
+
 app.listen(4000);
