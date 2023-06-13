@@ -1,5 +1,6 @@
 import styles from "../../styles/main.module.scss";
 import { useEffect, useState } from "react";
+
 // import Post from "../Post";
 // import Post from "../Post2";
 import Post from "../Post3";

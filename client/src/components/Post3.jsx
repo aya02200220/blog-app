@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 import cx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
@@ -20,6 +21,8 @@ import { useSoftRiseShadowStyles } from "@mui-treasury/styles/shadow/softRise";
 import { useSlopeCardMediaStyles } from "@mui-treasury/styles/cardMedia/slope";
 import { useN01TextInfoContentStyles } from "@mui-treasury/styles/textInfoContent/n01";
 import TextInfoContent from "@mui-treasury/components/content/textInfo";
+
+import { UserContext } from "./UserContext";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -57,13 +60,21 @@ export const Post3 = React.memo(function PostCard({
   const shadowStyles = useSoftRiseShadowStyles();
   const textCardContentStyles = useN01TextInfoContentStyles();
 
-  const navigate = useNavigate();
-
   const [isFavorite, setIsFavorite] = useState(false);
 
+  const { setUserInfo, userInfo } = useContext(UserContext);
+  const userName = userInfo?.userName;
+
   const handleFavoriteClick = (postId) => {
+    console.log(postId);
+    console.log(userName);
     setIsFavorite(!isFavorite);
-    console.log("yayyyyy");
+    if (!isFavorite) {
+      toast.success("Added to your favorites");
+    } else {
+      toast.error("Removed from your favorites");
+    }
+
     // ここにお気に入りの状態をサーバーに送信する処理などを追加することもできます
   };
 
