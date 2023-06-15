@@ -41,9 +41,16 @@ const Header = () => {
       <nav className={styles.nav}>
         {userName && (
           <>
-            <NavLink className={styles.nav1} to="/create">
+            <NavLink
+              className={styles.nav1}
+              to={userName ? "/create" : "/login"}
+            >
               Create new post
             </NavLink>
+
+            {/* <NavLink className={styles.nav1} to="/create">
+              Create new post
+            </NavLink> */}
 
             <a onClick={logout}>
               <LoginIcon letter={userName.charAt(0)} />
@@ -60,6 +67,12 @@ const Header = () => {
         )}
         {!userName && (
           <>
+            <NavLink
+              className={styles.nav1}
+              to={userName ? "/create" : "/login"}
+            >
+              Create new post
+            </NavLink>
             <NavLink className={styles.nav1} to="/login">
               Login
             </NavLink>

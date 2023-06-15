@@ -37,33 +37,36 @@ const LoginPage = () => {
     return <Navigate to={"/"} />;
   }
   return (
-    <div className={styles.mainContainer}>
-      <form className={styles.loginForm} onSubmit={login}>
-        <h1 className={styles.loginTitle}>Login</h1>
-        <TextField
-          value={userName}
-          onChange={(e) => setUserName(e.target.value)}
-          className={styles.textUsername}
-          required
-          id="outlined-basic"
-          label="User name"
-          variant="filled"
-        />
+    <>
+      <div className={styles.mainContainer}>
+        <form className={styles.loginForm} onSubmit={login}>
+          <h1 className={styles.loginTitle}>Login</h1>
+          <TextField
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+            className={styles.textUsername}
+            required
+            id="outlined-basic"
+            label="User name"
+            variant="filled"
+          />
 
-        <TextField
-          type="text"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className={styles.textPassword}
-          required
-          id="outlined-basic"
-          label="Password"
-          variant="filled"
-        />
+          <TextField
+            type="text"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className={styles.textPassword}
+            required
+            id="outlined-basic"
+            label="Password"
+            variant="filled"
+          />
 
-        <Button className={styles.registerButton} title={"Login"} />
-      </form>
-    </div>
+          <Button className={styles.registerButton} title={"Login"} />
+        </form>
+        <h3>Don't have account?</h3>
+      </div>
+    </>
   );
 };
 
