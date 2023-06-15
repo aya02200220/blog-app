@@ -59,14 +59,12 @@ app.post("/login", async (req, res) => {
       {},
       (err, token) => {
         if (err) throw err;
-        res
-          .cookie("token", token)
-          .json({
-            id: userInfo._id,
-            email,
-            firstName: userInfo.firstName,
-            lastName: userInfo.lastName,
-          });
+        res.cookie("token", token).json({
+          id: userInfo._id,
+          email,
+          firstName: userInfo.firstName,
+          lastName: userInfo.lastName,
+        });
       }
     );
   } else {
