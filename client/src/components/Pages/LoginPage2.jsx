@@ -1,5 +1,6 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { Navigate } from "react-router-dom";
 
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -15,6 +16,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
+import { UserContext } from "../UserContext";
 import toast from "react-hot-toast";
 
 function Copyright(props) {
@@ -37,28 +39,38 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function SignUp() {
+export default function SignIn() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [redirect, setRedirect] = useState(false);
+  const { setUserInfo } = useContext(UserContext);
 
-  const register = async (e) => {
+  const login = async (e) => {
     e.preventDefault();
 
-    const data = await fetch("http://localhost:4000/register", {
+    const data = await fetch("http://localhost:4000/login", {
       method: "POST",
       body: JSON.stringify({ firstName, lastName, email, password }),
       headers: { "content-Type": "application/json" },
+      credentials: "include",
     });
     if (data.status === 200) {
-      toast.success("You are successfully registered!");
+      data.json().then((userInfo) => {
+        console.log("data:", data);
+        console.log("userinfo:", userInfo);
+        setUserInfo(userInfo);
+      });
+      setRedirect(true);
+      toast.success("You are logged in!");
     } else {
-      // toast.error("Registration failed");
-      alert("Registration failed");
+      toast.error("Login failed");
     }
   };
-
+  if (redirect) {
+    return <Navigate to={"/"} />;
+  }
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
@@ -75,11 +87,11 @@ export default function SignUp() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Sign In
           </Typography>
-          <Box component="form" noValidate onSubmit={register} sx={{ mt: 3 }}>
+          <Box component="form" noValidate onSubmit={login} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              {/* <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
                   name="firstName"
@@ -91,8 +103,8 @@ export default function SignUp() {
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                 />
-              </Grid>
-              <Grid item xs={12} sm={6}>
+              </Grid> */}
+              {/* <Grid item xs={12} sm={6}>
                 <TextField
                   required
                   fullWidth
@@ -103,7 +115,7 @@ export default function SignUp() {
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                 />
-              </Grid>
+              </Grid> */}
               <Grid item xs={12}>
                 <TextField
                   required
@@ -144,14 +156,17 @@ export default function SignUp() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              Sign In
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/login" variant="body2">
-                  Already have an account? Sign in
+                <Link href="/register" variant="body2">
+                  Create a new account? Register
                 </Link>
               </Grid>
+            </Grid>
+            <Grid container justifyContent="flex-end">
+              <Grid item></Grid>
             </Grid>
           </Box>
         </Box>

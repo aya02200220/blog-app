@@ -25,10 +25,14 @@ const salt = bcrypt.genSaltSync(10);
 const secret = "f834rfnjefn934rhfeuifn34fj";
 
 app.post("/register", async (req, res) => {
-  const { userName, password } = req.body;
+  // const { userName, password } = req.body;
+  const { firstName, lastName, email, password } = req.body;
+  console.log(firstName, lastName, email, password);
   try {
     const userInfo = await User.create({
-      userName,
+      firstName,
+      lastName,
+      email,
       password: bcrypt.hashSync(password, salt),
     });
     res.json(userInfo);
@@ -38,15 +42,33 @@ app.post("/register", async (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
-  const { userName, password } = req.body;
-  const userInfo = await User.findOne({ userName });
+  // const { userName, password } = req.body;
+  const { firstName, lastName, email, password } = req.body;
+  const userInfo = await User.findOne({ email });
   const passCheck = bcrypt.compareSync(password, userInfo.password);
   if (passCheck) {
     // Login
-    jwt.sign({ userName, id: userInfo._id }, secret, {}, (err, token) => {
-      if (err) throw err;
-      res.cookie("token", token).json({ id: userInfo._id, userName });
-    });
+    jwt.sign(
+      {
+        firstName: userInfo.firstName,
+        lastName: userInfo.lastName,
+        email,
+        id: userInfo._id,
+      },
+      secret,
+      {},
+      (err, token) => {
+        if (err) throw err;
+        res
+          .cookie("token", token)
+          .json({
+            id: userInfo._id,
+            email,
+            firstName: userInfo.firstName,
+            lastName: userInfo.lastName,
+          });
+      }
+    );
   } else {
     res.status(404).json("wrong credentials");
   }
@@ -119,7 +141,8 @@ app.put("/post", uploadMiddleware.single("file"), async (req, res) => {
 app.get("/post", async (req, res) => {
   res.json(
     await Post.find()
-      .populate("author", ["userName"])
+      // .populate("author", ["userName"])
+      .populate("author", ["email"])
       .sort({ createdAt: -1 })
       .limit(15)
   );
@@ -127,7 +150,7 @@ app.get("/post", async (req, res) => {
 
 app.get("/post/:id", async (req, res) => {
   const { id } = req.params;
-  const postInfo = await Post.findById(id).populate("author", ["userName"]);
+  const postInfo = await Post.findById(id).populate("author", ["email"]);
   res.json(postInfo);
 });
 

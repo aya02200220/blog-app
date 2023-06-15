@@ -5,7 +5,8 @@ import styles from "./styles/main.module.scss";
 
 import Layout from "./components/Layout";
 import IndexPage from "./components/Pages/IndexPage";
-import LoginPage from "./components/Pages/LoginPage";
+// import LoginPage from "./components/Pages/LoginPage";
+import LoginPage from "./components/Pages/LoginPage2";
 // import RegisterPage from "./components/Pages/RegisterPage";
 import RegisterPage from "./components/Pages/RegisterPage2";
 

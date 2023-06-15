@@ -31,7 +31,9 @@ const Header = () => {
     toast.success("You are logged out!");
   }
 
-  const userName = userInfo?.userName;
+  const firstName = userInfo?.firstName;
+  const lastName = userInfo?.lastName;
+  const userName = userInfo?.email;
 
   return (
     <header className={styles.navBar}>
@@ -48,12 +50,11 @@ const Header = () => {
               Create new post
             </NavLink>
 
-            {/* <NavLink className={styles.nav1} to="/create">
-              Create new post
-            </NavLink> */}
-
             <a onClick={logout}>
-              <LoginIcon letter={userName.charAt(0)} />
+              <LoginIcon
+                firstLetter={firstName.charAt(0)}
+                lastLetter={lastName.charAt(0)}
+              />
             </a>
 
             <a className={styles.nav3} onClick={logout}>
