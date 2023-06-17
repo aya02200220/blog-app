@@ -119,6 +119,7 @@ export default function Header() {
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
+      style={{ marginTop: "30px" }}
       anchorEl={anchorEl}
       anchorOrigin={{
         vertical: "top",
@@ -135,11 +136,45 @@ export default function Header() {
     >
       {!userName && (
         <>
-          <MenuItem onClick={handleMenuClose}>
+          <MenuItem
+            style={{
+              width: "90px",
+              height: "30px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            onClick={handleMenuClose}
+          >
             <NavLink to="/login">Login</NavLink>
           </MenuItem>
-          <MenuItem onClick={handleMenuClose}>
+          <MenuItem
+            style={{
+              width: "90px",
+              height: "30px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            onClick={handleMenuClose}
+          >
             <NavLink to="/register">Resister</NavLink>
+          </MenuItem>
+        </>
+      )}
+      {userName && (
+        <>
+          <MenuItem
+            style={{
+              width: "90px",
+              height: "30px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            onClick={handleMenuClose}
+          >
+            <a onClick={logout}>Logout</a>
           </MenuItem>
         </>
       )}
@@ -154,6 +189,18 @@ export default function Header() {
         vertical: "top",
         horizontal: "right",
       }}
+      style={{
+        marginTop: "30px",
+        width: "300px",
+        // height: "100px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+      sx={{
+        color: "#4e575f",
+        display: { xs: "none", sm: "block" },
+      }}
       id={mobileMenuId}
       keepMounted
       transformOrigin={{
@@ -163,48 +210,65 @@ export default function Header() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          {!userName && (
-            <>
-              <h1>testtttttt</h1>
-            </>
-          )}
-          {/* <AccountCircle /> */}
-          userName && (
-          <LoginIcon
-          // firstLetter={firstName.charAt(0)}
-          // lastLetter={lastName.charAt(0)}
-          />
-          )
-        </IconButton>
-        <p>Profile</p>
+        {userName && (
+          <>
+            {/* //////////////////////////////////////////////// */}
+            <MenuItem>
+              <NavLink to={"/create"}>
+                <IconButton size="large" color="4e575f">
+                  <BorderColorIcon size="large" color="4e575f" />
+                  <Typography
+                    variant="h6"
+                    noWrap
+                    component="div"
+                    style={{
+                      fontSize: "17px",
+                      width: "90px",
+                      height: "30px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                    sx={{
+                      color: "#4e575f",
+                      display: { xs: "none", sm: "block" },
+                    }}
+                  >
+                    Create Post
+                  </Typography>
+                </IconButton>
+              </NavLink>
+            </MenuItem>
+          </>
+        )}
+        {!userName && (
+          <>
+            <IconButton
+              size="large"
+              edge="end"
+              aria-label="account of current user"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              onClick={handleProfileMenuOpen}
+              color="4e575f"
+            >
+              <BorderColorIcon size="large" color="4e575f" />
+              <Typography
+                variant="h6"
+                noWrap
+                component="div"
+                style={{ fontSize: "17px" }}
+                sx={{
+                  color: "#4e575f",
+                  display: { xs: "none", sm: "block" },
+                }}
+              >
+                Create Post
+              </Typography>
+            </IconButton>
+          </>
+        )}
       </MenuItem>
     </Menu>
   );
@@ -238,7 +302,14 @@ export default function Header() {
               }}
             />
           </Search>
+
           <Box sx={{ flexGrow: 1 }} />
+          {/* {userName && (
+            <LoginIcon
+              firstLetter={firstName.charAt(0)}
+              lastLetter={lastName.charAt(0)}
+            />
+          )} */}
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {/* <IconButton
               size="large"
@@ -261,10 +332,37 @@ export default function Header() {
 
             {userName && (
               <>
-                <LoginIcon
-                  firstLetter={firstName.charAt(0)}
-                  lastLetter={lastName.charAt(0)}
-                />
+                <NavLink to={"/create"}>
+                  <IconButton size="large" color="4e575f">
+                    <BorderColorIcon size="large" color="4e575f" />
+                    <Typography
+                      variant="h6"
+                      noWrap
+                      component="div"
+                      style={{ fontSize: "17px" }}
+                      sx={{
+                        color: "#4e575f",
+                        display: { xs: "none", sm: "block" },
+                      }}
+                    >
+                      Create Post
+                    </Typography>
+                  </IconButton>
+                </NavLink>
+                <IconButton
+                  size="large"
+                  edge="end"
+                  aria-label="account of current user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  onClick={handleProfileMenuOpen}
+                  color="4e575f"
+                >
+                  <LoginIcon
+                    firstLetter={firstName.charAt(0)}
+                    lastLetter={lastName.charAt(0)}
+                  />
+                </IconButton>
               </>
             )}
             {!userName && (
@@ -283,22 +381,21 @@ export default function Header() {
                     variant="h6"
                     noWrap
                     component="div"
+                    style={{ fontSize: "17px" }}
                     sx={{
                       color: "#4e575f",
                       display: { xs: "none", sm: "block" },
                     }}
                   >
-                    Create New Post
+                    Create Post
                   </Typography>
                 </IconButton>
-                {/* <NavLink className={styles.nav1} to="/login">
-                  Login
-                </NavLink>
-                <NavLink to="/register">Resister</NavLink> */}
               </>
             )}
 
-            <Hamburger userName={userName} />
+            <IconButton size="small" edge="end">
+              <Hamburger userName={userName} />
+            </IconButton>
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
