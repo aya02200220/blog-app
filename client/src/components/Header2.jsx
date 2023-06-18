@@ -315,6 +315,9 @@ export default function Header() {
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
               color="4e575f"
+              sx={{
+                marginRight: "10px",
+              }}
             >
               <LoginIcon
                 firstLetter={firstName.charAt(0)}
@@ -395,8 +398,22 @@ export default function Header() {
               <Hamburger userName={userName} />
             </IconButton>
           </Box>
-          <Box sx={{ display: { xs: "flex", md: "none" } }}>
+          <Box
+            sx={{
+              display: { xs: "flex", md: "none" },
+            }}
+          >
             <IconButton
+              sx={{
+                height: "50px",
+                width: "50px",
+              }}
+              size="small"
+              edge="end"
+            >
+              <Hamburger userName={userName} />
+            </IconButton>
+            {/* <IconButton
               size="large"
               aria-label="show more"
               aria-controls={mobileMenuId}
@@ -405,7 +422,8 @@ export default function Header() {
               color="inherit"
             >
               <MoreIcon />
-            </IconButton>
+              <Hamburger userName={userName} />
+            </IconButton> */}
           </Box>
         </Toolbar>
       </AppBar>
