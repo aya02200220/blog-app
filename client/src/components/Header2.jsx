@@ -71,10 +71,10 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 
 export default function Header() {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  // const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  // const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const { setUserInfo, userInfo } = useContext(UserContext);
   const firstName = userInfo?.firstName;
@@ -85,18 +85,18 @@ export default function Header() {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
+  // const handleMobileMenuClose = () => {
+  //   setMobileMoreAnchorEl(null);
+  // };
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
+  // const handleMenuClose = () => {
+  //   setAnchorEl(null);
+  //   handleMobileMenuClose();
+  // };
 
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
+  // const handleMobileMenuOpen = (event) => {
+  //   setMobileMoreAnchorEl(event.currentTarget);
+  // };
 
   useEffect(() => {
     fetch("http://localhost:4000/profile", {
@@ -133,7 +133,7 @@ export default function Header() {
         horizontal: "right",
       }}
       open={isMenuOpen}
-      onClose={handleMenuClose}
+      // onClose={handleMenuClose}
     >
       {!userName && (
         <>
@@ -145,7 +145,7 @@ export default function Header() {
               justifyContent: "center",
               alignItems: "center",
             }}
-            onClick={handleMenuClose}
+            // onClick={handleMenuClose}
           >
             <NavLink to="/login">Login</NavLink>
           </MenuItem>
@@ -157,7 +157,7 @@ export default function Header() {
               justifyContent: "center",
               alignItems: "center",
             }}
-            onClick={handleMenuClose}
+            // onClick={handleMenuClose}
           >
             <NavLink to="/register">Resister</NavLink>
           </MenuItem>
@@ -173,7 +173,7 @@ export default function Header() {
               justifyContent: "center",
               alignItems: "center",
             }}
-            onClick={handleMenuClose}
+            // onClick={handleMenuClose}
           >
             <a onClick={logout}>Logout</a>
           </MenuItem>
@@ -275,46 +275,47 @@ export default function Header() {
   // );
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ bgcolor: "#f5f5f5" }}>
-        <Toolbar>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{
-              color: "#4e575f",
-              display: { sm: "block" },
-            }}
-          >
-            <NavLink to="/">MERN-Blog</NavLink>
-          </Typography>
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <SearchWindow />
-          </Box>
-
-          <Box sx={{ flexGrow: 1 }} />
-          {userName && (
-            <IconButton
-              // size="large"
-              // edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="4e575f"
-              // sx={{
-              //   marginRight: "10px",
-              // }}
+    <>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static" sx={{ bgcolor: "#f5f5f5" }}>
+          <Toolbar>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{
+                color: "#4e575f",
+                display: { sm: "block" },
+              }}
             >
-              <LoginIcon
-                firstLetter={firstName.charAt(0)}
-                lastLetter={lastName.charAt(0)}
-              />
-            </IconButton>
-          )}
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            {/* <IconButton
+              <NavLink to="/">MERN-Blog</NavLink>
+            </Typography>
+            <Box sx={{ display: { xs: "none", md: "flex" } }}>
+              <SearchWindow />
+            </Box>
+
+            <Box sx={{ flexGrow: 1 }} />
+            {userName && (
+              <IconButton
+                // size="large"
+                // edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="4e575f"
+                // sx={{
+                //   marginRight: "10px",
+                // }}
+              >
+                <LoginIcon
+                  firstLetter={firstName.charAt(0)}
+                  lastLetter={lastName.charAt(0)}
+                />
+              </IconButton>
+            )}
+            <Box sx={{ display: { xs: "none", md: "flex" } }}>
+              {/* <IconButton
               size="large"
               aria-label="show 4 new mails"
               color="4e575f"
@@ -323,7 +324,7 @@ export default function Header() {
                 <MailIcon />
               </Badge>
             </IconButton> */}
-            {/* <IconButton
+              {/* <IconButton
               size="large"
               aria-label="show 17 new notifications"
               color="4e575f"
@@ -333,10 +334,38 @@ export default function Header() {
               </Badge>
             </IconButton> */}
 
-            {userName && (
-              <>
-                <NavLink to={"/create"}>
-                  <IconButton size="large" color="4e575f">
+              {userName && (
+                <>
+                  <NavLink to={"/create"}>
+                    <IconButton size="large" color="4e575f">
+                      <BorderColorIcon size="large" color="4e575f" />
+                      <Typography
+                        variant="h6"
+                        noWrap
+                        component="div"
+                        style={{ fontSize: "17px" }}
+                        sx={{
+                          color: "#4e575f",
+                          display: { xs: "none", sm: "block" },
+                        }}
+                      >
+                        Create Post
+                      </Typography>
+                    </IconButton>
+                  </NavLink>
+                </>
+              )}
+              {!userName && (
+                <>
+                  <IconButton
+                    size="large"
+                    edge="end"
+                    aria-label="account of current user"
+                    aria-controls={menuId}
+                    aria-haspopup="true"
+                    onClick={handleProfileMenuOpen}
+                    color="4e575f"
+                  >
                     <BorderColorIcon size="large" color="4e575f" />
                     <Typography
                       variant="h6"
@@ -351,61 +380,34 @@ export default function Header() {
                       Create Post
                     </Typography>
                   </IconButton>
-                </NavLink>
-              </>
-            )}
-            {!userName && (
-              <>
-                <IconButton
-                  size="large"
-                  edge="end"
-                  aria-label="account of current user"
-                  aria-controls={menuId}
-                  aria-haspopup="true"
-                  onClick={handleProfileMenuOpen}
-                  color="4e575f"
-                >
-                  <BorderColorIcon size="large" color="4e575f" />
-                  <Typography
-                    variant="h6"
-                    noWrap
-                    component="div"
-                    style={{ fontSize: "17px" }}
-                    sx={{
-                      color: "#4e575f",
-                      display: { xs: "none", sm: "block" },
-                    }}
-                  >
-                    Create Post
-                  </Typography>
-                </IconButton>
-              </>
-            )}
+                </>
+              )}
 
-            <IconButton size="small" edge="end">
-              <Hamburger userName={userName} />
-            </IconButton>
-          </Box>
-          <Box
-            sx={{
-              display: { xs: "flex", md: "none" },
-            }}
-          >
-            <IconButton
+              <IconButton size="small" edge="end">
+                <Hamburger userName={userName} />
+              </IconButton>
+            </Box>
+            <Box
               sx={{
-                height: "50px",
-                width: "50px",
+                display: { xs: "flex", md: "none" },
               }}
-              size="small"
-              edge="end"
             >
-              <Hamburger userName={userName} />
-            </IconButton>
-          </Box>
-        </Toolbar>
-      </AppBar>
-      {/* {renderMobileMenu} */}
-      {renderMenu}
-    </Box>
+              <IconButton
+                sx={{
+                  height: "50px",
+                  width: "50px",
+                }}
+                size="small"
+                edge="end"
+              >
+                <Hamburger userName={userName} />
+              </IconButton>
+            </Box>
+          </Toolbar>
+        </AppBar>
+        {/* {renderMobileMenu} */}
+        {renderMenu}
+      </Box>
+    </>
   );
 }

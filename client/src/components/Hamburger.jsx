@@ -23,6 +23,7 @@ import ArticleIcon from "@mui/icons-material/Article";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
@@ -75,27 +76,34 @@ export default function Hamburger({ userName }) {
             </ListItem>
           </NavLink>
 
-          <NavLink to={"/favorite"}>
-            <ListItem disablePadding sx={{ marginBottom: "4px" }}>
-              <ListItemButton>
-                <ListItemIcon>
-                  <BookmarkIcon color="4e575f" sx={{ marginLeft: "10px" }} />
-                </ListItemIcon>
-                <ListItemText primary={"Bookmark"} />
-              </ListItemButton>
-            </ListItem>
-          </NavLink>
+          {userName && (
+            <>
+              <NavLink to={"/favorite"}>
+                <ListItem disablePadding sx={{ marginBottom: "4px" }}>
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <BookmarkIcon
+                        color="4e575f"
+                        sx={{ marginLeft: "10px" }}
+                      />
+                    </ListItemIcon>
+                    <ListItemText primary={"Bookmark"} />
+                  </ListItemButton>
+                </ListItem>
+              </NavLink>
 
-          <NavLink to={"/favorite"}>
-            <ListItem disablePadding sx={{ marginBottom: "4px" }}>
-              <ListItemButton>
-                <ListItemIcon>
-                  <ArticleIcon color="4e575f" sx={{ marginLeft: "10px" }} />
-                </ListItemIcon>
-                <ListItemText primary={"Your Posts"} />
-              </ListItemButton>
-            </ListItem>
-          </NavLink>
+              <NavLink to={"/favorite"}>
+                <ListItem disablePadding sx={{ marginBottom: "4px" }}>
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <ArticleIcon color="4e575f" sx={{ marginLeft: "10px" }} />
+                    </ListItemIcon>
+                    <ListItemText primary={"Your Posts"} />
+                  </ListItemButton>
+                </ListItem>
+              </NavLink>
+            </>
+          )}
         </List>
 
         <Divider />
@@ -124,9 +132,12 @@ export default function Hamburger({ userName }) {
     <div>
       {["right"].map((anchor) => (
         <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer(anchor, true)}>
-            <MenuIcon sx={{ color: "#4e575f" }} />
-          </Button>
+          {/* <Button onClick={toggleDrawer(anchor, true)}> */}
+          <MenuIcon
+            onClick={toggleDrawer(anchor, true)}
+            sx={{ color: "#4e575f" }}
+          />
+          {/* </Button> */}
           <Drawer
             anchor={anchor}
             open={isOpen[anchor]}
@@ -154,7 +165,14 @@ export default function Hamburger({ userName }) {
               </Box>
             )}
             {!userName && (
-              <Box sx={{ marginTop: "0px" }}>
+              <Box
+                sx={{
+                  marginTop: "0px",
+                  display: "flex",
+                  justifyContent: "center",
+                  width: "100%",
+                }}
+              >
                 <NavLink to={"/login"} onClick={toggleDrawer("right", false)}>
                   <Button
                     sx={{ marginTop: "15px", width: "100%", height: "40px" }}
@@ -163,6 +181,20 @@ export default function Hamburger({ userName }) {
                     startIcon={<LoginIcon />}
                   >
                     Sign In
+                  </Button>
+                </NavLink>
+
+                <NavLink
+                  to={"/register"}
+                  onClick={toggleDrawer("right", false)}
+                >
+                  <Button
+                    sx={{ marginTop: "15px", width: "100%", height: "40px" }}
+                    variant="contained"
+                    color="success"
+                    startIcon={<PersonAddIcon />}
+                  >
+                    Sign up
                   </Button>
                 </NavLink>
               </Box>
