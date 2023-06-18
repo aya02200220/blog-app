@@ -20,6 +20,8 @@ const PostPage = () => {
     });
   }, []);
 
+  console.log("postInfo", postInfo);
+
   if (!postInfo) return "";
   return (
     <div className={styles.mainContainer}>
@@ -29,7 +31,7 @@ const PostPage = () => {
           {formatISO9075(new Date(postInfo.createdAt))}
         </time>
         <div className={styles.postPageAuthor}>
-          by @{postInfo.author.userName}
+          by @{postInfo.author.firstName} {postInfo.author.lastName}
         </div>
         {userInfo.id === postInfo.author._id && (
           <div className={styles.postPageEdit}>
