@@ -375,3 +375,33 @@
     padding: 0 20px;
   }
 }
+
+////////////////////////////////////////////////////////
+.ellipsisArea {
+  background: #fff20d;
+  overflow: hidden;
+  width: 100%;
+  max-width: 400px;
+}
+.ellipsisArea_p {
+  font-size: 14px;
+  height: 42px;
+  line-height: 1.5;
+  position: relative;
+  margin: 0;
+}
+.ellipsisArea_p:before,
+.ellipsisArea_p:after {
+  background: #fff20d;
+  position: absolute;
+}
+.ellipsisArea_p:before {
+  content: "...";
+  top: 21px;
+  right: 0;
+}
+.ellipsisArea_p:after {
+  content: "";
+  height: 100%;
+  width: 100%;
+}

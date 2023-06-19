@@ -1,5 +1,6 @@
 import styles from "../../styles/main.module.scss";
 import { useEffect, useState } from "react";
+import Box from "@mui/material/Box";
 
 // import Post from "../Post";
 // import Post from "../Post2";
@@ -17,9 +18,19 @@ const IndexPage = () => {
 
   return (
     <>
-      <section className={`${styles["posts"]} ${styles["mainContainer"]}`}>
+      <Box
+        sx={{
+          margin: "0 50px",
+          marginTop: "100px",
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "space-evenly",
+        }}
+
+        // className={`${styles["posts"]} ${styles["mainContainer"]}`}
+      >
         {posts.length > 0 && posts.map((post) => <Post {...post} />)}
-      </section>
+      </Box>
     </>
   );
 };
