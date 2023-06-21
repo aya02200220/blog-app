@@ -54,33 +54,6 @@ const useStyles = makeStyles(() => ({
       margin: 0,
     },
   },
-  ellipsisArea: {
-    overflow: "hidden",
-    width: "98%",
-    maxWidth: 400,
-    background: "#fff",
-  },
-  ellipsisArea_p: {
-    fontWeight: "700",
-
-    lineHeight: 1.1,
-    position: "relative",
-    margin: 0,
-    "&:before, &:after": {
-      position: "absolute",
-    },
-    "&:before": {
-      content: '"..."',
-      top: 35,
-      right: -2,
-    },
-    "&:after": {
-      content: '""',
-      height: "100%",
-      width: "100%",
-      background: "#fff",
-    },
-  },
 }));
 
 export const Post3 = React.memo(function PostCard({
@@ -130,64 +103,38 @@ export const Post3 = React.memo(function PostCard({
           </Avatar>
 
           <CardContent className={cardStyles.content}>
-            <Box className={cardStyles.ellipsisArea}>
-              <Box
-                sx={{ textAlign: "center", height: 54 }}
-                className={cardStyles.ellipsisArea_p}
-              >
-                {title}
-              </Box>
+            <Box
+              sx={{
+                margin: "5px 15px",
+                fontWeight: "600",
+                fontSize: "17px",
+                lineHeight: "18px",
+                minHeight: "56px",
+                maxHeight: "63px",
+
+                display: "-webkit-box",
+                WebkitBoxOrient: "vertical",
+                WebkitLineClamp: 3, // 行数指定
+                overflow: "hidden",
+              }}
+            >
+              {title}
             </Box>
           </CardContent>
-          {/* <CardContent
-            className={cardStyles.content}
-            style={{ whiteSpace: "nowrap" }}
-          >
-            <Box
-              component="div"
-              sx={{
-                minHeight: "50px",
-                maxHeight: "50px",
-                textOverflow: "ellipsis",
-                overflow: "hidden",
-                my: 2,
-                p: 1,
-                bgcolor: (theme) =>
-                  theme.palette.mode === "dark" ? "#101010" : "grey.100",
-                color: (theme) =>
-                  theme.palette.mode === "dark" ? "grey.300" : "grey.800",
-                border: "1px solid",
-                borderColor: (theme) =>
-                  theme.palette.mode === "dark" ? "grey.800" : "grey.300",
-                borderRadius: 2,
-                fontSize: "0.875rem",
-                fontWeight: "700",
-              }}
-            >
-              {title}
-            </Box> */}
-          {/* <Typography
-              variant="h1"
-              sx={{
-                textOverflow: "ellipsis",
-                fontSize: "20px",
-                textAlign: "center",
-                fontWeight: 500,
-                ml: "5px",
-                mr: "5px",
-                lineHeight: "22px",
-              }}
-            >
-              {title}
-            </Typography> */}
-          <Box className={cardStyles.ellipsisArea}>
+
+          <Box>
             <Typography
               sx={{
-                margin: "10px 15px",
+                margin: "0px 12px",
                 fontSize: "14px",
-                lineHeight: "16px",
-                minHeight: "56px",
-                maxHeight: "56px",
+                lineHeight: "15px",
+                minHeight: "60px",
+                maxHeight: "60px",
+
+                display: "-webkit-box",
+                WebkitBoxOrient: "vertical",
+                WebkitLineClamp: 4, // 行数指定
+                overflow: "hidden",
               }}
             >
               {summary}
@@ -195,9 +142,6 @@ export const Post3 = React.memo(function PostCard({
           </Box>
 
           <Box
-            // px={2}
-            // pb={2}
-            // mt={-1}
             sx={{
               zIndex: "tooltip",
             }}

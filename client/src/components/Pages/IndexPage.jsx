@@ -20,7 +20,7 @@ const IndexPage = () => {
     <>
       <Box
         sx={{
-          margin: "0 50px",
+          margin: "0 130px",
           marginTop: "100px",
           display: "flex",
           flexWrap: "wrap",
