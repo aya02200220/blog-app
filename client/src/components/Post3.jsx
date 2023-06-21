@@ -15,6 +15,7 @@ import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
 
 // import { IconButton } from "@material-ui/core";
 import { FavoriteBorderRounded, FavoriteRounded } from "@material-ui/icons";
@@ -41,7 +42,7 @@ const useStyles = makeStyles(() => ({
     margin: "0px 10px",
   },
   content: {
-    padding: 5,
+    padding: 2,
   },
   avatar: {
     backgroundColor: "#26788E",
@@ -55,12 +56,14 @@ const useStyles = makeStyles(() => ({
   },
   ellipsisArea: {
     overflow: "hidden",
-    width: "100%",
+    width: "98%",
     maxWidth: 400,
+    background: "#fff",
   },
   ellipsisArea_p: {
-    height: 42,
-    lineHeight: 1.5,
+    fontWeight: "700",
+
+    lineHeight: 1.1,
     position: "relative",
     margin: 0,
     "&:before, &:after": {
@@ -68,13 +71,14 @@ const useStyles = makeStyles(() => ({
     },
     "&:before": {
       content: '"..."',
-      top: 21,
-      right: 0,
+      top: 35,
+      right: -2,
     },
     "&:after": {
       content: '""',
       height: "100%",
       width: "100%",
+      background: "#fff",
     },
   },
 }));
@@ -124,47 +128,17 @@ export const Post3 = React.memo(function PostCard({
             {author.firstName.charAt(0)}
             {author.lastName.charAt(0)}
           </Avatar>
-          <div className={styles.ellipsisArea}>
-            <p className={styles.ellipsisArea_p}>
-              この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。
-            </p>
-          </div>
 
           <CardContent className={cardStyles.content}>
-            <Box className={styles.ellipsisArea}>
-              <Box className={styles.ellipsisArea_p}>{title}</Box>
+            <Box className={cardStyles.ellipsisArea}>
+              <Box
+                sx={{ textAlign: "center", height: 54 }}
+                className={cardStyles.ellipsisArea_p}
+              >
+                {title}
+              </Box>
             </Box>
           </CardContent>
-
-          {/* <CardContent
-            className={cardStyles.content}
-            style={{ whiteSpace: "nowrap" }}
-          >
-            <Box
-              component="div"
-              sx={{
-                minHeight: "50px",
-                maxHeight: "50px",
-                textOverflow: "ellipsis",
-                overflow: "hidden",
-                my: 2,
-                p: 1,
-                bgcolor: (theme) =>
-                  theme.palette.mode === "dark" ? "#101010" : "grey.100",
-                color: (theme) =>
-                  theme.palette.mode === "dark" ? "grey.300" : "grey.800",
-                border: "1px solid",
-                borderColor: (theme) =>
-                  theme.palette.mode === "dark" ? "grey.800" : "grey.300",
-                borderRadius: 2,
-                fontSize: "0.875rem",
-                fontWeight: "700",
-              }}
-            >
-              {title}
-            </Box>
-          </CardContent> */}
-
           {/* <CardContent
             className={cardStyles.content}
             style={{ whiteSpace: "nowrap" }}
@@ -206,32 +180,25 @@ export const Post3 = React.memo(function PostCard({
             >
               {title}
             </Typography> */}
-
-          {/* <Typography
+          <Box className={cardStyles.ellipsisArea}>
+            <Typography
               sx={{
-                margin: "6px 10px",
-                fontSize: "16px",
-                lineHeight: "17px",
-                minHeight: "60px",
-                maxHeight: "60px",
+                margin: "10px 15px",
+                fontSize: "14px",
+                lineHeight: "16px",
+                minHeight: "56px",
+                maxHeight: "56px",
               }}
             >
               {summary}
-            </Typography> */}
-          {/* <TextInfoContent
-              classes={textCardContentStyles}
-              heading={title}
-              body={summary}
-            /> */}
-          {/* </CardContent> */}
+            </Typography>
+          </Box>
+
           <Box
             // px={2}
             // pb={2}
             // mt={-1}
             sx={{
-              // position: "absolute",
-              // top: "10%",
-              // right: "0",
               zIndex: "tooltip",
             }}
           >
