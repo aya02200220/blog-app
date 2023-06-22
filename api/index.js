@@ -140,7 +140,6 @@ app.get("/post", async (req, res) => {
   res.json(
     await Post.find()
       .populate("author", ["firstName", "lastName", "email"])
-      // .populate("author", ["email"])
       .sort({ createdAt: -1 })
       .limit(15)
   );
@@ -155,6 +154,47 @@ app.get("/post/:id", async (req, res) => {
   ]);
   res.json(postInfo);
 });
+
+///////////////////////////////////////////////////
+app.post("/post/:id/comments", async (req, res) => {
+  const { id } = req.params;
+  const { author, content } = req.body;
+
+  try {
+    const post = await PostModel.findById(id);
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    const comment = {
+      author,
+      content,
+    };
+    post.comments.push(comment);
+    await post.save();
+
+    res.status(200).json({ message: "Comment added successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+app.get("/post/:id/comments", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const post = await PostModel.findById(id);
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    res.status(200).json(post.comments);
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+//////////////////////////////////////////////////////////
 
 app.post("/favorites", async (req, res) => {
   const { postId } = req.body;

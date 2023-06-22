@@ -50,7 +50,8 @@ const IndexPage = () => {
             justifyContent: "space-evenly",
           }}
         >
-          {posts.length > 0 && posts.map((post) => <Post {...post} />)}
+          {posts.length > 0 &&
+            posts.map((post) => <Post key={post._id} {...post} />)}
         </Box>
       )}
     </>

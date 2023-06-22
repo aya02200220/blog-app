@@ -1,12 +1,36 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
+// const PostSchema = new Schema(
+//   {
+//     title: String,
+//     summary: String,
+//     content: String,
+//     cover: String,
+//     author: {
+//       type: Schema.Types.ObjectId,
+//       ref: "User",
+//       firstName: String,
+//       lastName: String,
+//     },
+//   },
+//   {
+//     timestamps: true,
+//   }
+// );
+
 const CommentSchema = new Schema(
   {
-    content: String,
     author: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+      required: true,
+      firstName: String,
+      lastName: String,
+    },
+    content: {
+      type: String,
+      required: true,
     },
   },
   {
@@ -26,7 +50,7 @@ const PostSchema = new Schema(
       firstName: String,
       lastName: String,
     },
-    comments: [CommentSchema], // コメントの配列を追加
+    comments: [CommentSchema], // コメントスキーマを追加
   },
   {
     timestamps: true,

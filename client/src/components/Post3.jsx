@@ -109,7 +109,8 @@ export const Post3 = React.memo(function PostCard({
           </Avatar>
 
           <CardContent className={cardStyles.content}>
-            <Box
+            <Typography
+              align="center"
               sx={{
                 margin: "5px 15px",
                 fontWeight: "600",
@@ -125,7 +126,7 @@ export const Post3 = React.memo(function PostCard({
               }}
             >
               {title}
-            </Box>
+            </Typography>
           </CardContent>
 
           <Box>
