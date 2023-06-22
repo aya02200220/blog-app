@@ -73,11 +73,17 @@ export const Post3 = React.memo(function PostCard({
   const [isFavorite, setIsFavorite] = useState(false);
 
   const { setUserInfo, userInfo } = useContext(UserContext);
-  const userName = userInfo?.userName;
+  const userName = userInfo?.email;
 
   const handleFavoriteClick = (postId) => {
     console.log(postId);
     console.log(userName);
+
+    if (!userName) {
+      toast.error("You need to login to bookmark!");
+      return;
+    }
+
     setIsFavorite(!isFavorite);
     if (!isFavorite) {
       toast.success("Added to your favorites");

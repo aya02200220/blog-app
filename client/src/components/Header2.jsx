@@ -89,10 +89,10 @@ export default function Header() {
   //   setMobileMoreAnchorEl(null);
   // };
 
-  // const handleMenuClose = () => {
-  //   setAnchorEl(null);
-  //   handleMobileMenuClose();
-  // };
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
+  };
 
   // const handleMobileMenuOpen = (event) => {
   //   setMobileMoreAnchorEl(event.currentTarget);
@@ -133,7 +133,7 @@ export default function Header() {
         horizontal: "right",
       }}
       open={isMenuOpen}
-      // onClose={handleMenuClose}
+      onClose={handleMenuClose}
     >
       {!userName && (
         <>
@@ -145,7 +145,7 @@ export default function Header() {
               justifyContent: "center",
               alignItems: "center",
             }}
-            // onClick={handleMenuClose}
+            onClick={handleMenuClose}
           >
             <NavLink to="/login">Login</NavLink>
           </MenuItem>
@@ -157,7 +157,7 @@ export default function Header() {
               justifyContent: "center",
               alignItems: "center",
             }}
-            // onClick={handleMenuClose}
+            onClick={handleMenuClose}
           >
             <NavLink to="/register">Resister</NavLink>
           </MenuItem>
@@ -173,7 +173,7 @@ export default function Header() {
               justifyContent: "center",
               alignItems: "center",
             }}
-            // onClick={handleMenuClose}
+            onClick={handleMenuClose}
           >
             <a onClick={logout}>Logout</a>
           </MenuItem>
