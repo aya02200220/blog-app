@@ -2,7 +2,7 @@ import * as React from "react";
 import Hamburger from "./Hamburger";
 import { SearchWindow } from "./SearchWindow";
 
-import styles from "../styles/main.module.scss";
+// import styles from "../styles/main.module.scss";
 
 import { NavLink } from "react-router-dom";
 import { useContext, useEffect } from "react";
