@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
-import styles from "../styles/main.module.scss";
+// import styles from "../styles/main.module.scss";
 
 import { LoginIcon } from "./LoginIcon";
 
