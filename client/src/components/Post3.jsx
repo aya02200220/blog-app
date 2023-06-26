@@ -28,7 +28,7 @@ import Share from "@material-ui/icons/Share";
 import { useSoftRiseShadowStyles } from "@mui-treasury/styles/shadow/softRise";
 import { useSlopeCardMediaStyles } from "@mui-treasury/styles/cardMedia/slope";
 import { useN01TextInfoContentStyles } from "@mui-treasury/styles/textInfoContent/n01";
-import TextInfoContent from "@mui-treasury/components/content/textInfo";
+// import TextInfoContent from "@mui-treasury/components/content/textInfo";
 
 import { UserContext } from "./UserContext";
 
