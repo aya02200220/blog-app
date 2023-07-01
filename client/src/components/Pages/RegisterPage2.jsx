@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -14,6 +14,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Navigate } from "react-router-dom";
+import { UserContext } from "../UserContext";
 
 import toast from "react-hot-toast";
 
@@ -42,6 +44,8 @@ export default function SignUp() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isRegistered, setIsRegistered] = useState(false);
+  const { setUserInfo } = useContext(UserContext);
 
   const register = async (e) => {
     e.preventDefault();
@@ -52,12 +56,39 @@ export default function SignUp() {
       headers: { "content-Type": "application/json" },
     });
     if (data.status === 200) {
+      login();
       toast.success("You are successfully registered!");
     } else {
       // toast.error("Registration failed");
       alert("Registration failed");
     }
   };
+
+  const login = async (e) => {
+    // e.preventDefault();
+    console.log("Loging try");
+    const data = await fetch("http://localhost:4000/login", {
+      method: "POST",
+      body: JSON.stringify({ firstName, lastName, email, password }),
+      headers: { "content-Type": "application/json" },
+      credentials: "include",
+    });
+    if (data.status === 200) {
+      data.json().then((userInfo) => {
+        console.log("data:", data);
+        console.log("userinfo:", userInfo);
+        setUserInfo(userInfo);
+      });
+      setIsRegistered(true);
+      toast.success("You are logged in!");
+    } else {
+      toast.error("Login failed");
+    }
+  };
+
+  if (isRegistered) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <ThemeProvider theme={defaultTheme}>

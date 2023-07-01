@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const User = require("./models/User");
 const Post = require("./models/Post");
+
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
@@ -17,8 +18,13 @@ app.use(express.json());
 app.use(cookieParser());
 app.use("/uploads", express.static(__dirname + "/uploads"));
 
+// mongoose.connect(
+//   "mongodb+srv://blog-app:blog-app123@cluster0.nv5qviq.mongodb.net/?retryWrites=true&w=majority"
+// );
 mongoose.connect(
-  "mongodb+srv://blog-app:blog-app123@cluster0.nv5qviq.mongodb.net/?retryWrites=true&w=majority"
+  "mongodb+srv://blog-app:" +
+    encodeURIComponent("blog-app123") +
+    "@cluster0.nv5qviq.mongodb.net/blog-app?retryWrites=true&w=majority"
 );
 
 const salt = bcrypt.genSaltSync(10);
@@ -234,4 +240,6 @@ app.get("/favorites", async (req, res) => {
   });
 });
 
-app.listen(4000);
+app.listen(4000, () => {
+  console.log("Server is running on port 5173");
+});

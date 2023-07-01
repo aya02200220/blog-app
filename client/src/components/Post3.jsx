@@ -86,12 +86,54 @@ export const Post3 = React.memo(function PostCard({
 
     setIsFavorite(!isFavorite);
     if (!isFavorite) {
-      toast.success("Added to your favorites");
+      addToFavorites(postId);
+      // toast.success("Added to your favorites");
     } else {
-      toast.error("Removed from your favorites");
+      removeFromFavorites(postId);
+      // toast.error("Removed from your favorites");
     }
+  };
 
-    // ここにお気に入りの状態をサーバーに送信する処理などを追加することもできます
+  // お気に入りに追加する関数
+  const addToFavorites = async (postId) => {
+    try {
+      const response = await fetch("/favorites", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ postId: postId }),
+      });
+
+      if (response.ok) {
+        toast.success("Added to your favorites");
+      } else {
+        const data = await response.json();
+        throw new Error(data.message);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to add to favorites");
+    }
+  };
+
+  // お気に入りから削除する関数
+  const removeFromFavorites = async (postId) => {
+    try {
+      const response = await fetch(`/favorites/${postId}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        toast.error("Removed from your favorites");
+      } else {
+        const data = await response.json();
+        throw new Error(data.message);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to remove from favorites");
+    }
   };
 
   return (
@@ -135,8 +177,8 @@ export const Post3 = React.memo(function PostCard({
                 margin: "0px 12px",
                 fontSize: "14px",
                 lineHeight: "15px",
-                minHeight: "60px",
-                maxHeight: "60px",
+                minHeight: "58px",
+                maxHeight: "58px",
 
                 display: "-webkit-box",
                 WebkitBoxOrient: "vertical",
@@ -157,6 +199,7 @@ export const Post3 = React.memo(function PostCard({
               <Share />
             </IconButton>
             <IconButton
+              size="medium"
               onClick={(e) => {
                 e.preventDefault();
                 handleFavoriteClick(_id);
