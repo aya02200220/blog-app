@@ -76,8 +76,8 @@ export const Post3 = React.memo(function PostCard({
   const userName = userInfo?.email;
 
   const handleFavoriteClick = (postId) => {
-    console.log(postId);
-    console.log(userName);
+    // console.log(postId);
+    // console.log(userName);
 
     if (!userName) {
       toast.error("You need to login to bookmark!");
@@ -97,15 +97,17 @@ export const Post3 = React.memo(function PostCard({
   // お気に入りに追加する関数
   const addToFavorites = async (postId) => {
     try {
-      const response = await fetch("/favorites", {
+      const response = await fetch("http://localhost:4000/favorites", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ postId: postId }),
+        credentials: "include",
       });
 
       if (response.ok) {
+        console.log("内容確認：");
         toast.success("Added to your favorites");
       } else {
         const data = await response.json();
@@ -120,9 +122,13 @@ export const Post3 = React.memo(function PostCard({
   // お気に入りから削除する関数
   const removeFromFavorites = async (postId) => {
     try {
-      const response = await fetch(`/favorites/${postId}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `http://localhost:4000/favorites/${postId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
 
       if (response.ok) {
         toast.error("Removed from your favorites");

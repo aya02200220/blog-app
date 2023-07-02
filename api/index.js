@@ -240,6 +240,4 @@ app.get("/favorites", async (req, res) => {
   });
 });
 
-app.listen(4000, () => {
-  console.log("Server is running on port 5173");
-});
+app.listen(4000, () => {});
