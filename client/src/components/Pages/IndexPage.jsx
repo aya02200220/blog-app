@@ -11,11 +11,42 @@ import Post from "../Post3";
 
 const IndexPage = () => {
   const { setUserInfo, userInfo } = useContext(UserContext);
+  const [favorites, setFavorites] = useState([]);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // useEffect(() => {
+  //   setLoading(true); // ローディングを表示
+
+  //   fetch("http://localhost:4000/post")
+  //     .then((res) => res.json())
+  //     .then((posts) => {
+  //       setPosts(posts);
+  //       setLoading(false); // ローディングを非表示
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching posts:", error);
+  //       setLoading(false); // ローディングを非表示
+  //     });
+
+  //   // console.log("userInfo", userInfo);
+  // }, [userInfo]);
+
   useEffect(() => {
     setLoading(true); // ローディングを表示
+
+    // お気に入り情報を取得するリクエストを追加
+    fetch("http://localhost:4000/favorites", {
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((favorites) => {
+        setFavorites(favorites);
+        console.log("favorites", favorites);
+      })
+      .catch((error) => {
+        console.error("Error fetching favorites:", error);
+      });
 
     fetch("http://localhost:4000/post")
       .then((res) => res.json())
@@ -41,6 +72,20 @@ const IndexPage = () => {
           </Typography>
         </Box>
       ) : (
+        // <Box
+        //   sx={{
+        //     margin: "0 130px",
+        //     marginTop: "100px",
+        //     display: "flex",
+        //     flexWrap: "wrap",
+        //     justifyContent: "space-evenly",
+        //   }}
+        // >
+        //   {posts.length > 0 &&
+        //     posts.map((post) => <Post key={post._id} {...post} />)}
+        // </Box>
+        // 省略...
+
         <Box
           sx={{
             margin: "0 130px",
@@ -51,36 +96,17 @@ const IndexPage = () => {
           }}
         >
           {posts.length > 0 &&
-            posts.map((post) => <Post key={post._id} {...post} />)}
+            posts.map((post) => {
+              const isFavorite =
+                favorites &&
+                Array.isArray(favorites) &&
+                favorites.some((favorite) => favorite._id === post._id);
+              return <Post key={post._id} {...post} favorite={isFavorite} />;
+            })}
         </Box>
       )}
     </>
   );
-
-  // useEffect(() => {
-  //   fetch("http://localhost:4000/post").then((res) => {
-  //     res.json().then((posts) => {
-  //       setPosts(posts);
-  //     });
-  //   });
-  //   console.log("userInfo", userInfo);
-  // }, [userInfo]);
-
-  // return (
-  //   <>
-  //     <Box
-  //       sx={{
-  //         margin: "0 130px",
-  //         marginTop: "100px",
-  //         display: "flex",
-  //         flexWrap: "wrap",
-  //         justifyContent: "space-evenly",
-  //       }}
-  //     >
-  //       {posts.length > 0 && posts.map((post) => <Post {...post} />)}
-  //     </Box>
-  //   </>
-  // );
 };
 
 export default IndexPage;

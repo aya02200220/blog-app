@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 // import UserModel from "../../../api/models/User";
@@ -65,22 +65,27 @@ export const Post3 = React.memo(function PostCard({
   content,
   createdAt,
   author,
+  favorite,
 }) {
+  const [isFavorite, setIsFavorite] = useState(favorite);
+
   const cardStyles = useStyles();
   const mediaStyles = useSlopeCardMediaStyles();
   const shadowStyles = useSoftRiseShadowStyles();
   const textCardContentStyles = useN01TextInfoContentStyles();
 
-  const [isFavorite, setIsFavorite] = useState(false);
-
   const { setUserInfo, userInfo } = useContext(UserContext);
   const userName = userInfo?.email;
   const userId = userInfo?.id;
 
+  useEffect(() => {
+    setIsFavorite(favorite);
+  }, [favorite]);
+
   const handleFavoriteClick = (postId) => {
-    // console.log(postId);
-    // console.log(userName);
-    // console.log(userId);
+    console.log(postId);
+    console.log(userName);
+    console.log(userId);
 
     if (!userName) {
       toast.error("You need to login to bookmark!");
@@ -209,9 +214,18 @@ export const Post3 = React.memo(function PostCard({
             <IconButton size="small">
               <Share />
             </IconButton>
-            <IconButton
+            {/* <IconButton
               size="small"
               // ml="2"
+              onClick={(e) => {
+                e.preventDefault();
+                handleFavoriteClick(_id);
+              }}
+            >
+              {isFavorite ? <BookmarkIcon /> : <BookmarkBorderIcon />}
+            </IconButton> */}
+            <IconButton
+              size="small"
               onClick={(e) => {
                 e.preventDefault();
                 handleFavoriteClick(_id);
