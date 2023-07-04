@@ -42,7 +42,7 @@ const IndexPage = () => {
       .then((res) => res.json())
       .then((favorites) => {
         setFavorites(favorites);
-        console.log("favorites", favorites);
+        // console.log("favorites", favorites);
       })
       .catch((error) => {
         console.error("Error fetching favorites:", error);
@@ -72,20 +72,6 @@ const IndexPage = () => {
           </Typography>
         </Box>
       ) : (
-        // <Box
-        //   sx={{
-        //     margin: "0 130px",
-        //     marginTop: "100px",
-        //     display: "flex",
-        //     flexWrap: "wrap",
-        //     justifyContent: "space-evenly",
-        //   }}
-        // >
-        //   {posts.length > 0 &&
-        //     posts.map((post) => <Post key={post._id} {...post} />)}
-        // </Box>
-        // 省略...
-
         <Box
           sx={{
             margin: "0 130px",

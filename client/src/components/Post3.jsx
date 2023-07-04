@@ -2,11 +2,8 @@ import React, { useContext } from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
-// import UserModel from "../../../api/models/User";
 
 import styles from "../styles/main.module.scss";
-
-// import { LoginIcon } from "./LoginIcon";
 
 import cx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";

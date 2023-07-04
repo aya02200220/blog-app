@@ -92,7 +92,7 @@ export default function Hamburger({ userName }) {
                 </ListItem>
               </NavLink>
 
-              <NavLink to={"/favorite"}>
+              <NavLink to={"/yourposts"}>
                 <ListItem disablePadding sx={{ marginBottom: "4px" }}>
                   <ListItemButton>
                     <ListItemIcon>
@@ -168,7 +168,7 @@ export default function Hamburger({ userName }) {
               <Box
                 sx={{
                   marginTop: "0px",
-                  display: "flex",
+                  // display: "flex",
                   justifyContent: "center",
                   width: "100%",
                 }}

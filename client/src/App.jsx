@@ -13,6 +13,8 @@ import RegisterPage from "./components/Pages/RegisterPage2";
 import CreatePost from "./components/Pages/CreatePost";
 import { UserContextProvider } from "./components/UserContext";
 import PostPage from "./components/Pages/PostPage";
+import FavoritePage from "./components/Pages/FavoritePage";
+import { YourPosts } from "./components/Pages/YourPosts";
 import { EditPost } from "./components/Pages/EditPost";
 
 function App() {
@@ -27,6 +29,8 @@ function App() {
           <Route path="/create" element={<CreatePost />} />
           <Route path="/post/:id" element={<PostPage />} />
           <Route path="/edit/:id" element={<EditPost />} />
+          <Route path="/favorites" element={<FavoritePage />} />
+          <Route path="/yourposts" element={<YourPosts />} />
         </Route>
       </Routes>
     </UserContextProvider>
