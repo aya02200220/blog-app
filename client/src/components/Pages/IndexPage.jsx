@@ -35,14 +35,12 @@ const IndexPage = () => {
   useEffect(() => {
     setLoading(true); // ローディングを表示
 
-    // お気に入り情報を取得するリクエストを追加
     fetch("http://localhost:4000/favorites", {
       credentials: "include",
     })
       .then((res) => res.json())
       .then((favorites) => {
         setFavorites(favorites);
-        // console.log("favorites", favorites);
       })
       .catch((error) => {
         console.error("Error fetching favorites:", error);

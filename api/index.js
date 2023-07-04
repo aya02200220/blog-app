@@ -162,6 +162,19 @@ app.get("/post/:id", async (req, res) => {
   res.json(postInfo);
 });
 
+app.get("/posts", async (req, res) => {
+  try {
+    const posts = await Post.find()
+      .populate("author", ["firstName", "lastName", "email"])
+      .sort({ createdAt: -1 })
+      .limit(15);
+    res.json(posts);
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 ///////////////////////////////////////////////////
 app.post("/post/:id/comments", async (req, res) => {
   const { id } = req.params;

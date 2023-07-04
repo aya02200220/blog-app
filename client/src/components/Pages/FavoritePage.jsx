@@ -29,6 +29,16 @@ const FavoritePage = () => {
 
   return (
     <>
+      <Typography
+        sx={{
+          ml: 5,
+          color: "#4e575f",
+          fontWeight: "500",
+          position: "absolute",
+        }}
+      >
+        Your Bookmarks
+      </Typography>
       {loading ? (
         <Box sx={{ mt: "150px", display: "flex", justifyContent: "center" }}>
           <CircularProgress />

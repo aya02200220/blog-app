@@ -14,7 +14,7 @@ import CreatePost from "./components/Pages/CreatePost";
 import { UserContextProvider } from "./components/UserContext";
 import PostPage from "./components/Pages/PostPage";
 import FavoritePage from "./components/Pages/FavoritePage";
-import { YourPosts } from "./components/Pages/YourPosts";
+import YourPosts from "./components/Pages/YourPosts";
 import { EditPost } from "./components/Pages/EditPost";
 
 function App() {
