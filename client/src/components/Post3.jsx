@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
+// import UserModel from "../../../api/models/User";
 
 import styles from "../styles/main.module.scss";
 
@@ -18,7 +19,7 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 
 // import { IconButton } from "@material-ui/core";
-import { FavoriteBorderRounded, FavoriteRounded } from "@material-ui/icons";
+// import { FavoriteBorderRounded, FavoriteRounded } from "@material-ui/icons";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 
@@ -34,10 +35,10 @@ import { UserContext } from "./UserContext";
 
 const useStyles = makeStyles(() => ({
   root: {
-    width: 250,
-    height: 320,
-    maxWidth: 300,
-    maxHeight: 400,
+    width: 270,
+    maxWidth: 270,
+    height: 330,
+    maxHeight: 330,
     // margin: "auto",
     margin: "0px 10px",
   },
@@ -74,10 +75,12 @@ export const Post3 = React.memo(function PostCard({
 
   const { setUserInfo, userInfo } = useContext(UserContext);
   const userName = userInfo?.email;
+  const userId = userInfo?.id;
 
   const handleFavoriteClick = (postId) => {
     // console.log(postId);
     // console.log(userName);
+    // console.log(userId);
 
     if (!userName) {
       toast.error("You need to login to bookmark!");
@@ -97,14 +100,22 @@ export const Post3 = React.memo(function PostCard({
   // お気に入りに追加する関数
   const addToFavorites = async (postId) => {
     try {
-      const response = await fetch("http://localhost:4000/favorites", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ postId: postId }),
-        credentials: "include",
-      });
+      // ユーザーのオブジェクトを取得
+      const user = await UserModel.findById(userId);
+
+      // favorites 配列に投稿の ID を追加
+      user.favorites.push(postId);
+
+      // ユーザーのオブジェクトを保存
+      await user.save();
+      // const response = await fetch("http://localhost:4000/favorites", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({ postId: postId }),
+      //   credentials: "include",
+      // });
 
       if (response.ok) {
         console.log("内容確認：");
@@ -143,7 +154,7 @@ export const Post3 = React.memo(function PostCard({
   };
 
   return (
-    <Box marginBottom={"20px"}>
+    <Box marginBottom={"20px"} sx={{ position: "relative" }}>
       <Link to={`/post/${_id}`}>
         <Card className={cx(cardStyles.root, shadowStyles.root)}>
           <CardMedia
@@ -198,14 +209,17 @@ export const Post3 = React.memo(function PostCard({
 
           <Box
             sx={{
+              m: 1,
               zIndex: "tooltip",
+              display: "flex",
             }}
           >
-            <IconButton>
+            <IconButton size="small">
               <Share />
             </IconButton>
             <IconButton
-              size="medium"
+              size="small"
+              // ml="2"
               onClick={(e) => {
                 e.preventDefault();
                 handleFavoriteClick(_id);
