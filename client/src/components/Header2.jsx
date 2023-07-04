@@ -4,8 +4,9 @@ import { SearchWindow } from "./SearchWindow";
 
 // import styles from "../styles/main.module.scss";
 
-import { NavLink } from "react-router-dom";
-import { useContext, useEffect } from "react";
+import { NavLink, Navigate, useNavigate } from "react-router-dom";
+
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "./UserContext";
 import toast from "react-hot-toast";
 
@@ -71,6 +72,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 
 export default function Header() {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const navigate = useNavigate();
   // const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
@@ -114,6 +116,7 @@ export default function Header() {
       method: "POST",
     });
     setUserInfo(null);
+    navigate("/");
     toast.success("You are logged out!");
   }
 

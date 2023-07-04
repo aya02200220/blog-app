@@ -78,7 +78,7 @@ export default function Hamburger({ userName }) {
 
           {userName && (
             <>
-              <NavLink to={"/favorite"}>
+              <NavLink to={"/favorites"}>
                 <ListItem disablePadding sx={{ marginBottom: "4px" }}>
                   <ListItemButton>
                     <ListItemIcon>

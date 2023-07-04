@@ -33,118 +33,7 @@ import { useN01TextInfoContentStyles } from "@mui-treasury/styles/textInfoConten
 
 import { UserContext } from "./UserContext";
 
-const useStyles = makeStyles(() => ({
-  root: {
-    width: 270,
-    maxWidth: 270,
-    height: 330,
-    maxHeight: 330,
-    // margin: "auto",
-    margin: "0px 10px",
-  },
-  content: {
-    padding: 2,
-  },
-  avatar: {
-    backgroundColor: "#26788E",
-    width: 50,
-    height: 50,
-    border: "2px solid #fff",
-    margin: "-48px 14px 0 auto",
-    "& > img": {
-      margin: 0,
-    },
-  },
-}));
-
-export const Post3 = React.memo(function PostCard({
-  _id,
-  title,
-  summary,
-  cover,
-  content,
-  createdAt,
-  author,
-}) {
-  const cardStyles = useStyles();
-  const mediaStyles = useSlopeCardMediaStyles();
-  const shadowStyles = useSoftRiseShadowStyles();
-  const textCardContentStyles = useN01TextInfoContentStyles();
-
-  const [isFavorite, setIsFavorite] = useState(false);
-
-  const { setUserInfo, userInfo } = useContext(UserContext);
-  const userName = userInfo?.email;
-  const userId = userInfo?.id;
-
-  const handleFavoriteClick = (postId) => {
-    // console.log(postId);
-    // console.log(userName);
-    // console.log(userId);
-
-    if (!userName) {
-      toast.error("You need to login to bookmark!");
-      return;
-    }
-
-    setIsFavorite(!isFavorite);
-    if (!isFavorite) {
-      addToFavorites(postId);
-      // toast.success("Added to your favorites");
-    } else {
-      removeFromFavorites(postId);
-      // toast.error("Removed from your favorites");
-    }
-  };
-
-  // お気に入りに追加する関数
-  const addToFavorites = async (postId) => {
-    try {
-      const response = await fetch("http://localhost:4000/favorites", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ postId: postId }),
-        credentials: "include",
-      });
-
-      if (response.ok) {
-        console.log("内容確認：");
-        toast.success("Added to your favorites");
-      } else {
-        const data = await response.json();
-        throw new Error(data.message);
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to add to favorites");
-    }
-  };
-
-  // お気に入りから削除する関数
-  const removeFromFavorites = async (postId) => {
-    try {
-      const response = await fetch(
-        `http://localhost:4000/favorites/${postId}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-        }
-      );
-
-      if (response.ok) {
-        toast.error("Removed from your favorites");
-      } else {
-        const data = await response.json();
-        throw new Error(data.message);
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to remove from favorites");
-    }
-  };
-
+export const FavoritePage = () => {
   return (
     <Box marginBottom={"20px"} sx={{ position: "relative" }}>
       <Link to={`/post/${_id}`}>
@@ -224,6 +113,4 @@ export const Post3 = React.memo(function PostCard({
       </Link>
     </Box>
   );
-});
-
-export default Post3;
+};
