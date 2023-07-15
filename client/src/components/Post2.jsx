@@ -8,55 +8,16 @@ import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { ja } from "date-fns/locale";
 
 import cx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
-import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
-import Card from "@material-ui/core/Card";
-
-import CardMedia from "@material-ui/core/CardMedia";
-import CardContent from "@material-ui/core/CardContent";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 
-// import { IconButton } from "@material-ui/core";
-// import { FavoriteBorderRounded, FavoriteRounded } from "@material-ui/icons";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
-
 import IconButton from "@material-ui/core/IconButton";
-// import FavoriteBorderRounded from "@material-ui/icons/FavoriteBorderRounded";
 import Share from "@material-ui/icons/Share";
-import { useSoftRiseShadowStyles } from "@mui-treasury/styles/shadow/softRise";
-import { useSlopeCardMediaStyles } from "@mui-treasury/styles/cardMedia/slope";
-import { useN01TextInfoContentStyles } from "@mui-treasury/styles/textInfoContent/n01";
-// import TextInfoContent from "@mui-treasury/components/content/textInfo";
 
 import { UserContext } from "./UserContext";
-import { Container } from "@mui/material";
-
-// const useStyles = makeStyles(() => ({
-//   root: {
-//     width: 700,
-//     maxWidth: 700,
-//     height: 330,
-//     maxHeight: 330,
-//     // margin: "auto",
-//     margin: "0px 10px",
-//   },
-//   content: {
-//     padding: 2,
-//   },
-//   avatar: {
-//     backgroundColor: "#26788E",
-//     width: 50,
-//     height: 50,
-//     border: "2px solid #fff",
-//     margin: "-48px 14px 0 auto",
-//     "& > img": {
-//       margin: 0,
-//     },
-//   },
-// }));
 
 export const Post3 = React.memo(function PostCard({
   _id,
@@ -69,11 +30,6 @@ export const Post3 = React.memo(function PostCard({
   favorite,
 }) {
   const [isFavorite, setIsFavorite] = useState(favorite);
-
-  // const cardStyles = useStyles();
-  // const mediaStyles = useSlopeCardMediaStyles();
-  // const shadowStyles = useSoftRiseShadowStyles();
-  // const textCardContentStyles = useN01TextInfoContentStyles();
 
   const { setUserInfo, userInfo } = useContext(UserContext);
   const userName = userInfo?.email;
@@ -170,19 +126,32 @@ export const Post3 = React.memo(function PostCard({
           >
             <Box
               sx={{
-                width: "600px",
-                maxWidth: "700px",
+                width: { xs: "300px", sm: "500px", md: "600px" },
+                maxWidth: "600px",
                 display: "flex",
-                height: "172px",
-
-                justifyContent: "space-between",
-                gap: 20,
+                flexDirection: {
+                  xs: "column-reverse",
+                  sm: "row",
+                  med: "row",
+                  lg: "row",
+                },
+                height: { xs: "100%", md: "172px" },
               }}
             >
-              <Box sx={{ width: "330px" }}>
+              <Box
+                sx={{
+                  width: { xs: "100%", md: "55%" },
+                  pr: { xs: "inherit", md: 2 },
+                  ml: { xs: 1, sm: "0", md: "inherit" },
+                  mr: { xs: 2, sm: "10px", md: "inherit" },
+                }}
+              >
                 <Typography
                   variant="h1"
                   sx={{
+                    pt: { xs: 1, md: "inherit" },
+                    width: { xs: "90%", sm: "100%" },
+
                     fontSize: 20,
                     fontWeight: 5,
                     lineHeight: "23px",
@@ -193,6 +162,7 @@ export const Post3 = React.memo(function PostCard({
                     WebkitBoxOrient: "vertical",
                     WebkitLineClamp: 3, // 行数指定
                     overflow: "hidden",
+                    textAlign: { xs: "center", sm: "inherit" },
                   }}
                 >
                   {title}
@@ -200,9 +170,10 @@ export const Post3 = React.memo(function PostCard({
                 <Box
                   sx={{
                     display: "flex",
-                    gap: "10px",
+                    // gap: "10px",
                     color: "#8f8f8f",
                     mt: "5px",
+                    justifyContent: { xs: "center", sm: "inherit" },
                   }}
                 >
                   <Typography fontSize={"14px"}>
@@ -216,7 +187,7 @@ export const Post3 = React.memo(function PostCard({
                   sx={{
                     mt: "5px",
                     color: "#6b6b6b",
-                    fontSize: "20px",
+                    fontSize: { xs: "18px", md: "20px" },
                     lineHeight: "21px",
                     minHeight: "63.3px",
                     maxHeight: "63.3px",
@@ -229,17 +200,17 @@ export const Post3 = React.memo(function PostCard({
                   }}
                   dangerouslySetInnerHTML={{ __html: content }}
                 ></Typography>
-                <Typography></Typography>
-                <Typography></Typography>
               </Box>
               <Box
                 component="img"
                 src={`http://localhost:4000/${cover}`}
                 sx={{
-                  width: "100%", // 画像の幅を親要素に合わせる
-                  height: "auto", // 高さは自動調整される
-                  maxWidth: "250px", // 最大幅を指定
-                  maxHeight: "170px", // 最大高さを指定
+                  width: { xs: "100%", sm: "45%", md: "45%" },
+                  minWidth: { xs: "100%", sm: "45%", md: "45%" },
+                  maxWidth: { xs: "100%", sm: "45%", md: "45%" },
+                  height: "170px",
+                  minHeight: "170px",
+                  maxHeight: "170px",
                   borderRadius: "10px",
                   objectFit: "cover",
                 }}
@@ -266,88 +237,10 @@ export const Post3 = React.memo(function PostCard({
                 {isFavorite ? <BookmarkIcon /> : <BookmarkBorderIcon />}
               </IconButton>
             </Box>
-            <Divider />
+            <Divider sx={{ mb: { xs: 2 } }} />
           </Box>
         </Link>
       </Box>
-
-      {/* <Box marginBottom={"20px"} sx={{ position: "relative" }}>
-        <Link to={`/post/${_id}`}>
-          <Card className={cx(cardStyles.root, shadowStyles.root)}>
-            <CardMedia
-              classes={mediaStyles}
-              image={"http://localhost:4000/" + cover}
-            />
-
-            <Avatar className={cardStyles.avatar}>
-              {author.firstName.charAt(0)}
-              {author.lastName.charAt(0)}
-            </Avatar>
-
-            <CardContent className={cardStyles.content}>
-              <Typography
-                align="center"
-                sx={{
-                  margin: "5px 15px",
-                  fontWeight: "600",
-                  fontSize: "17px",
-                  lineHeight: "18px",
-                  minHeight: "56px",
-                  maxHeight: "63px",
-
-                  display: "-webkit-box",
-                  WebkitBoxOrient: "vertical",
-                  WebkitLineClamp: 3, // 行数指定
-                  overflow: "hidden",
-                }}
-              >
-                {title}
-              </Typography>
-            </CardContent>
-
-            <Box>
-              <Typography
-                sx={{
-                  margin: "0px 12px",
-                  fontSize: "14px",
-                  lineHeight: "15px",
-                  minHeight: "58px",
-                  maxHeight: "58px",
-
-                  display: "-webkit-box",
-                  WebkitBoxOrient: "vertical",
-                  WebkitLineClamp: 4, // 行数指定
-                  overflow: "hidden",
-                }}
-              >
-                {summary}
-              </Typography>
-            </Box>
-
-            <Box
-              sx={{
-                m: 1,
-                zIndex: "tooltip",
-                display: "flex",
-              }}
-            >
-              <IconButton size="small">
-                <Share />
-              </IconButton>
-
-              <IconButton
-                size="small"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleFavoriteClick(_id);
-                }}
-              >
-                {isFavorite ? <BookmarkIcon /> : <BookmarkBorderIcon />}
-              </IconButton>
-            </Box>
-          </Card>
-        </Link>
-      </Box> */}
     </>
   );
 });

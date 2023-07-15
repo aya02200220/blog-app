@@ -1,9 +1,10 @@
-// import "./styles.css";
+import "./styles.css";
+import Button from "@mui/material/Button";
 
-const Button = (pops) => {
+const Button2 = (pops) => {
   return (
     <>
-      {/* <button className="btn">
+      <button className="btn">
         <div className="wrapper">
           <p className="text">{pops.title}</p>
 
@@ -56,15 +57,15 @@ const Button = (pops) => {
             <div className="petal four"></div>
           </div>
         </div>
-      </button> */}
-      <Button
+      </button>
+      {/* <Button
         variant="contained"
         sx={{ height: "45px", mt: { xs: 9, sm: 6, md: 6 } }}
       >
         Create Post
-      </Button>{" "}
+      </Button>{" "} */}
     </>
   );
 };
 
-export default Button;
+export default Button2;

@@ -4,7 +4,7 @@ import TextField from "@mui/material/TextField";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useEffect, useState } from "react";
-import Button2 from "../Buttons/Button";
+// import Button2 from "../Buttons/Button";
 import Button from "@mui/material/Button";
 
 import { Navigate, useParams } from "react-router-dom";
@@ -90,14 +90,14 @@ export const EditPost = () => {
           placeholder="Title"
         ></TextField>
 
-        <TextField
+        {/* <TextField
           type="summary"
           value={summary}
           onChange={(e) => setSummary(e.target.value)}
           className={styles.postSummary}
           variant="outlined"
           placeholder="Summary"
-        ></TextField>
+        ></TextField> */}
 
         <input type="file" onChange={(ev) => setFiles(ev.target.files)} />
         <ReactQuill
@@ -106,8 +106,10 @@ export const EditPost = () => {
           modules={modules}
           formats={formats}
         />
-        <Button2 />
-        <Button variant="contained">sss</Button>
+
+        <Button variant="contained" onClick={updatePost}>
+          sss
+        </Button>
       </form>
     </div>
   );

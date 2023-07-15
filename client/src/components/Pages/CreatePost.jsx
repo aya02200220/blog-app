@@ -111,6 +111,7 @@ const CreatePost = () => {
         <Button
           variant="contained"
           sx={{ height: "45px", mt: { xs: 9, sm: 6, md: 6 } }}
+          onClick={createNewPost}
         >
           Create Post
         </Button>{" "}
