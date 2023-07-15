@@ -12,6 +12,7 @@ const uploadMiddleware = multer({ dest: "uploads/" });
 const PostModel = require("./models/Post");
 
 const cors = require("cors");
+const { log } = require("console");
 const app = express();
 
 app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
@@ -92,6 +93,14 @@ app.post("/logout", (req, res) => {
 });
 
 app.post("/post", uploadMiddleware.single("file"), async (req, res) => {
+  if (!req.file) {
+    console.log("ファイルなし");
+    // ファイルがアップロードされていない場合のエラーハンドリング
+    return res
+      .status(400)
+      .json({ error: "ファイルがアップロードされていません" });
+  }
+
   const { originalname, path } = req.file;
   const parts = originalname.split(".");
   const ext = parts[parts.length - 1];

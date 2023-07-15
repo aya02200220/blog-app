@@ -1,9 +1,9 @@
-import "./styles.css";
+// import "./styles.css";
 
 const Button = (pops) => {
   return (
     <>
-      <button className="btn">
+      {/* <button className="btn">
         <div className="wrapper">
           <p className="text">{pops.title}</p>
 
@@ -56,7 +56,13 @@ const Button = (pops) => {
             <div className="petal four"></div>
           </div>
         </div>
-      </button>
+      </button> */}
+      <Button
+        variant="contained"
+        sx={{ height: "45px", mt: { xs: 9, sm: 6, md: 6 } }}
+      >
+        Create Post
+      </Button>{" "}
     </>
   );
 };

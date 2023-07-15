@@ -4,7 +4,11 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useState, useContext, useEffect } from "react";
 import { UserContext } from "../UserContext";
-import Button from "../Buttons/Button";
+// import Button2 from "../Buttons/Button";
+import Button from "@mui/material/Button";
+
+import Box from "@material-ui/core/Box";
+
 import { Navigate } from "react-router-dom";
 
 const modules = {
@@ -42,8 +46,9 @@ const CreatePost = () => {
   const [summary, setSummary] = useState("");
   const [content, setContent] = useState("");
   const [files, setFiles] = useState("");
-  // const [loginCheck, setLoginCheck] = useState(false);
   const [redirect, setRedirect] = useState(false);
+
+  const [editorHeight, setEditorHeight] = useState("180px");
 
   const createNewPost = async (e) => {
     const data = new FormData();
@@ -87,24 +92,28 @@ const CreatePost = () => {
           variant="outlined"
           placeholder="Title"
         ></TextField>
-
-        <TextField
+        {/* <TextField
           type="summary"
           value={summary}
           onChange={(e) => setSummary(e.target.value)}
           className={styles.postSummary}
           variant="outlined"
           placeholder="Summary"
-        ></TextField>
-
+        ></TextField> */}
         <input type="file" onChange={(ev) => setFiles(ev.target.files)} />
         <ReactQuill
           value={content}
           onChange={(newValue) => setContent(newValue)}
           modules={modules}
           formats={formats}
+          style={{ height: editorHeight }}
         />
-        <Button title="CreatePost" />
+        <Button
+          variant="contained"
+          sx={{ height: "45px", mt: { xs: 9, sm: 6, md: 6 } }}
+        >
+          Create Post
+        </Button>{" "}
       </form>
     </div>
   );

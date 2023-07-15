@@ -6,8 +6,8 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 
 // import Post from "../Post";
-// import Post from "../Post2";
-import Post from "../Post3";
+import Post from "../Post2";
+// import Post from "../Post3";
 
 const IndexPage = () => {
   const { setUserInfo, userInfo } = useContext(UserContext);

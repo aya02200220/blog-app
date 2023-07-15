@@ -243,13 +243,6 @@
   flex-direction: column;
   gap: 5px;
 }
-.postPage {
-  padding-bottom: 50px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
 .postPage a {
   color: #26798e;
   text-decoration: underline;
@@ -261,13 +254,6 @@
   text-align: center;
   margin: auto 0;
   margin: 10px 0;
-}
-.postPage .postPageTitle {
-  text-align: center;
-  font-size: 30px;
-  font-weight: 600;
-  line-height: 30px;
-  margin-bottom: 10px;
 }
 .postPage .postPageTime {
   font-size: 15px;

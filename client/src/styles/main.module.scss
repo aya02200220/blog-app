@@ -289,11 +289,12 @@
 }
 /////////////// POST PAGE////////////////////
 .postPage {
-  padding-bottom: 50px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  // max-width: 600px;
+  // padding-bottom: 50px;
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: center;
+  // align-items: center;
   a {
     color: #26798e;
     text-decoration: underline;
@@ -307,11 +308,11 @@
     margin: 10px 0;
   }
   .postPageTitle {
-    text-align: center;
-    font-size: 30px;
-    font-weight: 600;
-    line-height: 30px;
-    margin-bottom: 10px;
+    // text-align: center;
+    // font-size: 30px;
+    // font-weight: 600;
+    // line-height: 30px;
+    // margin-bottom: 10px;
   }
   .postPageTime {
     font-size: 15px;
