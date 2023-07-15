@@ -1,4 +1,4 @@
-import styles from "../../styles/main.module.scss";
+// import styles from "../../styles/main.module.scss";
 import { useEffect, useState, useContext } from "react";
 import { UserContext } from "../UserContext";
 import Box from "@mui/material/Box";
@@ -72,21 +72,31 @@ const IndexPage = () => {
       ) : (
         <Box
           sx={{
-            margin: "0 130px",
-            marginTop: "100px",
+            width: "100%",
             display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "space-evenly",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          {posts.length > 0 &&
-            posts.map((post) => {
-              const isFavorite =
-                favorites &&
-                Array.isArray(favorites) &&
-                favorites.some((favorite) => favorite._id === post._id);
-              return <Post key={post._id} {...post} favorite={isFavorite} />;
-            })}
+          <Box
+            sx={{
+              // margin: "0 130px",
+              marginTop: "100px",
+              display: "flex",
+              flexDirection: "column",
+              // flexWrap: "wrap",
+              // justifyContent: "space-evenly",
+            }}
+          >
+            {posts.length > 0 &&
+              posts.map((post) => {
+                const isFavorite =
+                  favorites &&
+                  Array.isArray(favorites) &&
+                  favorites.some((favorite) => favorite._id === post._id);
+                return <Post key={post._id} {...post} favorite={isFavorite} />;
+              })}
+          </Box>
         </Box>
       )}
     </>

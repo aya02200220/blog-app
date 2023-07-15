@@ -1,7 +1,7 @@
 import toast, { Toaster } from "react-hot-toast";
 import { Route, Routes } from "react-router-dom";
 
-import styles from "./styles/main.module.scss";
+// import styles from "./styles/main.module.scss";
 
 import Layout from "./components/Layout";
 import IndexPage from "./components/Pages/IndexPage";

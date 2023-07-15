@@ -120,14 +120,15 @@ export const Post3 = React.memo(function PostCard({
         <Link to={`/post/${_id}`}>
           <Box
             sx={{
+              width: { xs: "300px", sm: "500px", md: "600px" },
               // border: "solid 1px black",
+              borderBottom: "solid 1px #dedede",
               mb: 1,
             }}
           >
             <Box
               sx={{
-                width: { xs: "300px", sm: "500px", md: "600px" },
-                maxWidth: "600px",
+                // maxWidth: "600px",
                 display: "flex",
                 flexDirection: {
                   xs: "column-reverse",
@@ -170,7 +171,7 @@ export const Post3 = React.memo(function PostCard({
                 <Box
                   sx={{
                     display: "flex",
-                    // gap: "10px",
+                    gap: "10px",
                     color: "#8f8f8f",
                     mt: "5px",
                     justifyContent: { xs: "center", sm: "inherit" },
@@ -237,7 +238,6 @@ export const Post3 = React.memo(function PostCard({
                 {isFavorite ? <BookmarkIcon /> : <BookmarkBorderIcon />}
               </IconButton>
             </Box>
-            <Divider sx={{ mb: { xs: 2 } }} />
           </Box>
         </Link>
       </Box>
