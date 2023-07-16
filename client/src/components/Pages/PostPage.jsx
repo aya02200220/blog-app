@@ -1,4 +1,4 @@
-import styles from "../../styles/main.module.scss";
+// import styles from "../../styles/main.module.scss";
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { formatISO9075 } from "date-fns";
@@ -9,6 +9,7 @@ import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
+import { AuthorInfo } from "./AuthorInfo";
 
 const PostPage = () => {
   const [loading, setLoading] = useState(true);
@@ -40,64 +41,82 @@ const PostPage = () => {
           </Typography>
         </Box>
       ) : (
-        <div className={styles.mainContainer}>
+        <Box>
           <Box
             sx={{
-              maxWidth: "650px",
-              pb: "50px",
+              mt: "100px",
               display: "flex",
-              flexDirection: "column",
+              gap: 1,
               justifyContent: "center",
-              alignItems: "center",
+              ml: 3,
+              mr: 3,
             }}
-            className={styles.postPage}
           >
-            <Box
-              sx={{
-                textAlign: "center",
-                fontSize: { xs: "20px", sm: "25px", md: "30px" },
-                lineHeight: { xs: "20px", sm: "25px", md: "30px" },
-                fontWeight: "600",
-                mb: "10px",
-              }}
-            >
-              {postInfo.title}
+            <Box>
+              <AuthorInfo postInfo={postInfo} />
             </Box>
-            <time className={styles.postPageTime}>
-              {formatISO9075(new Date(postInfo.createdAt))}
-            </time>
-            <div className={styles.postPageAuthor}>
-              by @{postInfo.author.firstName} {postInfo.author.lastName}
-            </div>
-            {userInfo.id === postInfo.author._id && (
-              <div className={styles.postPageEdit}>
-                <Link
-                  className={styles.postPageEditButton}
-                  to={`/edit/${postInfo._id}`}
+            <div>
+              <Box
+                sx={{
+                  maxWidth: "650px",
+                  pb: "50px",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                // className={styles.postPage}
+              >
+                <Box
+                  sx={{
+                    textAlign: "center",
+                    fontSize: { xs: "20px", sm: "25px", md: "30px" },
+                    lineHeight: { xs: "20px", sm: "25px", md: "30px" },
+                    fontWeight: "600",
+                    mb: "10px",
+                  }}
                 >
-                  <FontAwesomeIcon
-                    className={styles.postPageEditIcon}
-                    icon={faPenToSquare}
+                  {postInfo.title}
+                </Box>
+                {/* <time className={styles.postPageTime}> */}
+                <time>{formatISO9075(new Date(postInfo.createdAt))}</time>
+                {/* <div className={styles.postPageAuthor}> */}
+                <div>
+                  by @{postInfo.author.firstName} {postInfo.author.lastName}
+                </div>
+                {userInfo.id === postInfo.author._id && (
+                  // <div className={styles.postPageEdit}>
+                  <div>
+                    <Link
+                      // className={styles.postPageEditButton}
+                      to={`/edit/${postInfo._id}`}
+                    >
+                      <FontAwesomeIcon
+                        // className={styles.postPageEditIcon}
+                        icon={faPenToSquare}
+                      />
+                      Edit this post
+                    </Link>
+                  </div>
+                )}
+                <div
+                // className={styles.postPageImgContainer}
+                >
+                  <img
+                    // className={styles.postPageImg}
+                    src={`http://localhost:4000/${postInfo.cover}`}
+                    alt=""
                   />
-                  Edit this post
-                </Link>
-              </div>
-            )}
-            <div className={styles.postPageImgContainer}>
-              <img
-                className={styles.postPageImg}
-                src={`http://localhost:4000/${postInfo.cover}`}
-                alt=""
-              />
+                </div>
+                <Box
+                  // className={styles.postPageContent}
+                  dangerouslySetInnerHTML={{ __html: postInfo.content }}
+                />
+              </Box>
             </div>
-            <Box
-              className={styles.postPageContent}
-              dangerouslySetInnerHTML={{ __html: postInfo.content }}
-            />
           </Box>
-        </div>
+        </Box>
       )}
-      ;
     </>
   );
 };

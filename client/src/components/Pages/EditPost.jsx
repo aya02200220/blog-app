@@ -108,7 +108,7 @@ export const EditPost = () => {
         />
 
         <Button variant="contained" onClick={updatePost}>
-          sss
+          Update Post
         </Button>
       </form>
     </div>
