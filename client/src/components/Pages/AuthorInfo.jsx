@@ -1,8 +1,17 @@
 import React, { useState } from "react";
-import { Box, Avatar, Typography } from "@mui/material";
+import {
+  Box,
+  Avatar,
+  Typography,
+  Button,
+  IconButton,
+  Divider,
+} from "@mui/material";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import FileDownloadDoneIcon from "@mui/icons-material/FileDownloadDone";
 import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
+import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
+import MessageIcon from "@mui/icons-material/Message";
 import TurnedInNotIcon from "@mui/icons-material/TurnedInNot";
 import { Link } from "react-router-dom";
 
@@ -28,19 +37,22 @@ export const AuthorInfo = ({ ...props }) => {
       >
         <Box
           sx={{
-            border: "solid 1px black",
+            border: "solid 3px #f0f0f0",
             height: "300px",
             width: "200px",
             position: "fixed",
             display: "flex",
             alignItems: "center",
             flexDirection: "column",
+
+            borderRadius: "20px",
+            // background: "#f7f7f7",
           }}
         >
           <Box
             sx={{
-              border: "solid 1px black",
-              mt: 1,
+              border: "solid 3px #e6e6e6",
+              mt: 3,
               width: 90,
               height: 90,
               borderRadius: 100,
@@ -71,47 +83,90 @@ export const AuthorInfo = ({ ...props }) => {
             }}
           >
             <Link to={`/`}>
-              <Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 1,
+                  wordBreak: "break-word",
+                }}
+              >
                 <Typography
-                  sx={{ lineHeight: "10px", wordBreak: "break-word" }}
+                  sx={{
+                    fontSize: "16px",
+                    lineHeight: "12px",
+                  }}
                 >
-                  {avatarFirstName}
+                  {avatarFirstName} {avatarLastName}
                 </Typography>
-                <Typography>{avatarLastName}</Typography>
+                <Typography></Typography>
               </Box>
             </Link>
-            <Box mt={2}>
-              <Typography sx={{ lineHeight: "10px", wordBreak: "break-word" }}>
+            <Box mt={2.5}>
+              <Typography
+                sx={{
+                  lineHeight: "10px",
+                  wordBreak: "break-word",
+                  fontSize: "15px",
+                }}
+              >
                 Follower: {"120"}
               </Typography>
             </Box>
 
-            <Box>
+            <IconButton size="small" sx={{ mt: 1, borderRadius: 1.5 }}>
               {isFollowing ? (
-                <Box sx={{ mt: 2, display: "flex", justifyContent: "center" }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
                   <ControlPointIcon />
-                  <Typography>Follow</Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "15px",
+                      lineHeight: "12px",
+                    }}
+                  >
+                    Follow
+                  </Typography>
                 </Box>
               ) : (
-                <Box sx={{ mt: 2, display: "flex" }}>
+                <Box sx={{ display: "flex" }}>
                   <FileDownloadDoneIcon />
                   <Typography>Following</Typography>
                 </Box>
               )}
-            </Box>
+            </IconButton>
 
-            <Box>
-              {isBookMarked ? (
-                <Box sx={{ mt: 2, display: "flex", justifyContent: "center" }}>
-                  <TurnedInNotIcon />
-                  <Typography>Follow</Typography>
+            <Box sx={{ mt: 1, display: "flex", gap: 1 }}>
+              <IconButton
+                size="small"
+                sx={{ borderRadius: 1.5, width: "50px" }}
+              >
+                <Box sx={{ display: "flex", justifyContent: "center" }}>
+                  <ChatBubbleOutlineIcon />
+                  <Typography>2</Typography>
                 </Box>
-              ) : (
-                <Box sx={{ mt: 2, display: "flex" }}>
-                  <BookmarkAddedIcon />
-                  <Typography>Following</Typography>
-                </Box>
-              )}
+              </IconButton>
+
+              <IconButton
+                size="small"
+                sx={{ borderRadius: 1.5, width: "50px" }}
+              >
+                {isBookMarked ? (
+                  <Box sx={{ display: "flex", justifyContent: "center" }}>
+                    <TurnedInNotIcon />
+                    <Typography>20</Typography>
+                  </Box>
+                ) : (
+                  <Box sx={{ mt: 2, display: "flex" }}>
+                    <BookmarkAddedIcon />
+                    <Typography>Following</Typography>
+                  </Box>
+                )}
+              </IconButton>
             </Box>
           </Box>
         </Box>

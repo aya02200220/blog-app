@@ -1,7 +1,7 @@
 // import styles from "../../styles/main.module.scss";
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { formatISO9075 } from "date-fns";
+import { format } from "date-fns";
 import { UserContext } from "../UserContext";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -46,7 +46,7 @@ const PostPage = () => {
             sx={{
               mt: "100px",
               display: "flex",
-              gap: 1,
+              gap: { xs: 1, sm: 2, md: 3, lg: 5 },
               justifyContent: "center",
               ml: 3,
               mr: 3,
@@ -65,7 +65,6 @@ const PostPage = () => {
                   justifyContent: "center",
                   alignItems: "center",
                 }}
-                // className={styles.postPage}
               >
                 <Box
                   sx={{
@@ -78,40 +77,24 @@ const PostPage = () => {
                 >
                   {postInfo.title}
                 </Box>
-                {/* <time className={styles.postPageTime}> */}
-                <time>{formatISO9075(new Date(postInfo.createdAt))}</time>
-                {/* <div className={styles.postPageAuthor}> */}
+                <time>
+                  {format(new Date(postInfo.createdAt), "yyyy-MM-dd HH:mm")}
+                </time>
                 <div>
-                  by @{postInfo.author.firstName} {postInfo.author.lastName}
+                  by {postInfo.author.firstName} {postInfo.author.lastName}
                 </div>
                 {userInfo.id === postInfo.author._id && (
-                  // <div className={styles.postPageEdit}>
                   <div>
-                    <Link
-                      // className={styles.postPageEditButton}
-                      to={`/edit/${postInfo._id}`}
-                    >
-                      <FontAwesomeIcon
-                        // className={styles.postPageEditIcon}
-                        icon={faPenToSquare}
-                      />
+                    <Link to={`/edit/${postInfo._id}`}>
+                      <FontAwesomeIcon icon={faPenToSquare} />
                       Edit this post
                     </Link>
                   </div>
                 )}
-                <div
-                // className={styles.postPageImgContainer}
-                >
-                  <img
-                    // className={styles.postPageImg}
-                    src={`http://localhost:4000/${postInfo.cover}`}
-                    alt=""
-                  />
+                <div>
+                  <img src={`http://localhost:4000/${postInfo.cover}`} alt="" />
                 </div>
-                <Box
-                  // className={styles.postPageContent}
-                  dangerouslySetInnerHTML={{ __html: postInfo.content }}
-                />
+                <Box dangerouslySetInnerHTML={{ __html: postInfo.content }} />
               </Box>
             </div>
           </Box>
