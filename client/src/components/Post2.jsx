@@ -1,16 +1,15 @@
-import React, { useContext } from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+
+import { Favorite } from "./Functions/Favorite";
+
 import toast from "react-hot-toast";
 
-import { formatISO9075 } from "date-fns";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
-import { ja } from "date-fns/locale";
 
 import cx from "clsx";
 import Box from "@material-ui/core/Box";
 import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
 
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
@@ -39,72 +38,72 @@ export const Post3 = React.memo(function PostCard({
     setIsFavorite(favorite);
   }, [favorite]);
 
-  const handleFavoriteClick = (postId) => {
-    console.log(postId);
-    console.log(userName);
-    console.log(userId);
+  // const handleFavoriteClick = (postId) => {
+  //   console.log(postId);
+  //   console.log(userName);
+  //   console.log(userId);
 
-    if (!userName) {
-      toast.error("You need to login to bookmark!");
-      return;
-    }
+  //   if (!userName) {
+  //     toast.error("You need to login to bookmark!");
+  //     return;
+  //   }
 
-    setIsFavorite(!isFavorite);
-    if (!isFavorite) {
-      addToFavorites(postId);
-      // toast.success("Added to your favorites");
-    } else {
-      removeFromFavorites(postId);
-      // toast.error("Removed from your favorites");
-    }
-  };
+  //   setIsFavorite(!isFavorite);
+  //   if (!isFavorite) {
+  //     addToFavorites(postId);
+  //     // toast.success("Added to your favorites");
+  //   } else {
+  //     removeFromFavorites(postId);
+  //     // toast.error("Removed from your favorites");
+  //   }
+  // };
 
-  const addToFavorites = async (postId) => {
-    try {
-      const response = await fetch("http://localhost:4000/favorites", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ postId: postId }),
-        credentials: "include",
-      });
+  // const addToFavorites = async (postId) => {
+  //   try {
+  //     const response = await fetch("http://localhost:4000/favorites", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ postId: postId }),
+  //       credentials: "include",
+  //     });
 
-      if (response.ok) {
-        console.log("内容確認：");
-        toast.success("Added to your favorites");
-      } else {
-        const data = await response.json();
-        throw new Error(data.message);
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to add to favorites");
-    }
-  };
+  //     if (response.ok) {
+  //       console.log("内容確認：");
+  //       toast.success("Added to your favorites");
+  //     } else {
+  //       const data = await response.json();
+  //       throw new Error(data.message);
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //     toast.error("Failed to add to favorites");
+  //   }
+  // };
 
-  // お気に入りから削除する関数
-  const removeFromFavorites = async (postId) => {
-    try {
-      const response = await fetch(
-        `http://localhost:4000/favorites/${postId}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-        }
-      );
+  // // お気に入りから削除する関数
+  // const removeFromFavorites = async (postId) => {
+  //   try {
+  //     const response = await fetch(
+  //       `http://localhost:4000/favorites/${postId}`,
+  //       {
+  //         method: "DELETE",
+  //         credentials: "include",
+  //       }
+  //     );
 
-      if (response.ok) {
-        toast.error("Removed from your favorites");
-      } else {
-        const data = await response.json();
-        throw new Error(data.message);
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to remove from favorites");
-    }
-  };
+  //     if (response.ok) {
+  //       toast.error("Removed from your favorites");
+  //     } else {
+  //       const data = await response.json();
+  //       throw new Error(data.message);
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //     toast.error("Failed to remove from favorites");
+  //   }
+  // };
 
   return (
     <>
@@ -228,7 +227,7 @@ export const Post3 = React.memo(function PostCard({
                 <Share />
               </IconButton>
 
-              <IconButton
+              {/* <IconButton
                 size="small"
                 onClick={(e) => {
                   e.preventDefault();
@@ -236,7 +235,14 @@ export const Post3 = React.memo(function PostCard({
                 }}
               >
                 {isFavorite ? <BookmarkIcon /> : <BookmarkBorderIcon />}
-              </IconButton>
+              </IconButton> */}
+
+              <Favorite
+                favorite={favorite}
+                userName={userName}
+                userId={userId}
+                _id={_id}
+              />
             </Box>
           </Box>
         </Link>

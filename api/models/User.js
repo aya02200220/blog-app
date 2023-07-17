@@ -7,6 +7,10 @@ const UserSchema = new Schema({
   email: { type: String, require: true, min: 4, unique: true },
   password: { type: String, require: true },
   favorites: [{ type: Schema.Types.ObjectId, ref: "Post" }],
+  followers: { type: Number, default: 0 },
+  userIcon: { type: String, default: "default-icon.jpg" },
+  following: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  bio: { type: String, default: "" },
 });
 
 const UserModel = model("User", UserSchema);

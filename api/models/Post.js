@@ -1,24 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
-// const PostSchema = new Schema(
-//   {
-//     title: String,
-//     summary: String,
-//     content: String,
-//     cover: String,
-//     author: {
-//       type: Schema.Types.ObjectId,
-//       ref: "User",
-//       firstName: String,
-//       lastName: String,
-//     },
-//   },
-//   {
-//     timestamps: true,
-//   }
-// );
-
 const CommentSchema = new Schema(
   {
     author: {
@@ -47,10 +29,9 @@ const PostSchema = new Schema(
     author: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      firstName: String,
-      lastName: String,
     },
-    comments: [CommentSchema], // コメントスキーマを追加
+    comments: [CommentSchema],
+    favoriteCount: { type: Number, default: 0 },
   },
   {
     timestamps: true,
