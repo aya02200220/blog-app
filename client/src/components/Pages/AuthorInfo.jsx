@@ -46,12 +46,16 @@ export const AuthorInfo = ({ ...props }) => {
             flexDirection: "column",
 
             borderRadius: "20px",
-            // background: "#f7f7f7",
+            // backgroundColor: "#f5f5f5",
+            // backgroundImage:
+            //   "linear-gradient(150deg, rgba(238, 238, 238, 1), rgba(231, 231, 231, 1) 4%, rgba(255, 255, 255, 1) 75%)",
+            backgroundImage:
+              "linear-gradient(150deg, rgba(238, 237, 237, 1), rgba(255, 255, 255, 1) 49%, rgba(246, 246, 246, 1))",
           }}
         >
           <Box
             sx={{
-              border: "solid 3px #e6e6e6",
+              border: "solid 3px #919aba",
               mt: 3,
               width: 90,
               height: 90,
@@ -101,7 +105,7 @@ export const AuthorInfo = ({ ...props }) => {
                 <Typography></Typography>
               </Box>
             </Link>
-            <Box mt={2.5}>
+            <Box mt={2}>
               <Typography
                 sx={{
                   lineHeight: "10px",
