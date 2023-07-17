@@ -64,6 +64,8 @@ const PostPage = () => {
                   position: "fixed",
                   top: "80px",
                   left: "10px",
+                  backgroundColor: "#fff",
+                  zIndex: 1,
                 }}
               >
                 <ArrowBackIcon icon={faPenToSquare} />

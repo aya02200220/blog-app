@@ -1,10 +1,8 @@
-import styles from "../../styles/main.module.scss";
 import TextField from "@mui/material/TextField";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useState, useContext, useEffect } from "react";
 import { UserContext } from "../UserContext";
-// import Button2 from "../Buttons/Button";
 import Button from "@mui/material/Button";
 
 import Box from "@material-ui/core/Box";
@@ -82,41 +80,50 @@ const CreatePost = () => {
     return <Navigate to="/" />;
   }
   return (
-    <div className={styles.mainContainer}>
-      <form className={styles.postForm} onSubmit={createNewPost}>
-        <TextField
-          type="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className={styles.postTitle}
-          variant="outlined"
-          placeholder="Title"
-        ></TextField>
-        {/* <TextField
-          type="summary"
-          value={summary}
-          onChange={(e) => setSummary(e.target.value)}
-          className={styles.postSummary}
-          variant="outlined"
-          placeholder="Summary"
-        ></TextField> */}
-        <input type="file" onChange={(ev) => setFiles(ev.target.files)} />
-        <ReactQuill
-          value={content}
-          onChange={(newValue) => setContent(newValue)}
-          modules={modules}
-          formats={formats}
-          style={{ height: editorHeight }}
-        />
-        <Button
-          variant="contained"
-          sx={{ height: "45px", mt: { xs: 9, sm: 6, md: 6 } }}
-          onClick={createNewPost}
-        >
-          Create Post
-        </Button>{" "}
-      </form>
-    </div>
+    <Box
+      sx={{
+        mt: 15,
+        ml: 2,
+        mr: 2,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Box sx={{ maxWidth: "550px" }}>
+        <form onSubmit={createNewPost}>
+          <TextField
+            fullWidth
+            type="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            variant="outlined"
+            placeholder="Title"
+          ></TextField>
+          <Box mt={1}>
+            <input type="file" onChange={(ev) => setFiles(ev.target.files)} />
+          </Box>
+          <Box mt={1}>
+            <ReactQuill
+              value={content}
+              onChange={(newValue) => setContent(newValue)}
+              modules={modules}
+              formats={formats}
+              style={{ height: editorHeight }}
+            />
+          </Box>
+          <Button
+            fullWidth
+            variant="contained"
+            sx={{ height: "45px", mt: { xs: 9, sm: 6, md: 6 } }}
+            onClick={createNewPost}
+          >
+            Create Post
+          </Button>{" "}
+        </form>
+      </Box>
+    </Box>
   );
 };
 

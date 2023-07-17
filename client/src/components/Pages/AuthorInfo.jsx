@@ -46,11 +46,11 @@ export const AuthorInfo = ({ ...props }) => {
             flexDirection: "column",
 
             borderRadius: "20px",
-            // backgroundColor: "#f5f5f5",
+            backgroundColor: "#f5f5f5",
             // backgroundImage:
             //   "linear-gradient(150deg, rgba(238, 238, 238, 1), rgba(231, 231, 231, 1) 4%, rgba(255, 255, 255, 1) 75%)",
-            backgroundImage:
-              "linear-gradient(150deg, rgba(238, 237, 237, 1), rgba(255, 255, 255, 1) 49%, rgba(246, 246, 246, 1))",
+            // backgroundImage:
+            //   "linear-gradient(150deg, rgba(238, 237, 237, 1), rgba(255, 255, 255, 1) 49%, rgba(246, 246, 246, 1))",
           }}
         >
           <Box
