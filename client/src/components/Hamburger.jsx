@@ -155,7 +155,12 @@ export default function Hamburger({ userName }) {
               <Box sx={{ marginTop: "0px" }}>
                 <Button
                   onClick={logout}
-                  sx={{ marginTop: "15px", width: "100%", height: "40px" }}
+                  sx={{
+                    marginTop: "15px",
+                    width: "100%",
+                    height: "40px",
+                    borderRadius: 0,
+                  }}
                   variant="contained"
                   color="error"
                   startIcon={<LogoutIcon />}
@@ -175,7 +180,12 @@ export default function Hamburger({ userName }) {
               >
                 <NavLink to={"/login"} onClick={toggleDrawer("right", false)}>
                   <Button
-                    sx={{ marginTop: "15px", width: "100%", height: "40px" }}
+                    sx={{
+                      marginTop: "15px",
+                      width: "100%",
+                      height: "40px",
+                      borderRadius: 0,
+                    }}
                     variant="contained"
                     color="success"
                     startIcon={<LoginIcon />}
@@ -189,9 +199,14 @@ export default function Hamburger({ userName }) {
                   onClick={toggleDrawer("right", false)}
                 >
                   <Button
-                    sx={{ marginTop: "15px", width: "100%", height: "40px" }}
+                    sx={{
+                      marginTop: "15px",
+                      width: "100%",
+                      height: "40px",
+                      borderRadius: 0,
+                    }}
                     variant="contained"
-                    color="success"
+                    // color="success"
                     startIcon={<PersonAddIcon />}
                   >
                     Sign up

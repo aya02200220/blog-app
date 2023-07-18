@@ -88,14 +88,25 @@ const IndexPage = () => {
               // justifyContent: "space-evenly",
             }}
           >
-            {posts.length > 0 &&
+            {posts.length === 0 ? ( // postsが0件の場合にメッセージを表示
+              <Typography variant="body1">No Post yet</Typography>
+            ) : (
               posts.map((post) => {
                 const isFavorite =
                   favorites &&
                   Array.isArray(favorites) &&
                   favorites.some((favorite) => favorite._id === post._id);
                 return <Post key={post._id} {...post} favorite={isFavorite} />;
-              })}
+              })
+            )}
+            {/* {posts.length > 0 &&
+              posts.map((post) => {
+                const isFavorite =
+                  favorites &&
+                  Array.isArray(favorites) &&
+                  favorites.some((favorite) => favorite._id === post._id);
+                return <Post key={post._id} {...post} favorite={isFavorite} />;
+              })} */}
           </Box>
         </Box>
       )}

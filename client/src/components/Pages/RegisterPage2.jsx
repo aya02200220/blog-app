@@ -80,7 +80,7 @@ export default function SignUp() {
         setUserInfo(userInfo);
       });
       setIsRegistered(true);
-      toast.success("You are logged in!");
+      // toast.success("You are logged in!");
     } else {
       toast.error("Login failed");
     }

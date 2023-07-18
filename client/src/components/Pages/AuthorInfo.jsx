@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { UserContext } from "../UserContext";
+
 import {
   Box,
   Avatar,
@@ -18,6 +20,9 @@ import { Link } from "react-router-dom";
 export const AuthorInfo = ({ ...props }) => {
   const [isFollowing, setIsFollowing] = useState("false");
   const [isBookMarked, setIsBookMarked] = useState("false");
+  const { userInfo } = useContext(UserContext);
+
+  console.log("userInfo:", userInfo);
 
   function stringAvatar(name) {
     return {
@@ -47,10 +52,6 @@ export const AuthorInfo = ({ ...props }) => {
 
             borderRadius: "20px",
             backgroundColor: "#f5f5f5",
-            // backgroundImage:
-            //   "linear-gradient(150deg, rgba(238, 238, 238, 1), rgba(231, 231, 231, 1) 4%, rgba(255, 255, 255, 1) 75%)",
-            // backgroundImage:
-            //   "linear-gradient(150deg, rgba(238, 237, 237, 1), rgba(255, 255, 255, 1) 49%, rgba(246, 246, 246, 1))",
           }}
         >
           <Box

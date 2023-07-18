@@ -86,6 +86,7 @@ app.get("/profile", (req, res) => {
     if (err) throw err;
     res.json(info);
   });
+  // console.log("INFO:", info);
 });
 
 app.post("/logout", (req, res) => {
