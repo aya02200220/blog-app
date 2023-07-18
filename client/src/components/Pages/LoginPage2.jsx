@@ -50,24 +50,52 @@ export default function SignIn() {
   const login = async (e) => {
     e.preventDefault();
 
-    const data = await fetch("http://localhost:4000/login", {
-      method: "POST",
-      body: JSON.stringify({ firstName, lastName, email, password }),
-      headers: { "content-Type": "application/json" },
-      credentials: "include",
-    });
-    if (data.status === 200) {
-      data.json().then((userInfo) => {
-        console.log("data:", data);
-        console.log("userinfo:", userInfo);
-        setUserInfo(userInfo);
+    try {
+      const data = await fetch("http://localhost:4000/login", {
+        method: "POST",
+        body: JSON.stringify({ email, password }),
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
       });
-      setRedirect(true);
-      toast.success("You are logged in!");
-    } else {
-      toast.error("Login failed");
+
+      if (data.status === 200) {
+        const userInfo = await data.json();
+        console.log("userInfo:", userInfo);
+        setUserInfo(userInfo);
+        toast.success("You are logged in!");
+        // ログインが成功した場合、ホームページにリダイレクト
+        setRedirect(true);
+      } else {
+        toast.error("Login failed");
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+      toast.error("An error occurred during login");
     }
   };
+
+  // const login = async (e) => {
+  //   e.preventDefault();
+
+  //   const data = await fetch("http://localhost:4000/login", {
+  //     method: "POST",
+  //     // body: JSON.stringify({ firstName, lastName, email, password }),
+  //     body: JSON.stringify({ email, password }),
+  //     headers: { "content-Type": "application/json" },
+  //     credentials: "include",
+  //   });
+  //   if (data.status === 200) {
+  //     data.json().then((userInfo) => {
+  //       console.log("data:", data);
+  //       console.log("userinfo:", userInfo);
+  //       setUserInfo(userInfo);
+  //     });
+  //     setRedirect(true);
+  //     toast.success("You are logged in!");
+  //   } else {
+  //     toast.error("Login failed");
+  //   }
+  // };
   if (redirect) {
     return <Navigate to={"/"} />;
   }

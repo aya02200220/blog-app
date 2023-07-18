@@ -50,35 +50,90 @@ app.post("/register", async (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
-  // const { userName, password } = req.body;
-  const { firstName, lastName, email, password } = req.body;
-  const userInfo = await User.findOne({ email });
-  const passCheck = bcrypt.compareSync(password, userInfo.password);
-  if (passCheck) {
-    // Login
+  const { email, password } = req.body;
+  try {
+    const userInfo = await User.findOne({ email }).populate(
+      "followers following"
+    );
+    if (!userInfo) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const passCheck = bcrypt.compareSync(password, userInfo.password);
+    if (!passCheck) {
+      return res.status(401).json({ error: "Incorrect password" });
+    }
+
     jwt.sign(
       {
         firstName: userInfo.firstName,
         lastName: userInfo.lastName,
         email,
         id: userInfo._id,
+        followers: userInfo.followers,
+        userIcon: userInfo.userIcon,
+        following: userInfo.following,
+        bio: userInfo.bio,
       },
       secret,
       {},
       (err, token) => {
         if (err) throw err;
-        res.cookie("token", token).json({
+        res.cookie("token", token, { httpOnly: true }).json({
           id: userInfo._id,
           email,
           firstName: userInfo.firstName,
           lastName: userInfo.lastName,
+          followers: userInfo.followers,
+          userIcon: userInfo.userIcon,
+          following: userInfo.following,
+          bio: userInfo.bio,
         });
       }
     );
-  } else {
-    res.status(404).json("wrong credentials");
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
   }
 });
+
+// app.post("/login", async (req, res) => {
+//   // const { userName, password } = req.body;
+//   const { firstName, lastName, email, password } = req.body;
+//   const userInfo = await User.findOne({ email });
+//   const passCheck = bcrypt.compareSync(password, userInfo.password);
+//   if (passCheck) {
+//     // Login
+//     jwt.sign(
+//       {
+//         firstName: userInfo.firstName,
+//         lastName: userInfo.lastName,
+//         email,
+//         id: userInfo._id,
+//       },
+//       secret,
+//       {},
+//       (err, token) => {
+//         if (err) throw err;
+//         res.cookie("token", token, { httpOnly: true }).json({
+//           id: userInfo._id,
+//           email,
+//           firstName: userInfo.firstName,
+//           lastName: userInfo.lastName,
+//           followers: userInfo.followers,
+//           userIcon: userInfo.userIcon,
+//           following: userInfo.following,
+//           bio: userInfo.bio,
+//           followers: userInfo.followers,
+//           userIcon: userInfo.userIcon,
+//           following: userInfo.following,
+//           bio: userInfo.bio,
+//         });
+//       }
+//     );
+//   } else {
+//     res.status(404).json("wrong credentials");
+//   }
+// });
 
 app.get("/profile", (req, res) => {
   const { token } = req.cookies;
