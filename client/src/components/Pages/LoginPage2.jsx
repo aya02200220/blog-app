@@ -2,6 +2,9 @@ import * as React from "react";
 import { useState, useContext } from "react";
 import { Navigate } from "react-router-dom";
 
+import { LocalStorage, LocalStorageRemove } from "../Functions/LocalStorage";
+import { AddFiveComponent } from "../Functions/LocalStorage";
+
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -18,6 +21,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import { UserContext } from "../UserContext";
 import toast from "react-hot-toast";
+import { getLinearProgressUtilityClass } from "@mui/material";
 
 function Copyright(props) {
   return (
@@ -60,8 +64,10 @@ export default function SignIn() {
 
       if (data.status === 200) {
         const userInfo = await data.json();
-        console.log("userInfo:", userInfo);
-        setUserInfo(userInfo);
+        LocalStorageRemove();
+        console.log("Login userInfo:", userInfo);
+        LocalStorage({ userInfo: userInfo });
+
         toast.success("You are logged in!");
         // ログインが成功した場合、ホームページにリダイレクト
         setRedirect(true);

@@ -1,5 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { UserContext } from "../UserContext";
+import { Favorite } from "../Functions/Favorite";
 
 import {
   Box,
@@ -17,20 +18,65 @@ import MessageIcon from "@mui/icons-material/Message";
 import TurnedInNotIcon from "@mui/icons-material/TurnedInNot";
 import { Link } from "react-router-dom";
 
-export const AuthorInfo = ({ ...props }) => {
+export const AuthorInfo = ({ postInfo, favorite, userName, userId, _id }) => {
   const [isFollowing, setIsFollowing] = useState("false");
   const [isBookMarked, setIsBookMarked] = useState("false");
-  const { userInfo } = useContext(UserContext);
+  const { setUserInfo, userInfo } = useContext(UserContext);
+  const [authorInfo, setAuthorInfo] = useState(null); // 投稿者の情報を保持
 
-  console.log("userInfo:", userInfo);
+  const comments = postInfo.comments;
+  const favoriteCount = postInfo.favoriteCount;
 
   function stringAvatar(name) {
     return {
       children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
     };
   }
-  const avatarFirstName = props.postInfo.author.firstName;
-  const avatarLastName = props.postInfo.author.lastName;
+  // const avatarFirstName = props.postInfo.author.firstName;
+  // const avatarLastName = props.postInfo.author.lastName;
+
+  useEffect(() => {
+    // if (Object.keys(userInfo).length > 0) {
+    //   console.log("userInfo true:", userInfo);
+    //   fetch("http://localhost:4000/favorites", {
+    //     credentials: "include",
+    //   })
+    //     .then((res) => res.json())
+    //     .then((favorites) => {
+    //       setFavorites(favorites);
+    //     })
+    //     .catch((error) => {
+    //       console.error("Error fetching favorites:", error);
+    //     });
+    // } else {
+    //   console.log("userInfo false:", userInfo);
+    //   setFavorites("");
+    // }
+
+    // ポスト投稿者の情報を取得する関数
+    const fetchAuthorInfo = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:4000/user/${postInfo.author._id}`
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        setAuthorInfo(data); // 投稿者の情報をセット
+      } catch (error) {
+        console.error("Error fetching author info:", error);
+      }
+    };
+
+    fetchAuthorInfo();
+  }, [postInfo.author._id]);
+
+  if (!authorInfo) {
+    return null; // データがロードされるまでnullを返す
+  }
+
+  const { firstName, lastName, followers, userIcon } = authorInfo;
 
   return (
     <>
@@ -68,8 +114,8 @@ export const AuthorInfo = ({ ...props }) => {
           >
             <Link to={`/`}>
               <Avatar
-                {...stringAvatar(`${avatarFirstName} ${avatarLastName}`)}
-                src="/static/images/avatar/1.jpg"
+                {...stringAvatar(`${firstName} ${lastName}`)}
+                src={userIcon}
                 sx={{ width: 80, height: 80 }}
               />
             </Link>
@@ -101,9 +147,8 @@ export const AuthorInfo = ({ ...props }) => {
                     lineHeight: "12px",
                   }}
                 >
-                  {avatarFirstName} {avatarLastName}
+                  {firstName} {lastName}
                 </Typography>
-                <Typography></Typography>
               </Box>
             </Link>
             <Box mt={2}>
@@ -114,7 +159,7 @@ export const AuthorInfo = ({ ...props }) => {
                   fontSize: "15px",
                 }}
               >
-                Follower: {"120"}
+                Follower: {followers}
               </Typography>
             </Box>
 
@@ -152,7 +197,7 @@ export const AuthorInfo = ({ ...props }) => {
               >
                 <Box sx={{ display: "flex", justifyContent: "center" }}>
                   <ChatBubbleOutlineIcon />
-                  <Typography>2</Typography>
+                  <Typography>{comments.length}</Typography>
                 </Box>
               </IconButton>
 
@@ -160,17 +205,33 @@ export const AuthorInfo = ({ ...props }) => {
                 size="small"
                 sx={{ borderRadius: 1.5, width: "50px" }}
               >
-                {isBookMarked ? (
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Favorite
+                    favorite={favorite}
+                    userName={userName}
+                    userId={userId}
+                    _id={_id}
+                  />
+                  <Typography>{favoriteCount}</Typography>
+                </Box>
+
+                {/* {isBookMarked ? (
                   <Box sx={{ display: "flex", justifyContent: "center" }}>
                     <TurnedInNotIcon />
-                    <Typography>20</Typography>
+                    <Typography>{favoriteCount}</Typography>
                   </Box>
                 ) : (
                   <Box sx={{ mt: 2, display: "flex" }}>
                     <BookmarkAddedIcon />
                     <Typography>Following</Typography>
                   </Box>
-                )}
+                )} */}
               </IconButton>
             </Box>
           </Box>

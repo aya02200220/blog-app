@@ -14,37 +14,27 @@ const IndexPage = () => {
   const [favorites, setFavorites] = useState([]);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  // useEffect(() => {
-  //   setLoading(true); // ローディングを表示
-
-  //   fetch("http://localhost:4000/post")
-  //     .then((res) => res.json())
-  //     .then((posts) => {
-  //       setPosts(posts);
-  //       setLoading(false); // ローディングを非表示
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching posts:", error);
-  //       setLoading(false); // ローディングを非表示
-  //     });
-
-  //   // console.log("userInfo", userInfo);
-  // }, [userInfo]);
+  const loggedInUser = localStorage.getItem("userInfo");
 
   useEffect(() => {
     setLoading(true); // ローディングを表示
 
-    fetch("http://localhost:4000/favorites", {
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then((favorites) => {
-        setFavorites(favorites);
+    if (loggedInUser) {
+      console.log("userInfo true:", loggedInUser.firstName);
+      fetch("http://localhost:4000/favorites", {
+        credentials: "include",
       })
-      .catch((error) => {
-        console.error("Error fetching favorites:", error);
-      });
+        .then((res) => res.json())
+        .then((favorites) => {
+          setFavorites(favorites);
+        })
+        .catch((error) => {
+          console.error("Error fetching favorites:", error);
+        });
+    } else {
+      console.log("userInfo false:", loggedInUser);
+      setFavorites("");
+    }
 
     fetch("http://localhost:4000/post")
       .then((res) => res.json())
@@ -92,6 +82,7 @@ const IndexPage = () => {
               <Typography variant="body1">No Post yet</Typography>
             ) : (
               posts.map((post) => {
+                console.log("post", post);
                 const isFavorite =
                   favorites &&
                   Array.isArray(favorites) &&

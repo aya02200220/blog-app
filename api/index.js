@@ -20,14 +20,12 @@ app.use(express.json());
 app.use(cookieParser());
 app.use("/uploads", express.static(__dirname + "/uploads"));
 
-// mongoose.connect(
-//   "mongodb+srv://blog-app:blog-app123@cluster0.nv5qviq.mongodb.net/?retryWrites=true&w=majority"
-// );
 mongoose.connect(
-  "mongodb+srv://blog-app:" +
-    encodeURIComponent("blog-app123") +
-    "@cluster0.nv5qviq.mongodb.net/blog-app?retryWrites=true&w=majority"
+  "mongodb+srv://blog-app:blog-app123@cluster0.nv5qviq.mongodb.net/?retryWrites=true&w=majority"
 );
+// mongoose.connect(
+//   "mongodb+srv://blog-app:blog-app123@cluster0.nv5qviq.mongodb.net/"
+// );
 
 const salt = bcrypt.genSaltSync(10);
 const secret = "f834rfnjefn934rhfeuifn34fj";
@@ -145,7 +143,8 @@ app.get("/profile", (req, res) => {
 });
 
 app.post("/logout", (req, res) => {
-  res.cookie("token", "").json("ok");
+  // res.cookie("token", "").json("ok");
+  res.clearCookie("token").json("ok");
 });
 
 app.post("/post", uploadMiddleware.single("file"), async (req, res) => {
@@ -311,6 +310,7 @@ app.get("/favorites", async (req, res) => {
         const user = await User.findById(info.id).populate("favorites");
         const favorites = user.favorites;
         res.status(200).json(favorites);
+        console.log("Server favorites", favorites);
       } catch (error) {
         console.error(error);
         res.status(500).json({ message: "サーバーエラーが発生しました" });
@@ -342,6 +342,25 @@ app.delete("/favorites/:postId", async (req, res) => {
       }
     }
   });
+});
+
+//////////////////////////////////////////////////////////////////////
+app.get("/user/:userId", async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const userInfo = await User.findById(userId);
+    if (!userInfo) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // 必要なユーザー情報を返す
+    const { firstName, lastName, followers, userIcon } = userInfo;
+    res.json({ firstName, lastName, followers, userIcon });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
 app.listen(4000, () => {});

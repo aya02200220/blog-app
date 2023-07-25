@@ -25,6 +25,7 @@ const LoginPage = () => {
     if (data.status === 200) {
       data.json().then((userInfo) => {
         setUserInfo(userInfo);
+        localStorage.setItem("userInfo", userInfo);
       });
       setRedirect(true);
       toast.success("You are logged in!");

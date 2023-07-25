@@ -41,6 +41,7 @@ export default function Hamburger({ userName }) {
       method: "POST",
     });
     setUserInfo(null);
+    localStorage.clear();
     setIsOpen({ ...isOpen, right: false }); // ログアウト後にメニューを閉じる
     toast.success("You are logged out!");
   }

@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-
 import { Favorite } from "./Functions/Favorite";
 
 import toast from "react-hot-toast";
-
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 import cx from "clsx";
@@ -18,10 +16,9 @@ import Share from "@material-ui/icons/Share";
 
 import { UserContext } from "./UserContext";
 
-export const Post3 = React.memo(function PostCard({
+export const Post = React.memo(function PostCard({
   _id,
   title,
-  summary,
   cover,
   content,
   createdAt,
@@ -35,7 +32,7 @@ export const Post3 = React.memo(function PostCard({
   const userId = userInfo?.id;
 
   useEffect(() => {
-    setIsFavorite(favorite);
+    setIsFavorite(createdAt);
   }, [favorite]);
 
   // const handleFavoriteClick = (postId) => {
@@ -177,6 +174,7 @@ export const Post3 = React.memo(function PostCard({
                   }}
                 >
                   <Typography fontSize={"14px"}>
+                    {/* {author?.firstName} {author?.lastName} */}
                     {author.firstName} {author.lastName}
                   </Typography>
                   <Typography fontSize={"14px"}>
@@ -236,13 +234,14 @@ export const Post3 = React.memo(function PostCard({
               >
                 {isFavorite ? <BookmarkIcon /> : <BookmarkBorderIcon />}
               </IconButton> */}
-
-              <Favorite
-                favorite={favorite}
-                userName={userName}
-                userId={userId}
-                _id={_id}
-              />
+              <IconButton size="small">
+                <Favorite
+                  favorite={favorite}
+                  userName={userName}
+                  userId={userId}
+                  _id={_id}
+                />
+              </IconButton>
             </Box>
           </Box>
         </Link>
@@ -251,4 +250,4 @@ export const Post3 = React.memo(function PostCard({
   );
 });
 
-export default Post3;
+export default Post;

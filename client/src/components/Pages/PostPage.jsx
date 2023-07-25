@@ -15,6 +15,8 @@ import { AuthorInfo } from "./AuthorInfo";
 const PostPage = () => {
   const [loading, setLoading] = useState(true);
   const [postInfo, setPostInfo] = useState(null);
+  const [favorite, setFavorite] = useState(null);
+
   const { userInfo } = useContext(UserContext);
   const { id } = useParams();
 
@@ -25,11 +27,24 @@ const PostPage = () => {
       res.json().then((postInfo) => {
         setPostInfo(postInfo);
         setLoading(false);
+
+        const favoriteIds = userInfo ? Object.keys(userInfo).length > 0 : false;
+
+        if (favoriteIds) {
+          setFavorite(isFavorite(postInfo._id));
+          console.log("postInfo._id:", postInfo._id);
+        }
       });
     });
   }, []);
 
-  console.log("postInfo", postInfo);
+  // console.log("postInfo", postInfo);
+  console.log("userInfo", userInfo);
+
+  // ログイン中のユーザーがお気に入りに入れているかを判定する関数
+  const isFavorite = (postId) => {
+    return userInfo.favorites.includes(postId);
+  };
 
   if (!postInfo) return "";
   return (
@@ -54,7 +69,7 @@ const PostPage = () => {
               position: "relative",
             }}
           >
-            <Link to={`/`}>
+            {/* <Link to={`/`}>
               <IconButton
                 variant="outlined"
                 sx={{
@@ -71,9 +86,15 @@ const PostPage = () => {
                 <ArrowBackIcon icon={faPenToSquare} />
                 BACK
               </IconButton>
-            </Link>
+            </Link> */}
             <Box>
-              <AuthorInfo postInfo={postInfo} />
+              <AuthorInfo
+                postInfo={postInfo}
+                favorite={favorite}
+                // userName={userName}
+                // userId={userId}
+                // _id={_id}
+              />
             </Box>
             <div>
               <Box

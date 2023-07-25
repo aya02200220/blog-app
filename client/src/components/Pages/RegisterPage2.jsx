@@ -78,6 +78,7 @@ export default function SignUp() {
         console.log("data:", data);
         console.log("userinfo:", userInfo);
         setUserInfo(userInfo);
+        localStorage.setItem("userInfo", userInfo);
       });
       setIsRegistered(true);
       // toast.success("You are logged in!");

@@ -1,5 +1,7 @@
 import * as React from "react";
 import Hamburger from "./Hamburger";
+import { LocalStorage, LocalStorageRemove } from "./Functions/LocalStorage";
+
 import { SearchWindow } from "./SearchWindow";
 
 // import styles from "../styles/main.module.scss";
@@ -72,6 +74,18 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 
 export default function Header() {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  // const [userInfoString, setUserInfoString] = useState(null);
+
+  // let userInfoString = [];
+  const [userInfoString, setUserInfoString] = useState([]);
+  // const [firstName, setFirstName] = useState(userInfoString?.firstName);
+  // const [lastName, setLastName] = useState(userInfoString?.lastName);
+  // const [userName, setUserName] = useState(userInfoString?.email);
+
+  const [firstName, setFirstName] = useState(null);
+  const [lastName, setLastName] = useState(null);
+  const [userName, setUserName] = useState(null);
+
   const navigate = useNavigate();
   // const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -79,35 +93,60 @@ export default function Header() {
   // const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const { setUserInfo, userInfo } = useContext(UserContext);
-  const firstName = userInfo?.firstName;
-  const lastName = userInfo?.lastName;
-  const userName = userInfo?.email;
+  // const firstName = userInfo?.firstName;
+  // const lastName = userInfo?.lastName;
+  // const userName = userInfo?.email;
+
+  // LocalStorageRemove();
+  // setUserInfoString([]);
+
+  if (userInfoString) {
+    console.log(
+      "userInfoStringのオブジェクト要素数:",
+      Object.keys(userInfoString).length
+    );
+  }
+  console.log(userInfoString);
+  console.log("firstName:", userInfoString?.firstName, firstName);
+  console.log("lastName:", userInfoString?.lastName, lastName);
+  console.log("userName email:", userInfoString?.email, userName);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  // const handleMobileMenuClose = () => {
-  //   setMobileMoreAnchorEl(null);
-  // };
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
 
   const handleMenuClose = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
   };
 
-  // const handleMobileMenuOpen = (event) => {
-  //   setMobileMoreAnchorEl(event.currentTarget);
-  // };
+  const handleMobileMenuOpen = (event) => {
+    setMobileMoreAnchorEl(event.currentTarget);
+  };
 
   useEffect(() => {
-    fetch("http://localhost:4000/profile", {
-      credentials: "include",
-    }).then((response) => {
-      response.json().then((userInfo) => {
-        setUserInfo(userInfo);
+    // LocalStorageからuserInfoを取得し、setStateで値を更新する
+    const storedUserInfo = JSON.parse(localStorage.getItem("userInfo"));
+    setUserInfoString(storedUserInfo);
+    setFirstName(storedUserInfo?.firstName);
+    setLastName(storedUserInfo?.lastName);
+    setUserName(storedUserInfo?.email);
+
+    if (userName) {
+      fetch("http://localhost:4000/profile", {
+        credentials: "include",
+      }).then((response) => {
+        response.json().then((userInfo) => {
+          LocalStorage({ userInfo: userInfo });
+          // setUserInfo(userInfo);
+          // localStorage.setItem("userInfo", userInfo);
+        });
       });
-    });
+    }
   }, []);
 
   async function logout() {
@@ -115,9 +154,11 @@ export default function Header() {
       credentials: "include",
       method: "POST",
     });
-    setUserInfo(null);
+    setUserInfoString([]);
+    LocalStorageRemove();
     navigate("/");
     toast.success("You are logged out!");
+    console.log("Remove userInfoString:", userInfoString);
   }
 
   const menuId = "primary-search-account-menu";
