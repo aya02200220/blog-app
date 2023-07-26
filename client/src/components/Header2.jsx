@@ -32,51 +32,9 @@ import BorderColorIcon from "@mui/icons-material/BorderColor";
 
 import MoreIcon from "@mui/icons-material/MoreVert";
 
-// const Search = styled("div")(({ theme }) => ({
-//   position: "relative",
-//   borderRadius: theme.shape.borderRadius,
-//   backgroundColor: alpha(theme.palette.common.white, 0.15),
-//   "&:hover": {
-//     backgroundColor: alpha(theme.palette.common.white, 0.25),
-//   },
-//   marginRight: theme.spacing(2),
-//   marginLeft: 0,
-//   width: "100%",
-//   [theme.breakpoints.up("sm")]: {
-//     marginLeft: theme.spacing(3),
-//     width: "auto",
-//   },
-// }));
-
-// const SearchIconWrapper = styled("div")(({ theme }) => ({
-//   padding: theme.spacing(0, 2),
-//   height: "100%",
-//   position: "absolute",
-//   pointerEvents: "none",
-//   display: "flex",
-//   alignItems: "center",
-//   justifyContent: "center",
-// }));
-
-// const StyledInputBase = styled(InputBase)(({ theme }) => ({
-//   color: "inherit",
-//   "& .MuiInputBase-input": {
-//     padding: theme.spacing(1, 1, 1, 0),
-//     // vertical padding + font size from searchIcon
-//     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-//     transition: theme.transitions.create("width"),
-//     width: "100%",
-//     [theme.breakpoints.up("md")]: {
-//       width: "20ch",
-//     },
-//   },
-// }));
-
 export default function Header() {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  // const [userInfoString, setUserInfoString] = useState(null);
 
-  // let userInfoString = [];
   const [userInfoString, setUserInfoString] = useState([]);
   // const [firstName, setFirstName] = useState(userInfoString?.firstName);
   // const [lastName, setLastName] = useState(userInfoString?.lastName);
@@ -87,29 +45,22 @@ export default function Header() {
   const [userName, setUserName] = useState(null);
 
   const navigate = useNavigate();
-  // const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
   // const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const { setUserInfo, userInfo } = useContext(UserContext);
-  // const firstName = userInfo?.firstName;
-  // const lastName = userInfo?.lastName;
-  // const userName = userInfo?.email;
 
-  // LocalStorageRemove();
-  // setUserInfoString([]);
-
-  if (userInfoString) {
-    console.log(
-      "userInfoStringのオブジェクト要素数:",
-      Object.keys(userInfoString).length
-    );
-  }
-  console.log(userInfoString);
-  console.log("firstName:", userInfoString?.firstName, firstName);
-  console.log("lastName:", userInfoString?.lastName, lastName);
-  console.log("userName email:", userInfoString?.email, userName);
+  // if (userInfoString) {
+  //   console.log(
+  //     "userInfoStringのオブジェクト要素数:",
+  //     Object.keys(userInfoString).length
+  //   );
+  // }
+  // console.log(userInfoString);
+  // console.log("firstName:", userInfoString?.firstName, firstName);
+  // console.log("lastName:", userInfoString?.lastName, lastName);
+  // console.log("userName email:", userInfoString?.email, userName);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -150,15 +101,23 @@ export default function Header() {
   }, []);
 
   async function logout() {
-    await fetch("http://localhost:4000/logout", {
+    const response = await fetch("http://localhost:4000/logout", {
       credentials: "include",
       method: "POST",
     });
-    setUserInfoString([]);
-    LocalStorageRemove();
-    navigate("/");
-    toast.success("You are logged out!");
-    console.log("Remove userInfoString:", userInfoString);
+
+    if (response.ok) {
+      setUserInfoString([]);
+      setFirstName(null);
+      setLastName(null);
+      setUserName(null);
+      LocalStorageRemove();
+      navigate("/");
+      toast.success("You are logged out!");
+      console.log("Remove userInfoString:", userInfoString);
+    } else {
+      toast.error("Logout failed!");
+    }
   }
 
   const menuId = "primary-search-account-menu";
