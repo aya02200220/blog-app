@@ -5,75 +5,63 @@ import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 
-// import Post from "../Post";
 import Post from "../Post2";
-// import Post from "../Post3";
 
 const IndexPage = () => {
-  const { setUserInfo, userInfo } = useContext(UserContext);
-
   const [favorites, setFavorites] = useState([]);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const [userInfoString, setUserInfoString] = useState([]);
+  const { setUserInfo, userInfo } = useContext(UserContext);
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
   const [userName, setUserName] = useState(null);
 
-  const storedUserInfo = JSON.parse(localStorage.getItem("userInfo"));
-
-  if (userInfoString) {
+  if (userInfo) {
     console.log(
       "userInfoStringのオブジェクト要素数:",
-      Object.keys(userInfoString).length
+      Object.keys(userInfo).length
     );
   }
-  console.log(storedUserInfo);
-  console.log("firstName:", userInfoString?.firstName, firstName);
-  console.log("lastName:", userInfoString?.lastName, lastName);
-  console.log("userName email:", userInfoString?.email, userName);
+  console.log("firstName:", firstName);
+  console.log("lastName:", lastName);
+  console.log("userName email:", userName);
 
   useEffect(() => {
-    setLoading(true); // ローディングを表示
-
-    console.log("Index page loggedInUser:", userInfoString === null);
-    // LocalStorageからuserInfoを取得し、setStateで値を更新する
-    const storedUserInfo = JSON.parse(localStorage.getItem("userInfo"));
-    setUserInfoString(storedUserInfo);
-    setFirstName(storedUserInfo?.firstName);
-    setLastName(storedUserInfo?.lastName);
-    setUserName(storedUserInfo?.email);
-
-    if (userName) {
-      fetch("http://localhost:4000/favorites", {
-        credentials: "include",
-      })
-        .then((res) => res.json())
-        .then((favorites) => {
-          setFavorites(favorites);
-        })
-        .catch((error) => {
-          console.error("Error fetching favorites:", error);
-        });
-    } else {
-      console.log("userInfo false:", userName);
-      setFavorites("");
+    const userInfoString = localStorage.getItem("userInfo");
+    if (userInfoString) {
+      const userInfoObj = JSON.parse(userInfoString);
+      // setUserInfo(userInfoObj);
+      setFirstName(userInfoObj.firstName);
+      setLastName(userInfoObj.lastName);
+      setUserName(userInfoObj.email);
     }
+  }, []);
 
-    fetch("http://localhost:4000/post")
-      .then((res) => res.json())
-      .then((posts) => {
-        setPosts(posts);
-        setLoading(false); // ローディングを非表示
-      })
-      .catch((error) => {
-        console.error("Error fetching posts:", error);
-        setLoading(false); // ローディングを非表示
-      });
+  useEffect(() => {
+    const fetchData = async () => {
+      const userInfoString = localStorage.getItem("userInfo");
+      if (userInfoString) {
+        const userInfoObj = JSON.parse(userInfoString);
+        setUserName(userInfoObj.email);
 
-    console.log("userInfo", userInfo);
-  }, [userInfo]);
+        if (userInfoObj.email) {
+          const response = await fetch("http://localhost:4000/favorites", {
+            credentials: "include",
+          });
+          const favoritesData = await response.json();
+          setFavorites(favoritesData);
+        }
+      }
+
+      const postsResponse = await fetch("http://localhost:4000/post");
+      const postsData = await postsResponse.json();
+      setPosts(postsData);
+      setLoading(false); // Only set loading to false once both requests have finished
+    };
+
+    fetchData();
+  }, [userName, userInfo]);
 
   return (
     <>

@@ -36,28 +36,23 @@ export default function Header() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const navigate = useNavigate();
 
-  const [storedUserInfo, setStoredUserInfo] = useState(
-    JSON.parse(localStorage.getItem("userInfo"))
-  );
-
-  const [userInfoString, setUserInfoString] = useState(null);
-
   const { setUserInfo, userInfo } = useContext(UserContext);
+  const [userInfoString, setUserInfoString] = useState(null);
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
   const [userName, setUserName] = useState(null);
 
-  if (userInfoString) {
-    console.log(
-      "userInfoStringのオブジェクト要素数:",
-      Object.keys(userInfoString).length
-    );
-  }
-  console.log("userName", userName);
-  console.log(userInfoString);
-  console.log("firstName:", userInfoString?.firstName, firstName);
-  console.log("lastName:", userInfoString?.lastName, lastName);
-  console.log("userName email:", userInfoString?.email, userName);
+  // if (userInfoString) {
+  //   console.log(
+  //     "userInfoStringのオブジェクト要素数:",
+  //     Object.keys(userInfoString).length
+  //   );
+  // }
+  // console.log("userName", userName);
+  // console.log(userInfoString);
+  // console.log("firstName:", userInfoString?.firstName, firstName);
+  // console.log("lastName:", userInfoString?.lastName, lastName);
+  // console.log("userName email:", userInfoString?.email, userName);
 
   const isMenuOpen = Boolean(anchorEl);
   const handleProfileMenuOpen = (event) => {
@@ -110,12 +105,13 @@ export default function Header() {
     });
 
     if (response.ok) {
-      setUserInfoString([]);
       setFirstName(null);
       setLastName(null);
       setUserName(null);
       LocalStorageRemove();
-      navigate("/");
+
+      navigate("/temp");
+      setTimeout(() => navigate("/"), 0);
       toast.success("You are logged out!");
       console.log("Remove userInfoString:", userInfoString);
     } else {
