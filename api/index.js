@@ -23,9 +23,6 @@ app.use("/uploads", express.static(__dirname + "/uploads"));
 mongoose.connect(
   "mongodb+srv://blog-app:blog-app123@cluster0.nv5qviq.mongodb.net/?retryWrites=true&w=majority"
 );
-// mongoose.connect(
-//   "mongodb+srv://blog-app:blog-app123@cluster0.nv5qviq.mongodb.net/"
-// );
 
 const salt = bcrypt.genSaltSync(10);
 const secret = "f834rfnjefn934rhfeuifn34fj";

@@ -12,15 +12,16 @@ import Post from "../Post2";
 const IndexPage = () => {
   const { setUserInfo, userInfo } = useContext(UserContext);
 
-  const [userInfoString, setUserInfoString] = useState([]);
-  const [firstName, setFirstName] = useState(userInfoString?.firstName);
-  const [lastName, setLastName] = useState(userInfoString?.lastName);
-  const [userName, setUserName] = useState(userInfoString?.email);
-
   const [favorites, setFavorites] = useState([]);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const loggedInUser = localStorage.getItem("userInfo");
+
+  const [userInfoString, setUserInfoString] = useState([]);
+  const [firstName, setFirstName] = useState(null);
+  const [lastName, setLastName] = useState(null);
+  const [userName, setUserName] = useState(null);
+
+  const storedUserInfo = JSON.parse(localStorage.getItem("userInfo"));
 
   if (userInfoString) {
     console.log(
@@ -28,7 +29,7 @@ const IndexPage = () => {
       Object.keys(userInfoString).length
     );
   }
-  console.log(userInfoString);
+  console.log(storedUserInfo);
   console.log("firstName:", userInfoString?.firstName, firstName);
   console.log("lastName:", userInfoString?.lastName, lastName);
   console.log("userName email:", userInfoString?.email, userName);
@@ -36,8 +37,15 @@ const IndexPage = () => {
   useEffect(() => {
     setLoading(true); // ローディングを表示
 
-    if (loggedInUser) {
-      console.log("userInfo true:", loggedInUser.firstName);
+    console.log("Index page loggedInUser:", userInfoString === null);
+    // LocalStorageからuserInfoを取得し、setStateで値を更新する
+    const storedUserInfo = JSON.parse(localStorage.getItem("userInfo"));
+    setUserInfoString(storedUserInfo);
+    setFirstName(storedUserInfo?.firstName);
+    setLastName(storedUserInfo?.lastName);
+    setUserName(storedUserInfo?.email);
+
+    if (userName) {
       fetch("http://localhost:4000/favorites", {
         credentials: "include",
       })
@@ -49,7 +57,7 @@ const IndexPage = () => {
           console.error("Error fetching favorites:", error);
         });
     } else {
-      console.log("userInfo false:", loggedInUser);
+      console.log("userInfo false:", userName);
       setFavorites("");
     }
 

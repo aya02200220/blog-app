@@ -34,34 +34,32 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 
 export default function Header() {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const navigate = useNavigate();
 
-  const [userInfoString, setUserInfoString] = useState([]);
-  // const [firstName, setFirstName] = useState(userInfoString?.firstName);
-  // const [lastName, setLastName] = useState(userInfoString?.lastName);
-  // const [userName, setUserName] = useState(userInfoString?.email);
+  const [storedUserInfo, setStoredUserInfo] = useState(
+    JSON.parse(localStorage.getItem("userInfo"))
+  );
 
+  const [userInfoString, setUserInfoString] = useState(null);
+
+  const { setUserInfo, userInfo } = useContext(UserContext);
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
   const [userName, setUserName] = useState(null);
 
-  const navigate = useNavigate();
+  if (userInfoString) {
+    console.log(
+      "userInfoStringのオブジェクト要素数:",
+      Object.keys(userInfoString).length
+    );
+  }
+  console.log("userName", userName);
+  console.log(userInfoString);
+  console.log("firstName:", userInfoString?.firstName, firstName);
+  console.log("lastName:", userInfoString?.lastName, lastName);
+  console.log("userName email:", userInfoString?.email, userName);
 
   const isMenuOpen = Boolean(anchorEl);
-  // const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  const { setUserInfo, userInfo } = useContext(UserContext);
-
-  // if (userInfoString) {
-  //   console.log(
-  //     "userInfoStringのオブジェクト要素数:",
-  //     Object.keys(userInfoString).length
-  //   );
-  // }
-  // console.log(userInfoString);
-  // console.log("firstName:", userInfoString?.firstName, firstName);
-  // console.log("lastName:", userInfoString?.lastName, lastName);
-  // console.log("userName email:", userInfoString?.email, userName);
-
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -80,25 +78,30 @@ export default function Header() {
   };
 
   useEffect(() => {
-    // LocalStorageからuserInfoを取得し、setStateで値を更新する
-    const storedUserInfo = JSON.parse(localStorage.getItem("userInfo"));
-    setUserInfoString(storedUserInfo);
-    setFirstName(storedUserInfo?.firstName);
-    setLastName(storedUserInfo?.lastName);
-    setUserName(storedUserInfo?.email);
+    const userInfoString = localStorage.getItem("userInfo");
+    if (userInfoString) {
+      const userInfoObj = JSON.parse(userInfoString);
+      // setUserInfo(userInfoObj);
+      setFirstName(userInfoObj.firstName);
+      setLastName(userInfoObj.lastName);
+      setUserName(userInfoObj.email);
+    }
+  }, [userInfo]);
 
+  useEffect(() => {
     if (userName) {
+      // ログイン処理が完了している場合にユーザー情報を取得
       fetch("http://localhost:4000/profile", {
         credentials: "include",
       }).then((response) => {
-        response.json().then((userInfo) => {
-          LocalStorage({ userInfo: userInfo });
-          // setUserInfo(userInfo);
-          // localStorage.setItem("userInfo", userInfo);
-        });
+        if (response.ok) {
+          response.json().then((userInfo) => {
+            setUserInfo(userInfo);
+          });
+        }
       });
     }
-  }, []);
+  }, [userName]);
 
   async function logout() {
     const response = await fetch("http://localhost:4000/logout", {
@@ -318,25 +321,6 @@ export default function Header() {
               </IconButton>
             )}
             <Box sx={{ display: { xs: "none", md: "flex" } }}>
-              {/* <IconButton
-              size="large"
-              aria-label="show 4 new mails"
-              color="4e575f"
-            >
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton> */}
-              {/* <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="4e575f"
-            >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton> */}
-
               {userName && (
                 <>
                   <NavLink to={"/create"}>

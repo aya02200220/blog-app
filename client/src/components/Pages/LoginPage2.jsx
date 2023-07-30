@@ -67,6 +67,7 @@ export default function SignIn() {
         LocalStorageRemove();
         console.log("Login userInfo:", userInfo);
         LocalStorage({ userInfo: userInfo });
+        setUserInfo(userInfo);
 
         toast.success("You are logged in!");
         // ログインが成功した場合、ホームページにリダイレクト
