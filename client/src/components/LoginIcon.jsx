@@ -10,6 +10,7 @@ export const LoginIcon = (props) => {
         borderRadius: "50px",
         fontSize: "15px",
         font: "#fff",
+        marginRight: "5px",
       }}
       className={styles.loginIcon}
     >

@@ -24,9 +24,107 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import HomeIcon from "@mui/icons-material/Home";
 
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
+
+export const SideMenu = () => {
+  const userName = "Aya";
+  return (
+    <Box
+      sx={{
+        position: "fixed",
+        pt: "80px",
+        width: "250px",
+        height: "100vh",
+        backgroundColor: "#0e4f62",
+        zIndex: "1",
+        color: "#fff",
+      }}
+    >
+      <Box>
+        <List>
+          <NavLink to={"/"}>
+            <ListItem disablePadding sx={{ marginBottom: "8px" }}>
+              <ListItemButton>
+                <ListItemIcon>
+                  <HomeIcon sx={{ marginLeft: "18px", color: "#fff" }} />
+                </ListItemIcon>
+                <ListItemText primary={"Home"} />
+              </ListItemButton>
+            </ListItem>
+          </NavLink>
+
+          <NavLink to={userName ? "/create" : "/login"}>
+            <ListItem disablePadding sx={{ marginBottom: "8px" }}>
+              <ListItemButton>
+                <ListItemIcon>
+                  <BorderColorIcon
+                    color="4e575f"
+                    sx={{ marginLeft: "18px", color: "#fff" }}
+                  />
+                </ListItemIcon>
+                <ListItemText primary={"Create Post"} />
+              </ListItemButton>
+            </ListItem>
+          </NavLink>
+
+          {userName && (
+            <>
+              <NavLink to={"/favorites"}>
+                <ListItem disablePadding sx={{ marginBottom: "8px" }}>
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <BookmarkIcon
+                        color="4e575f"
+                        sx={{ marginLeft: "18px", color: "#fff" }}
+                      />
+                    </ListItemIcon>
+                    <ListItemText primary={"Bookmark"} />
+                  </ListItemButton>
+                </ListItem>
+              </NavLink>
+
+              <NavLink to={"/yourposts"}>
+                <ListItem disablePadding sx={{ marginBottom: "8px" }}>
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <ArticleIcon
+                        color="4e575f"
+                        sx={{ marginLeft: "18px", color: "#fff" }}
+                      />
+                    </ListItemIcon>
+                    <ListItemText primary={"Your Posts"} />
+                  </ListItemButton>
+                </ListItem>
+              </NavLink>
+            </>
+          )}
+        </List>
+
+        <Divider />
+        {userName && (
+          <List>
+            <NavLink to={"/favorite"}>
+              <ListItem disablePadding sx={{ marginBottom: "8px" }}>
+                <ListItemButton>
+                  <ListItemIcon>
+                    <PersonOutlineIcon
+                      color="4e575f"
+                      sx={{ marginLeft: "18px", color: "#fff" }}
+                    />
+                  </ListItemIcon>
+                  <ListItemText primary={"Account Settings"} />
+                </ListItemButton>
+              </ListItem>
+            </NavLink>
+          </List>
+        )}
+      </Box>
+    </Box>
+  );
+};
 
 export default function Hamburger({ userName }) {
   const { setUserInfo, userInfo } = useContext(UserContext);
@@ -67,10 +165,13 @@ export default function Hamburger({ userName }) {
       >
         <List>
           <NavLink to={userName ? "/create" : "/login"}>
-            <ListItem disablePadding sx={{ marginBottom: "4px" }}>
+            <ListItem disablePadding sx={{ marginBottom: "8px" }}>
               <ListItemButton>
                 <ListItemIcon>
-                  <BorderColorIcon color="4e575f" sx={{ marginLeft: "10px" }} />
+                  <BorderColorIcon
+                    color="4e575f"
+                    sx={{ marginLeft: "18px", color: "#fff" }}
+                  />
                 </ListItemIcon>
                 <ListItemText primary={"Create Post"} />
               </ListItemButton>
@@ -80,12 +181,12 @@ export default function Hamburger({ userName }) {
           {userName && (
             <>
               <NavLink to={"/favorites"}>
-                <ListItem disablePadding sx={{ marginBottom: "4px" }}>
+                <ListItem disablePadding sx={{ marginBottom: "8px" }}>
                   <ListItemButton>
                     <ListItemIcon>
                       <BookmarkIcon
                         color="4e575f"
-                        sx={{ marginLeft: "10px" }}
+                        sx={{ marginLeft: "18px", color: "#fff" }}
                       />
                     </ListItemIcon>
                     <ListItemText primary={"Bookmark"} />
@@ -94,10 +195,13 @@ export default function Hamburger({ userName }) {
               </NavLink>
 
               <NavLink to={"/yourposts"}>
-                <ListItem disablePadding sx={{ marginBottom: "4px" }}>
+                <ListItem disablePadding sx={{ marginBottom: "8px" }}>
                   <ListItemButton>
                     <ListItemIcon>
-                      <ArticleIcon color="4e575f" sx={{ marginLeft: "10px" }} />
+                      <ArticleIcon
+                        color="4e575f"
+                        sx={{ marginLeft: "18px", color: "#fff" }}
+                      />
                     </ListItemIcon>
                     <ListItemText primary={"Your Posts"} />
                   </ListItemButton>
@@ -111,12 +215,12 @@ export default function Hamburger({ userName }) {
         {userName && (
           <List>
             <NavLink to={"/favorite"}>
-              <ListItem disablePadding sx={{ marginBottom: "4px" }}>
+              <ListItem disablePadding sx={{ marginBottom: "8px" }}>
                 <ListItemButton>
                   <ListItemIcon>
                     <PersonOutlineIcon
                       color="4e575f"
-                      sx={{ marginLeft: "10px" }}
+                      sx={{ marginLeft: "18px", color: "#fff" }}
                     />
                   </ListItemIcon>
                   <ListItemText primary={"Account Settings"} />

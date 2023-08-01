@@ -13,24 +13,25 @@ import { UserContext } from "./UserContext";
 import toast from "react-hot-toast";
 
 import { styled, alpha } from "@mui/material/styles";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import InputBase from "@mui/material/InputBase";
-import Badge from "@mui/material/Badge";
-import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  MenuItem,
+  Menu,
+} from "@mui/material";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
+
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import { LoginIcon } from "./LoginIcon";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import BorderColorIcon from "@mui/icons-material/BorderColor";
-
 import MoreIcon from "@mui/icons-material/MoreVert";
+
+import { LoginIcon } from "./LoginIcon";
 
 export default function Header() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -38,6 +39,7 @@ export default function Header() {
 
   const { setUserInfo, userInfo } = useContext(UserContext);
   const [userInfoString, setUserInfoString] = useState(null);
+
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
   const [userName, setUserName] = useState(null);
@@ -170,7 +172,7 @@ export default function Header() {
           <MenuItem
             style={{
               width: "90px",
-              height: "30px",
+              height: "40px",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -185,96 +187,6 @@ export default function Header() {
   );
 
   const mobileMenuId = "primary-search-account-menu-mobile";
-  // const renderMobileMenu = (
-  //   <Menu
-  //     anchorEl={mobileMoreAnchorEl}
-  //     anchorOrigin={{
-  //       vertical: "top",
-  //       horizontal: "right",
-  //     }}
-  //     style={{
-  //       marginTop: "30px",
-  //       width: "300px",
-  //       // height: "100px",
-  //       display: "flex",
-  //       justifyContent: "center",
-  //       alignItems: "center",
-  //     }}
-  //     sx={{
-  //       color: "#4e575f",
-  //       display: { xs: "none", sm: "block" },
-  //     }}
-  //     id={mobileMenuId}
-  //     keepMounted
-  //     transformOrigin={{
-  //       vertical: "top",
-  //       horizontal: "right",
-  //     }}
-  //     open={isMobileMenuOpen}
-  //     onClose={handleMobileMenuClose}
-  //   >
-  //     <MenuItem onClick={handleProfileMenuOpen}>
-  //       {userName && (
-  //         <>
-  //           {/* //////////////////////////////////////////////// */}
-  //           <MenuItem>
-  //             <NavLink to={"/create"}>
-  //               <IconButton size="large" color="4e575f">
-  //                 <BorderColorIcon size="large" color="4e575f" />
-  //                 <Typography
-  //                   variant="h6"
-  //                   noWrap
-  //                   component="div"
-  //                   style={{
-  //                     fontSize: "17px",
-  //                     width: "90px",
-  //                     height: "30px",
-  //                     display: "flex",
-  //                     justifyContent: "center",
-  //                     alignItems: "center",
-  //                   }}
-  //                   sx={{
-  //                     color: "#4e575f",
-  //                     display: { xs: "none", sm: "block" },
-  //                   }}
-  //                 >
-  //                   Create Post
-  //                 </Typography>
-  //               </IconButton>
-  //             </NavLink>
-  //           </MenuItem>
-  //         </>
-  //       )}
-  //       {!userName && (
-  //         <>
-  //           <IconButton
-  //             size="large"
-  //             edge="end"
-  //             aria-label="account of current user"
-  //             aria-controls={menuId}
-  //             aria-haspopup="true"
-  //             onClick={handleProfileMenuOpen}
-  //             color="4e575f"
-  //           >
-  //             <BorderColorIcon size="large" color="4e575f" />
-  //             <Typography
-  //               variant="h6"
-  //               noWrap
-  //               component="div"
-  //               style={{ fontSize: "17px" }}
-  //               sx={{
-  //                 color: "#4e575f",
-  //                 display: { xs: "none", sm: "block" },
-  //               }}
-  //             >
-  //               Create Post
-  //             </Typography>
-  //           </IconButton>
-  //         </>
-  //       )}
-  //     </MenuItem>
-  //   </Menu>
-  // );
 
   return (
     <>
@@ -292,35 +204,49 @@ export default function Header() {
             >
               <NavLink to="/">MERN-Blog</NavLink>
             </Typography>
-            <Box sx={{ display: { xs: "none", md: "flex" } }}>
-              <SearchWindow />
+
+            <Box
+              sx={{
+                width: "50px",
+                display: { xs: "flex", sm: "flex", md: "none" },
+              }}
+            >
+              <IconButton
+                size="small"
+                edge="end"
+                sx={{
+                  width: "50px",
+                  display: { xs: "flex", md: "none", lg: "none" },
+                }}
+              >
+                <Hamburger userName={userName} />
+              </IconButton>
             </Box>
 
             <Box sx={{ flexGrow: 1 }} />
-            {userName && (
-              <IconButton
-                // size="large"
-                // edge="end"
-                aria-label="account of current user"
-                aria-controls={menuId}
-                aria-haspopup="true"
-                onClick={handleProfileMenuOpen}
-                color="4e575f"
-                // sx={{
-                //   marginRight: "10px",
-                // }}
-              >
-                <LoginIcon
-                  firstLetter={firstName.charAt(0)}
-                  lastLetter={lastName.charAt(0)}
-                />
-              </IconButton>
-            )}
+
             <Box sx={{ display: { xs: "none", md: "flex" } }}>
+              <SearchWindow />
+            </Box>
+            <Box
+              sx={{
+                display: {
+                  xs: "none",
+                  sm: "flex",
+                  md: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                },
+              }}
+            >
               {userName && (
                 <>
                   <NavLink to={"/create"}>
-                    <IconButton size="large" color="4e575f">
+                    <IconButton
+                      size="large"
+                      color="4e575f"
+                      sx={{ borderRadius: 1 }}
+                    >
                       <BorderColorIcon size="large" color="4e575f" />
                       <Typography
                         variant="h6"
@@ -348,6 +274,7 @@ export default function Header() {
                     aria-haspopup="true"
                     onClick={handleProfileMenuOpen}
                     color="4e575f"
+                    sx={{ borderRadius: 1 }}
                   >
                     <BorderColorIcon size="large" color="4e575f" />
                     <Typography
@@ -365,12 +292,24 @@ export default function Header() {
                   </IconButton>
                 </>
               )}
-
-              <IconButton size="small" edge="end">
-                <Hamburger userName={userName} />
-              </IconButton>
             </Box>
-            <Box
+            {userName && (
+              <IconButton
+                size="large"
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="4e575f"
+              >
+                <LoginIcon
+                  firstLetter={firstName.charAt(0)}
+                  lastLetter={lastName.charAt(0)}
+                />
+              </IconButton>
+            )}
+            {/* <Box
               sx={{
                 display: { xs: "flex", md: "none" },
               }}
@@ -385,7 +324,7 @@ export default function Header() {
               >
                 <Hamburger userName={userName} />
               </IconButton>
-            </Box>
+            </Box> */}
           </Toolbar>
         </AppBar>
         {/* {renderMobileMenu} */}

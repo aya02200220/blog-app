@@ -4,6 +4,7 @@ import { UserContext } from "../UserContext";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
+import { SideMenu } from "../SideMenu";
 
 import Post from "../Post2";
 
@@ -61,7 +62,8 @@ const IndexPage = () => {
     };
 
     fetchData();
-  }, [userName, userInfo]);
+    // }, [userName, userInfo]);
+  }, []);
 
   return (
     <>
@@ -73,38 +75,46 @@ const IndexPage = () => {
           </Typography>
         </Box>
       ) : (
-        <Box
-          sx={{
-            width: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
+        <>
+          <Box sx={{ display: { xs: "none", sm: "none=–", md: "block" } }}>
+            <SideMenu />
+          </Box>
           <Box
             sx={{
-              // margin: "0 130px",
-              marginTop: "100px",
+              pl: { sx: 0, sm: 0, md: "250px" },
+              width: "100%",
               display: "flex",
-              flexDirection: "column",
-              // flexWrap: "wrap",
-              // justifyContent: "space-evenly",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            {posts.length === 0 ? ( // postsが0件の場合にメッセージを表示
-              <Typography variant="body1">No Post yet</Typography>
-            ) : (
-              posts.map((post) => {
-                console.log("post", post);
-                const isFavorite =
-                  favorites &&
-                  Array.isArray(favorites) &&
-                  favorites.some((favorite) => favorite._id === post._id);
-                return <Post key={post._id} {...post} favorite={isFavorite} />;
-              })
-            )}
+            <Box
+              sx={{
+                // margin: "0 130px",
+                marginTop: "100px",
+                display: "flex",
+                flexDirection: "column",
+                // flexWrap: "wrap",
+                // justifyContent: "space-evenly",
+              }}
+            >
+              {posts.length === 0 ? ( // postsが0件の場合にメッセージを表示
+                <Typography variant="body1">No Post yet</Typography>
+              ) : (
+                posts.map((post) => {
+                  console.log("post", post);
+                  const isFavorite =
+                    favorites &&
+                    Array.isArray(favorites) &&
+                    favorites.some((favorite) => favorite._id === post._id);
+                  return (
+                    <Post key={post._id} {...post} favorite={isFavorite} />
+                  );
+                })
+              )}
+            </Box>
           </Box>
-        </Box>
+        </>
       )}
     </>
   );
