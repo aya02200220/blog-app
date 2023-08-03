@@ -3,6 +3,8 @@ import { UserContext } from "./UserContext";
 import { LocalStorage, LocalStorageRemove } from "./Functions/LocalStorage";
 import { NavLink, useNavigate } from "react-router-dom";
 
+import toast from "react-hot-toast";
+
 import { styled } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -144,63 +146,36 @@ export const MenuDrawer = ({ open, toggleDrawer, userName }) => {
 
           {!userName && (
             <>
-              <ListItemButton to="/account" onClick={logout}>
-                <ListItemIcon>
-                  <PersonOutlineIcon />
-                </ListItemIcon>
-                <ListItemText primary="Sign Out" />
-              </ListItemButton>
-
-              <Button
-                onClick={logout}
-                sx={{
-                  marginTop: "15px",
-                  width: "100%",
-                  height: "40px",
-                  borderRadius: 0,
-                }}
-                variant="contained"
-                color="error"
-                startIcon={<LogoutIcon />}
-              >
-                Sign out
-              </Button>
+              <Box sx={{ backgroundColor: "#a53939", color: "#fff" }}>
+                <ListItemButton onClick={logout}>
+                  <ListItemIcon>
+                    <LogoutIcon sx={{ color: "#fff" }} />
+                  </ListItemIcon>
+                  <ListItemText primary="Sign Out" />
+                </ListItemButton>
+              </Box>
             </>
           )}
           {!userName && (
-            <Box>
-              <NavLink to={"/login"}>
-                <Button
-                  sx={{
-                    marginTop: "15px",
-                    width: "100%",
-                    height: "40px",
-                    borderRadius: 0,
-                  }}
-                  variant="contained"
-                  color="success"
-                  startIcon={<LoginIcon />}
-                >
-                  Sign In
-                </Button>
-              </NavLink>
+            <>
+              <Box sx={{ backgroundColor: "#4d59a0", color: "#fff" }}>
+                <ListItemButton to="/login">
+                  <ListItemIcon>
+                    <LoginIcon sx={{ color: "#fff" }} />
+                  </ListItemIcon>
+                  <ListItemText primary="Sign In" />
+                </ListItemButton>
+              </Box>
 
-              <NavLink to={"/register"}>
-                <Button
-                  sx={{
-                    marginTop: "15px",
-                    width: "100%",
-                    height: "40px",
-                    borderRadius: 0,
-                  }}
-                  variant="contained"
-                  // color="success"
-                  startIcon={<PersonAddIcon />}
-                >
-                  Sign up
-                </Button>
-              </NavLink>
-            </Box>
+              <Box sx={{ backgroundColor: "#468041", color: "#fff" }}>
+                <ListItemButton to="/register">
+                  <ListItemIcon>
+                    <PersonAddIcon sx={{ color: "#fff" }} />
+                  </ListItemIcon>
+                  <ListItemText primary="Register" />
+                </ListItemButton>
+              </Box>
+            </>
           )}
         </List>
       </Box>

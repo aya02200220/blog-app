@@ -75,13 +75,13 @@ function App() {
   });
 
   const LoginPage = lazy(() => import("./components/Pages/LoginPage2"));
+  const AccountPage = lazy(() => import("./components/Pages/AccountPage"));
   const RegisterPage = lazy(() => import("./components/Pages/RegisterPage2"));
   const CreatePost = lazy(() => import("./components/Pages/CreatePost"));
   const PostPage = lazy(() => import("./components/Pages/PostPage"));
   const FavoritePage = lazy(() => import("./components/Pages/FavoritePage"));
   const YourPosts = lazy(() => import("./components/Pages/YourPosts"));
-  const { EditPost } = lazy(() => import("./components/Pages/EditPost"));
-  const Account = lazy(() => import("./components/Pages/Account"));
+  const EditPost = lazy(() => import("./components/Pages/EditPost"));
 
   return (
     <UserContextProvider>
@@ -98,7 +98,7 @@ function App() {
               <Route path="/edit/:id" element={<EditPost />} />
               <Route path="/favorites" element={<FavoritePage />} />
               <Route path="/yourposts" element={<YourPosts />} />
-              <Route path="/account" element={<Account />} />
+              <Route path="/account" element={<AccountPage />} />
             </Route>
           </Routes>
         </Box>
