@@ -81,34 +81,12 @@ export default function SignIn() {
     }
   };
 
-  // const login = async (e) => {
-  //   e.preventDefault();
-
-  //   const data = await fetch("http://localhost:4000/login", {
-  //     method: "POST",
-  //     // body: JSON.stringify({ firstName, lastName, email, password }),
-  //     body: JSON.stringify({ email, password }),
-  //     headers: { "content-Type": "application/json" },
-  //     credentials: "include",
-  //   });
-  //   if (data.status === 200) {
-  //     data.json().then((userInfo) => {
-  //       console.log("data:", data);
-  //       console.log("userinfo:", userInfo);
-  //       setUserInfo(userInfo);
-  //     });
-  //     setRedirect(true);
-  //     toast.success("You are logged in!");
-  //   } else {
-  //     toast.error("Login failed");
-  //   }
-  // };
   if (redirect) {
     return <Navigate to={"/"} />;
   }
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="xs" sx={{ mt: 15 }}>
         <CssBaseline />
         <Box
           sx={{
