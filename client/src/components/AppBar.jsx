@@ -1,3 +1,6 @@
+import { useState, useContext, useEffect } from "react";
+import { UserContext } from "./UserContext";
+
 import { styled } from "@mui/material/styles";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -5,6 +8,9 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Typography from "@mui/material/Typography";
 import { DRAWER_WIDTH } from "../constants";
+import { LoginIcon } from "./LoginIcon";
+
+import { Box } from "@mui/material";
 
 const MyAppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -24,10 +30,14 @@ const MyAppBar = styled(MuiAppBar, {
   }),
 }));
 
-export const AppBar = (props) => {
+export const AppBar = (props, { userData }) => {
   const title = "MERN-Blog";
   const open = props.open;
   const toggleDrawer = props.toggleDrawer;
+
+  const firstName = props.userData?.firstName;
+  const lastName = props.userData?.lastName;
+  const userName = props.userData?.userName;
 
   return (
     <MyAppBar position="absolute" open={open}>
@@ -38,18 +48,21 @@ export const AppBar = (props) => {
           // backgroundColor: "#295D72",
         }}
       >
-        <IconButton
-          edge="start"
-          color="inherit"
-          aria-label="open drawer"
-          onClick={toggleDrawer}
-          sx={{
-            marginRight: "36px",
-            ...(open && { display: "none" }),
-          }}
-        >
-          <MenuIcon />
-        </IconButton>
+        <Box sx={{ display: { xs: "none", sm: "none", md: "block" } }}>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            onClick={toggleDrawer}
+            sx={{
+              marginRight: "36px",
+              ...(open && { display: "none" }),
+            }}
+          >
+            <MenuIcon />
+          </IconButton>
+        </Box>
+
         <Typography
           component="h1"
           variant="h6"
@@ -59,6 +72,20 @@ export const AppBar = (props) => {
         >
           {title}
         </Typography>
+        {userName && (
+          <IconButton
+            size="large"
+            edge="end"
+            aria-label="account of current user"
+            aria-haspopup="true"
+            color="4e575f"
+          >
+            <LoginIcon
+              firstLetter={firstName.charAt(0)}
+              lastLetter={lastName.charAt(0)}
+            />
+          </IconButton>
+        )}
       </Toolbar>
     </MyAppBar>
   );

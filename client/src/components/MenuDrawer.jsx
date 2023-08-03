@@ -6,6 +6,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import { styled } from "@mui/material/styles";
+
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -70,9 +71,13 @@ const ListItemButton = (props) => {
   );
 };
 
-export const MenuDrawer = ({ open, toggleDrawer, userName }) => {
-  const { setUserInfo, userInfo } = useContext(UserContext);
+export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
   const navigate = useNavigate();
+
+  const { setUserInfo, userInfo } = useContext(UserContext);
+  const firstName = userData?.firstName;
+  const lastName = userData?.lastName;
+  const userName = userData?.userName;
 
   async function logout() {
     const response = await fetch("http://localhost:4000/logout", {
@@ -144,7 +149,7 @@ export const MenuDrawer = ({ open, toggleDrawer, userName }) => {
             <ListItemText primary="Account" />
           </ListItemButton>
 
-          {!userName && (
+          {userName && (
             <>
               <Box sx={{ backgroundColor: "#a53939", color: "#fff" }}>
                 <ListItemButton onClick={logout}>

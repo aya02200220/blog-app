@@ -103,7 +103,7 @@ const IndexPage = () => {
                   <Typography variant="body1">No Post yet</Typography>
                 ) : (
                   posts.map((post) => {
-                    console.log("post", post);
+                    // console.log("post", post);
                     const isFavorite =
                       favorites &&
                       Array.isArray(favorites) &&
