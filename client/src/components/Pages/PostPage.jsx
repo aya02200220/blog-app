@@ -38,15 +38,6 @@ const PostPage = () => {
     });
   }, []);
 
-  // console.log("postInfo", postInfo);
-  // console.log("typeof", typeof postInfo._id);
-  console.log("userInfo", userInfo);
-
-  // // ログイン中のユーザーがお気に入りに入れているかを判定する関数
-  // const isFavorite = (postId) => {
-  //   return userInfo.favorites.includes(postId);
-  // };
-
   // ログイン中のユーザーがお気に入りに入れているかを判定する関数
   const isFavorite = (postId) => {
     return userInfo?.favorites?.includes(postId);
@@ -84,7 +75,7 @@ const PostPage = () => {
                   borderRadius: 1,
                   position: "fixed",
                   top: "80px",
-                  left: { xs: "100px", md: "280px" },
+                  left: { xs: "100px", md: "260px" },
                   backgroundColor: "#fff",
                   zIndex: 1,
                 }}

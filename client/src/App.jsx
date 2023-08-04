@@ -60,6 +60,7 @@ import Box from "@material-ui/core/Box";
 
 import Layout from "./components/Layout";
 import IndexPage from "./components/Pages/IndexPage";
+// import EditPost from "./components/Pages/EditPost";
 
 function App() {
   const theme = createTheme({
