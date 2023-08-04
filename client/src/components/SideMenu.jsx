@@ -1,8 +1,10 @@
 import * as React from "react";
 import { useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+
 import { SearchWindow } from "./SearchWindow";
 import { UserContext } from "./UserContext";
+import { LocalStorage, LocalStorageRemove } from "./Functions/LocalStorage";
 
 import toast from "react-hot-toast";
 
@@ -29,8 +31,27 @@ import HomeIcon from "@mui/icons-material/Home";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 
-export const SideMenu = () => {
-  const userName = "Aya";
+export const SideMenu = ({ userName }) => {
+  const navigate = useNavigate();
+  const { setUserInfo, userInfo } = useContext(UserContext);
+
+  async function logout() {
+    const response = await fetch("http://localhost:4000/logout", {
+      credentials: "include",
+      method: "POST",
+    });
+
+    if (response.ok) {
+      LocalStorageRemove();
+
+      navigate("/temp");
+      setTimeout(() => navigate("/"), 0);
+      toast.success("You are logged out!");
+    } else {
+      toast.error("Logout failed!");
+    }
+  }
+
   return (
     <Box
       sx={{
@@ -41,9 +62,15 @@ export const SideMenu = () => {
         backgroundColor: "#0e4f62",
         zIndex: "1",
         color: "#fff",
+        display: "flex", // Add this line
+        flexDirection: "column", // Add this line
       }}
     >
-      <Box>
+      <Box
+        sx={{
+          flexGrow: 1, // Add this line
+        }}
+      >
         <List>
           <NavLink to={"/"}>
             <ListItem disablePadding sx={{ marginBottom: "8px" }}>
@@ -70,22 +97,22 @@ export const SideMenu = () => {
             </ListItem>
           </NavLink>
 
+          <NavLink to={"/favorites"}>
+            <ListItem disablePadding sx={{ marginBottom: "8px" }}>
+              <ListItemButton>
+                <ListItemIcon>
+                  <BookmarkIcon
+                    color="4e575f"
+                    sx={{ marginLeft: "18px", color: "#fff" }}
+                  />
+                </ListItemIcon>
+                <ListItemText primary={"Bookmark"} />
+              </ListItemButton>
+            </ListItem>
+          </NavLink>
+
           {userName && (
             <>
-              <NavLink to={"/favorites"}>
-                <ListItem disablePadding sx={{ marginBottom: "8px" }}>
-                  <ListItemButton>
-                    <ListItemIcon>
-                      <BookmarkIcon
-                        color="4e575f"
-                        sx={{ marginLeft: "18px", color: "#fff" }}
-                      />
-                    </ListItemIcon>
-                    <ListItemText primary={"Bookmark"} />
-                  </ListItemButton>
-                </ListItem>
-              </NavLink>
-
               <NavLink to={"/yourposts"}>
                 <ListItem disablePadding sx={{ marginBottom: "8px" }}>
                   <ListItemButton>
@@ -122,6 +149,63 @@ export const SideMenu = () => {
           </List>
         )}
       </Box>
+      {/* //////////////////  Sign in or Sign out //////////////////////// */}
+      <Box sx={{ mb: 5 }}>
+        {userName && (
+          <Box sx={{ marginTop: "0px" }}>
+            <Button
+              onClick={logout}
+              sx={{
+                marginTop: "15px",
+                width: "100%",
+                height: "40px",
+                borderRadius: 0,
+              }}
+              variant="contained"
+              color="error"
+              startIcon={<LogoutIcon />}
+            >
+              Sign out
+            </Button>
+          </Box>
+        )}
+        {!userName && (
+          <Box>
+            <NavLink to={"/login"}>
+              <Button
+                sx={{
+                  marginTop: "15px",
+                  width: "100%",
+                  height: "40px",
+                  borderRadius: 0,
+                }}
+                variant="contained"
+                color="success"
+                startIcon={<LoginIcon />}
+              >
+                Sign In
+              </Button>
+            </NavLink>
+
+            <NavLink to={"/register"}>
+              <Button
+                sx={{
+                  marginTop: "15px",
+                  width: "100%",
+                  height: "40px",
+                  borderRadius: 0,
+                }}
+                variant="contained"
+                // color="success"
+                startIcon={<PersonAddIcon />}
+              >
+                Sign up
+              </Button>
+            </NavLink>
+          </Box>
+        )}
+      </Box>
+      {/* ////////////////////////////////////////////////////// */}
     </Box>
   );
 };

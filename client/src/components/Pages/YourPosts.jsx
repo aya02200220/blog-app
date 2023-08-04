@@ -3,7 +3,7 @@ import { UserContext } from "../UserContext";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
-import { FavPost } from "../FavPost";
+import { FavPost } from "./FavPost";
 
 const YourPosts = () => {
   const { userInfo } = useContext(UserContext);

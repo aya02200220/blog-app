@@ -9,6 +9,8 @@ import {
   Button,
   IconButton,
   Divider,
+  Skeleton,
+  CircularProgress,
 } from "@mui/material";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import FileDownloadDoneIcon from "@mui/icons-material/FileDownloadDone";
@@ -16,6 +18,7 @@ import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import MessageIcon from "@mui/icons-material/Message";
 import TurnedInNotIcon from "@mui/icons-material/TurnedInNot";
+
 import { Link } from "react-router-dom";
 
 export const AuthorInfo = ({ postInfo, favorite, userName, userId, _id }) => {
@@ -32,8 +35,6 @@ export const AuthorInfo = ({ postInfo, favorite, userName, userId, _id }) => {
       children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
     };
   }
-  // const avatarFirstName = props.postInfo.author.firstName;
-  // const avatarLastName = props.postInfo.author.lastName;
 
   useEffect(() => {
     // if (Object.keys(userInfo).length > 0) {
@@ -73,7 +74,71 @@ export const AuthorInfo = ({ postInfo, favorite, userName, userId, _id }) => {
   }, [postInfo.author._id]);
 
   if (!authorInfo) {
-    return null; // データがロードされるまでnullを返す
+    return (
+      <Box
+        sx={{
+          width: "200px",
+          display: { xs: "none", sm: "flex", md: "flex" },
+        }}
+      >
+        <Box
+          sx={{
+            border: "solid 3px #f0f0f0",
+            height: "300px",
+            width: "200px",
+            position: "fixed",
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "column",
+
+            borderRadius: "20px",
+            backgroundColor: "#f5f5f5",
+          }}
+        >
+          <Box
+            sx={{
+              border: "solid 3px #919aba",
+              mt: 3,
+              width: 90,
+              height: 90,
+              borderRadius: 100,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Skeleton variant="circular" width={80} height={80} />
+          </Box>
+
+          <Box
+            sx={{
+              display: "flex",
+              maxWidth: "180px",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              textAlign: "center",
+              mt: 2,
+              color: "#757e9f",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                gap: 1,
+                wordBreak: "break-word",
+              }}
+            >
+              <Skeleton variant="text" width="120px" />
+            </Box>
+
+            <Box mt={2}>
+              <Skeleton variant="text" width="120px" />
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+    );
   }
 
   const { firstName, lastName, followers, userIcon } = authorInfo;
@@ -220,18 +285,6 @@ export const AuthorInfo = ({ postInfo, favorite, userName, userId, _id }) => {
                   />
                   <Typography>{favoriteCount}</Typography>
                 </Box>
-
-                {/* {isBookMarked ? (
-                  <Box sx={{ display: "flex", justifyContent: "center" }}>
-                    <TurnedInNotIcon />
-                    <Typography>{favoriteCount}</Typography>
-                  </Box>
-                ) : (
-                  <Box sx={{ mt: 2, display: "flex" }}>
-                    <BookmarkAddedIcon />
-                    <Typography>Following</Typography>
-                  </Box>
-                )} */}
               </IconButton>
             </Box>
           </Box>

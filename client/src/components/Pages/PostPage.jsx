@@ -38,12 +38,11 @@ const PostPage = () => {
     });
   }, []);
 
-  // console.log("postInfo", postInfo);
-  console.log("userInfo", userInfo);
+  console.log("postInfo:", postInfo);
 
   // ログイン中のユーザーがお気に入りに入れているかを判定する関数
   const isFavorite = (postId) => {
-    return userInfo.favorites.includes(postId);
+    return userInfo?.favorites?.includes(postId);
   };
 
   if (!postInfo) return "";
@@ -69,7 +68,7 @@ const PostPage = () => {
               position: "relative",
             }}
           >
-            {/* <Link to={`/`}>
+            <Link to={`/`}>
               <IconButton
                 variant="outlined"
                 sx={{
@@ -78,7 +77,7 @@ const PostPage = () => {
                   borderRadius: 1,
                   position: "fixed",
                   top: "80px",
-                  left: "10px",
+                  left: { xs: "100px", md: "260px" },
                   backgroundColor: "#fff",
                   zIndex: 1,
                 }}
@@ -86,7 +85,7 @@ const PostPage = () => {
                 <ArrowBackIcon icon={faPenToSquare} />
                 BACK
               </IconButton>
-            </Link> */}
+            </Link>
             <Box>
               <AuthorInfo
                 postInfo={postInfo}

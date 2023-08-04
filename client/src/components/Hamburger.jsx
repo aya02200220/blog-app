@@ -24,6 +24,7 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import HomeIcon from "@mui/icons-material/Home";
 
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
@@ -66,8 +67,19 @@ export default function Hamburger({ userName }) {
         onKeyDown={toggleDrawer(anchor, false)}
       >
         <List>
+          <NavLink to={"/"}>
+            <ListItem disablePadding sx={{ marginBottom: "8px" }}>
+              <ListItemButton>
+                <ListItemIcon>
+                  <HomeIcon sx={{ marginLeft: "10px", color: "#4e575f" }} />
+                </ListItemIcon>
+                <ListItemText primary={"Home"} />
+              </ListItemButton>
+            </ListItem>
+          </NavLink>
+
           <NavLink to={userName ? "/create" : "/login"}>
-            <ListItem disablePadding sx={{ marginBottom: "4px" }}>
+            <ListItem disablePadding sx={{ marginBottom: "8px" }}>
               <ListItemButton>
                 <ListItemIcon>
                   <BorderColorIcon color="4e575f" sx={{ marginLeft: "10px" }} />
@@ -80,7 +92,7 @@ export default function Hamburger({ userName }) {
           {userName && (
             <>
               <NavLink to={"/favorites"}>
-                <ListItem disablePadding sx={{ marginBottom: "4px" }}>
+                <ListItem disablePadding sx={{ marginBottom: "8px" }}>
                   <ListItemButton>
                     <ListItemIcon>
                       <BookmarkIcon
@@ -94,7 +106,7 @@ export default function Hamburger({ userName }) {
               </NavLink>
 
               <NavLink to={"/yourposts"}>
-                <ListItem disablePadding sx={{ marginBottom: "4px" }}>
+                <ListItem disablePadding sx={{ marginBottom: "8px" }}>
                   <ListItemButton>
                     <ListItemIcon>
                       <ArticleIcon color="4e575f" sx={{ marginLeft: "10px" }} />
@@ -111,7 +123,7 @@ export default function Hamburger({ userName }) {
         {userName && (
           <List>
             <NavLink to={"/favorite"}>
-              <ListItem disablePadding sx={{ marginBottom: "4px" }}>
+              <ListItem disablePadding sx={{ marginBottom: "8px" }}>
                 <ListItemButton>
                   <ListItemIcon>
                     <PersonOutlineIcon
