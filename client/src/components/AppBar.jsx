@@ -1,5 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import { UserContext } from "./UserContext";
+import { Link } from "react-router-dom";
 
 import { styled } from "@mui/material/styles";
 import MuiAppBar from "@mui/material/AppBar";
@@ -70,8 +71,9 @@ export const AppBar = (props, { userData }) => {
           noWrap
           sx={{ flexGrow: 1 }}
         >
-          {title}
+          <Link to={`/`}>{title}</Link>
         </Typography>
+
         {userName && (
           <IconButton
             size="large"

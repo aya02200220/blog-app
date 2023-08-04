@@ -6,7 +6,14 @@ import { UserContext } from "../UserContext";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
-import { Box, IconButton, Button, Tooltip } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  Button,
+  Tooltip,
+  Skeleton,
+  Stack,
+} from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Typography from "@mui/material/Typography";
@@ -45,59 +52,107 @@ const PostPage = () => {
     return userInfo?.favorites?.includes(postId);
   };
 
-  if (!postInfo) return "";
   return (
     <>
-      {loading ? (
-        <Box sx={{ mt: "150px", display: "flex", justifyContent: "center" }}>
-          <CircularProgress />
-          <Typography sx={{ ml: "20px", fontSize: "20px" }}>
-            Loading....
-          </Typography>
-        </Box>
-      ) : (
-        <Box>
-          <Box
+      <Box>
+        <Box
+          sx={{
+            mt: "110px",
+            display: "flex",
+            gap: { xs: 0, sm: 2, md: 3, lg: 5 },
+            justifyContent: "center",
+            ml: { xs: 0, sm: 0, md: 1, lr: 3 },
+            mr: { xs: 0, sm: 0, md: 1, lr: 3 },
+            position: "relative",
+          }}
+        >
+          <IconButton
+            component={Link}
+            to="/"
+            variant="outlined"
             sx={{
-              mt: "110px",
-              display: "flex",
-              gap: { xs: 1, sm: 2, md: 3, lg: 5 },
-              justifyContent: "center",
-              ml: 3,
-              mr: 3,
-              position: "relative",
+              fontSize: "14px",
+              height: "22px",
+              borderRadius: 1,
+              position: "fixed",
+              top: "80px",
+              left: { xs: "100px", md: "260px" },
+              backgroundColor: "#fff",
+              zIndex: 1,
             }}
           >
-            <Link to={`/`}>
-              <IconButton
-                variant="outlined"
-                sx={{
-                  fontSize: "14px",
-                  height: "22px",
-                  borderRadius: 1,
-                  position: "fixed",
-                  top: "80px",
-                  left: { xs: "100px", md: "260px" },
-                  backgroundColor: "#fff",
-                  zIndex: 1,
-                }}
-              >
-                <ArrowBackIcon icon={faPenToSquare} />
-                BACK
-              </IconButton>
-            </Link>
-            <Box>
-              <AuthorInfo
-                postInfo={postInfo}
-                favorite={favorite}
-                // userName={userName}
-                // userId={userId}
-                // _id={_id}
-              />
+            <ArrowBackIcon icon={faPenToSquare} />
+            BACK
+          </IconButton>
+
+          {userInfo?.id && userInfo.id === postInfo?.author._id && (
+            <Box sx={{ position: "absolute", top: "-32px", right: "0" }}>
+              <Tooltip title="Edit post">
+                <IconButton
+                  component={Link}
+                  to={`/edit/${postInfo._id}`}
+                  variant="outlined"
+                  sx={{
+                    fontSize: "14px",
+                    height: "22px",
+                    borderRadius: 1,
+                    background: "#77acda",
+                    color: "#fff",
+                    zIndex: 1,
+                  }}
+                >
+                  <FontAwesomeIcon icon={faPenToSquare} />
+                  <Typography sx={{ pl: 1 }}>EDIT</Typography>
+                </IconButton>
+              </Tooltip>
             </Box>
-            <div>
+          )}
+
+          <Box>
+            <AuthorInfo
+              postInfo={postInfo}
+              favorite={favorite}
+              // userName={userName}
+              // userId={userId}
+              // _id={_id}
+            />
+          </Box>
+
+          {/* ///////////////////////////////////////////////// */}
+
+          {loading ? (
+            <>
               <Box
                 sx={{
+                  minWidth: { xs: "90%", sm: "55%", md: "65%" },
+                }}
+              >
+                <Stack spacing={1}>
+                  <Skeleton
+                    animation="wave"
+                    variant="rectangular"
+                    width={"100%"}
+                    height={40}
+                  />
+                  <Skeleton variant="text" width={"100%"} height={20} />
+                  <Skeleton
+                    animation="wave"
+                    variant="rectangular"
+                    width={"100%"}
+                    height={350}
+                  />
+                  <Skeleton variant="text" width={"80%"} height={30} />
+                  <Skeleton variant="text" width={"90%"} height={30} />
+                  <Skeleton variant="text" width={"80%"} height={30} />
+                </Stack>
+              </Box>
+            </>
+          ) : (
+            <>
+              <Box
+                sx={{
+                  // border: "solid 1px black",
+                  minWidth: { xs: "90%", sm: "55%", md: "65%" },
                   maxWidth: "650px",
                   pb: "50px",
                   display: "flex",
@@ -117,29 +172,6 @@ const PostPage = () => {
                   }}
                 >
                   {postInfo.title}
-                  {userInfo.id === postInfo.author._id && (
-                    <Box
-                      sx={{ position: "absolute", top: "-35px", right: "0" }}
-                    >
-                      <Link to={`/edit/${postInfo._id}`}>
-                        <Tooltip title="Edit post">
-                          <IconButton
-                            variant="outlined"
-                            sx={{
-                              fontSize: "14px",
-                              height: "22px",
-                              borderRadius: 1,
-                              background: "#77acda",
-                              color: "#fff",
-                            }}
-                          >
-                            <FontAwesomeIcon icon={faPenToSquare} />
-                            EDIT
-                          </IconButton>
-                        </Tooltip>
-                      </Link>
-                    </Box>
-                  )}
                 </Box>
 
                 <Box
@@ -158,19 +190,21 @@ const PostPage = () => {
                   <div>
                     by {postInfo.author.firstName} {postInfo.author.lastName}
                   </div>
+
                   <time>
                     {format(new Date(postInfo.createdAt), "yyyy-MM-dd HH:mm")}
                   </time>
                 </Box>
+
                 <div>
                   <img src={`http://localhost:4000/${postInfo.cover}`} alt="" />
                 </div>
                 <Box dangerouslySetInnerHTML={{ __html: postInfo.content }} />
               </Box>
-            </div>
-          </Box>
+            </>
+          )}
         </Box>
-      )}
+      </Box>
     </>
   );
 };

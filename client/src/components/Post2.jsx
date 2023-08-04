@@ -6,12 +6,10 @@ import toast from "react-hot-toast";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 import cx from "clsx";
-import Box from "@material-ui/core/Box";
-import Typography from "@mui/material/Typography";
+import { Box, IconButton, Button, Typography } from "@mui/material";
 
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
-import IconButton from "@material-ui/core/IconButton";
 import Share from "@material-ui/icons/Share";
 
 import { UserContext } from "./UserContext";
@@ -31,14 +29,29 @@ export const Post = React.memo(function PostCard({
   const userName = userInfo?.email;
   const userId = userInfo?.id;
 
+  // 文字列として表現されるHTMLをDOMツリーに変換 //////////////////////////////
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(content, "text/html");
+
+  // DOMツリーから全ての<img>要素を取り除く
+  const imgs = doc.getElementsByTagName("img");
+  while (imgs.length > 0) {
+    imgs[0].parentNode.removeChild(imgs[0]);
+  }
+
+  // DOMツリーから全てのスタイルを取り除く
+  const styles = doc.querySelectorAll("*[style]");
+  styles.forEach((style) => {
+    style.removeAttribute("style");
+  });
+
+  // 最後に、操作されたDOMツリーを文字列に戻す
+  const contentWithoutImgsOrStyles = doc.body.textContent || "";
+  ///////////////////////////////////////////////////////////////////////
+
   useEffect(() => {
     setIsFavorite(favorite);
   }, [favorite]);
-
-  console.log("isFavorite:", isFavorite);
-  console.log("Post2 _id:", _id, "typeof:", typeof _id);
-  console.log("Post2 _id:", _id, "typeof:", typeof _id);
-  console.log("Author:", author);
 
   return (
     <>
@@ -82,8 +95,8 @@ export const Post = React.memo(function PostCard({
                     pt: { xs: 1, md: "inherit" },
                     width: { xs: "90%", sm: "100%" },
 
-                    fontSize: 20,
-                    fontWeight: 5,
+                    fontSize: "25px",
+                    fontWeight: "500",
                     lineHeight: "23px",
                     minHeight: "60px",
                     maxHeight: "60x",
@@ -106,11 +119,11 @@ export const Post = React.memo(function PostCard({
                     justifyContent: { xs: "center", sm: "inherit" },
                   }}
                 >
-                  <Typography fontSize={"14px"}>
+                  <Typography sx={{ fontSize: "14px", fontWeight: "700" }}>
                     {/* {author?.firstName} {author?.lastName} */}
                     {author.firstName} {author.lastName}
                   </Typography>
-                  <Typography fontSize={"14px"}>
+                  <Typography sx={{ fontSize: "14px", fontWeight: "600" }}>
                     {formatDistanceToNow(new Date(createdAt))} ago
                   </Typography>
                 </Box>
@@ -119,18 +132,20 @@ export const Post = React.memo(function PostCard({
                     mt: "5px",
                     color: "#6b6b6b",
                     fontSize: { xs: "18px", md: "20px" },
+                    fontWeight: "400",
                     lineHeight: "21px",
                     minHeight: "63.3px",
                     maxHeight: "63.3px",
-                    fontWeight: "300",
 
                     display: "-webkit-box",
                     WebkitBoxOrient: "vertical",
                     WebkitLineClamp: 3, // 行数指定
                     overflow: "hidden",
                   }}
-                  dangerouslySetInnerHTML={{ __html: content }}
-                ></Typography>
+                  // dangerouslySetInnerHTML={{ __html: content }}
+                >
+                  {contentWithoutImgsOrStyles}
+                </Typography>
               </Box>
               <Box
                 component="img"

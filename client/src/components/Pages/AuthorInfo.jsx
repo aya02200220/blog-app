@@ -27,8 +27,8 @@ export const AuthorInfo = ({ postInfo, favorite, userName, userId, _id }) => {
   const { setUserInfo, userInfo } = useContext(UserContext);
   const [authorInfo, setAuthorInfo] = useState(null); // 投稿者の情報を保持
 
-  const comments = postInfo.comments;
-  const favoriteCount = postInfo.favoriteCount;
+  const comments = postInfo?.comments;
+  const favoriteCount = postInfo?.favoriteCount;
 
   function stringAvatar(name) {
     return {
@@ -71,7 +71,7 @@ export const AuthorInfo = ({ postInfo, favorite, userName, userId, _id }) => {
     };
 
     fetchAuthorInfo();
-  }, [postInfo.author._id]);
+  }, [postInfo?.author._id]);
 
   if (!authorInfo) {
     return (
@@ -209,6 +209,7 @@ export const AuthorInfo = ({ postInfo, favorite, userName, userId, _id }) => {
                 <Typography
                   sx={{
                     fontSize: "16px",
+                    fontWeight: "700",
                     lineHeight: "12px",
                   }}
                 >
@@ -222,6 +223,7 @@ export const AuthorInfo = ({ postInfo, favorite, userName, userId, _id }) => {
                   lineHeight: "10px",
                   wordBreak: "break-word",
                   fontSize: "15px",
+                  fontWeight: "500",
                 }}
               >
                 Follower: {followers}
@@ -242,6 +244,7 @@ export const AuthorInfo = ({ postInfo, favorite, userName, userId, _id }) => {
                     sx={{
                       fontSize: "15px",
                       lineHeight: "12px",
+                      fontWeight: "500",
                     }}
                   >
                     Follow
