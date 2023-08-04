@@ -38,6 +38,8 @@ const PostPage = () => {
     });
   }, []);
 
+  console.log("postInfo:", postInfo);
+
   // ログイン中のユーザーがお気に入りに入れているかを判定する関数
   const isFavorite = (postId) => {
     return userInfo?.favorites?.includes(postId);
