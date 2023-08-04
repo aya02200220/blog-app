@@ -45,8 +45,8 @@ export const AppBar = (props, { userData }) => {
       <Toolbar
         sx={{
           pr: "24px", // keep right padding when drawer closed
-          backgroundColor: "#353a40",
-          // backgroundColor: "#295D72",
+          // backgroundColor: "#353a40",
+          backgroundColor: "#f8f8f8",
         }}
       >
         <Box sx={{ display: { xs: "none", sm: "none", md: "block" } }}>
@@ -58,6 +58,7 @@ export const AppBar = (props, { userData }) => {
             sx={{
               marginRight: "36px",
               ...(open && { display: "none" }),
+              color: "#717070",
             }}
           >
             <MenuIcon />
@@ -69,7 +70,7 @@ export const AppBar = (props, { userData }) => {
           variant="h6"
           color="inherit"
           noWrap
-          sx={{ flexGrow: 1 }}
+          sx={{ flexGrow: 1, color: "#717070" }}
         >
           <Link to={`/`}>{title}</Link>
         </Typography>

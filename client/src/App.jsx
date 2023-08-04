@@ -7,10 +7,24 @@ import Box from "@material-ui/core/Box";
 
 import Layout from "./components/Layout";
 import IndexPage from "./components/Pages/IndexPage";
-// import EditPost from "./components/Pages/EditPost";
 
 function App() {
   const theme = createTheme({
+    palette: {
+      grey: {
+        100: "#ffffff", // grey[100] のデフォルト色を白に変更
+      },
+    },
+    components: {
+      MuiDrawer: {
+        styleOverrides: {
+          paper: {
+            backgroundColor: "#2b4f64", // この色はDrawerの背景色に適用されます
+            color: "#fff",
+          },
+        },
+      },
+    },
     typography: {
       fontFamily: "Barlow, Arial, sans-serif",
     },

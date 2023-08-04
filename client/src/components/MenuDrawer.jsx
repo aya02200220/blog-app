@@ -107,7 +107,7 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
         }}
       >
         <IconButton onClick={toggleDrawer}>
-          <ChevronLeftIcon />
+          <ChevronLeftIcon sx={{ color: "#fff" }} />
         </IconButton>
       </Toolbar>
       <Divider />
@@ -116,53 +116,59 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
         <List component="nav" sx={{ display: "flex", flexDirection: "column" }}>
           <ListItemButton to="/">
             <ListItemIcon>
-              <HomeIcon />
+              <HomeIcon sx={{ color: "#fff", pl: 1, fontSize: "31px" }} />
             </ListItemIcon>
             <ListItemText primary="Home" />
           </ListItemButton>
 
           <ListItemButton to={userName ? "/create" : "/login"}>
             <ListItemIcon>
-              <BorderColorIcon />
+              <BorderColorIcon
+                sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
+              />
             </ListItemIcon>
             <ListItemText primary="Create Post" />
           </ListItemButton>
 
           <ListItemButton to="/favorites">
             <ListItemIcon>
-              <BookmarkIcon />
+              <BookmarkIcon sx={{ color: "#fff", pl: 1, fontSize: "31px" }} />
             </ListItemIcon>
             <ListItemText primary="Bookmark" />
           </ListItemButton>
 
           <ListItemButton to="/yourposts">
             <ListItemIcon>
-              <ArticleIcon />
+              <ArticleIcon sx={{ color: "#fff", pl: 1, fontSize: "31px" }} />
             </ListItemIcon>
             <ListItemText primary="Your Posts" />
           </ListItemButton>
 
           <ListItemButton to="/account">
             <ListItemIcon>
-              <PersonOutlineIcon />
+              <PersonOutlineIcon
+                sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
+              />
             </ListItemIcon>
             <ListItemText primary="Account" />
           </ListItemButton>
 
           {userName && (
-            <>
+            <Box sx={{ mt: 3 }}>
               <Box sx={{ backgroundColor: "#a53939", color: "#fff" }}>
                 <ListItemButton onClick={logout}>
                   <ListItemIcon>
-                    <LogoutIcon sx={{ color: "#fff" }} />
+                    <LogoutIcon
+                      sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
+                    />
                   </ListItemIcon>
                   <ListItemText primary="Sign Out" />
                 </ListItemButton>
               </Box>
-            </>
+            </Box>
           )}
           {!userName && (
-            <>
+            <Box sx={{ mt: 3 }}>
               <Box sx={{ backgroundColor: "#4d59a0", color: "#fff" }}>
                 <ListItemButton to="/login">
                   <ListItemIcon>
@@ -180,7 +186,7 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
                   <ListItemText primary="Register" />
                 </ListItemButton>
               </Box>
-            </>
+            </Box>
           )}
         </List>
       </Box>
