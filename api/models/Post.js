@@ -31,13 +31,17 @@ const PostSchema = new Schema(
       ref: "User",
     },
     comments: [CommentSchema],
-    favoriteCount: { type: Number, default: 0 },
+    favorites: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
   },
   {
     timestamps: true,
   }
 );
-
 const PostModel = model("Post", PostSchema);
 
 module.exports = PostModel;

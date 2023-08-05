@@ -360,4 +360,39 @@ app.get("/user/:userId", async (req, res) => {
   }
 });
 
+///////////////// Comment ////////////////////////////////
+app.post("/api/posts/:id/comments", async (req, res) => {
+  try {
+    const post = await PostModel.findById(req.params.id);
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    const comment = {
+      author: req.user._id, // Assuming you have user in req.user
+      content: req.body.content,
+    };
+
+    post.comments.push(comment);
+    await post.save();
+    res.json(post);
+  } catch (error) {
+    res.status(500).json({ error: error.toString() });
+  }
+});
+//コメントを読み込むためのサーバーエンドポイント
+app.get("/api/posts/:id/comments", async (req, res) => {
+  try {
+    const post = await PostModel.findById(req.params.id).populate(
+      "comments.author"
+    );
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+    res.json(post.comments);
+  } catch (error) {
+    res.status(500).json({ error: error.toString() });
+  }
+});
+
 app.listen(4000, () => {});

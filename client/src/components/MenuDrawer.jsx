@@ -172,7 +172,9 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
               <Box sx={{ backgroundColor: "#4d59a0", color: "#fff" }}>
                 <ListItemButton to="/login">
                   <ListItemIcon>
-                    <LoginIcon sx={{ color: "#fff" }} />
+                    <LoginIcon
+                      sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
+                    />
                   </ListItemIcon>
                   <ListItemText primary="Sign In" />
                 </ListItemButton>
@@ -181,7 +183,9 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
               <Box sx={{ backgroundColor: "#468041", color: "#fff" }}>
                 <ListItemButton to="/register">
                   <ListItemIcon>
-                    <PersonAddIcon sx={{ color: "#fff" }} />
+                    <PersonAddIcon
+                      sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
+                    />
                   </ListItemIcon>
                   <ListItemText primary="Register" />
                 </ListItemButton>

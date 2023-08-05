@@ -17,7 +17,9 @@ import {
 import CircularProgress from "@mui/material/CircularProgress";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Typography from "@mui/material/Typography";
+
 import { AuthorInfo } from "./AuthorInfo";
+import Comment from "../Comment";
 
 const PostPage = () => {
   const [loading, setLoading] = useState(true);
@@ -46,6 +48,7 @@ const PostPage = () => {
   }, []);
 
   console.log("postInfo:", postInfo);
+  console.log("userInfo:", userInfo);
 
   // ログイン中のユーザーがお気に入りに入れているかを判定する関数
   const isFavorite = (postId) => {
@@ -76,7 +79,7 @@ const PostPage = () => {
               borderRadius: 1,
               position: "fixed",
               top: "80px",
-              left: { xs: "100px", md: "260px" },
+              left: { xs: "60px", sm: "77px", md: "253px", lr: "300px" },
               backgroundColor: "#fff",
               zIndex: 1,
             }}
@@ -200,6 +203,10 @@ const PostPage = () => {
                   <img src={`http://localhost:4000/${postInfo.cover}`} alt="" />
                 </div>
                 <Box dangerouslySetInnerHTML={{ __html: postInfo.content }} />
+
+                <Box sx={{ mt: 5, width: "100%" }}>
+                  <Comment postInfo={postInfo} />
+                </Box>
               </Box>
             </>
           )}

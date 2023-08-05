@@ -47,7 +47,7 @@ export const Post = React.memo(function PostCard({
 
   // 最後に、操作されたDOMツリーを文字列に戻す
   const contentWithoutImgsOrStyles = doc.body.textContent || "";
-  ///////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////
 
   useEffect(() => {
     setIsFavorite(favorite);
@@ -69,7 +69,6 @@ export const Post = React.memo(function PostCard({
             {/* ///////////////////////////// カード上部コンテンツ */}
             <Box
               sx={{
-                // maxWidth: "600px",
                 display: "flex",
                 flexDirection: {
                   xs: "column-reverse",
@@ -95,11 +94,11 @@ export const Post = React.memo(function PostCard({
                     pt: { xs: 1, md: "inherit" },
                     width: { xs: "90%", sm: "100%" },
 
-                    fontSize: "25px",
+                    fontSize: "23px",
                     fontWeight: "500",
-                    lineHeight: "23px",
-                    minHeight: "60px",
-                    maxHeight: "60x",
+                    lineHeight: "22px",
+                    minHeight: "30px",
+                    maxHeight: "77.8px",
 
                     display: "-webkit-box",
                     WebkitBoxOrient: "vertical",
