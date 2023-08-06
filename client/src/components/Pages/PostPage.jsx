@@ -41,14 +41,14 @@ const PostPage = () => {
 
         if (favoriteIds) {
           setFavorite(isFavorite(postInfo._id));
-          console.log("postInfo._id:", postInfo._id);
+          // console.log("postInfo._id:", postInfo._id);
         }
       });
     });
   }, []);
 
-  console.log("postInfo:", postInfo);
-  console.log("userInfo:", userInfo);
+  // console.log("postInfo:", postInfo);
+  // console.log("userInfo:", userInfo);
 
   // ログイン中のユーザーがお気に入りに入れているかを判定する関数
   const isFavorite = (postId) => {

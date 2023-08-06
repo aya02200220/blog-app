@@ -67,13 +67,27 @@ const Layout = () => {
       // ログイン処理が完了している場合にユーザー情報を取得
       fetch("http://localhost:4000/profile", {
         credentials: "include",
-      }).then((response) => {
-        if (response.ok) {
-          response.json().then((userInfo) => {
-            setUserInfo(userInfo);
-          });
-        }
-      });
+      })
+        .then((response) => {
+          if (!response.ok) {
+            return response.text().then((text) => {
+              throw new Error(
+                `HTTP error! status: ${response.status}, message: ${text}`
+              );
+            });
+          }
+          return response.json();
+        })
+        .then((userInfo) => {
+          setUserInfo(userInfo);
+        })
+        .catch((error) => {
+          console.error(
+            "There was a problem with the fetch operation:",
+            error.message
+          );
+          // 必要に応じてユーザーへのエラー通知を行うなど、ここでのエラーハンドリングを強化できます
+        });
     }
   }, [userData.userName]);
 

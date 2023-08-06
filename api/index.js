@@ -30,7 +30,7 @@ const secret = "f834rfnjefn934rhfeuifn34fj";
 app.post("/register", async (req, res) => {
   // const { userName, password } = req.body;
   const { firstName, lastName, email, password } = req.body;
-  console.log(firstName, lastName, email, password);
+  // console.log(firstName, lastName, email, password);
   try {
     const userInfo = await User.create({
       firstName,
@@ -45,6 +45,7 @@ app.post("/register", async (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
+  console.log("loginnnnnnnnnnnnnn------------------");
   const { email, password } = req.body;
   try {
     const userInfo = await User.findOne({ email }).populate(
@@ -140,7 +141,6 @@ app.get("/profile", (req, res) => {
 });
 
 app.post("/logout", (req, res) => {
-  // res.cookie("token", "").json("ok");
   res.clearCookie("token").json("ok");
 });
 
@@ -236,45 +236,6 @@ app.get("/posts", async (req, res) => {
   }
 });
 
-///////////////////////////////////////////////////
-app.post("/post/:id/comments", async (req, res) => {
-  const { id } = req.params;
-  const { author, content } = req.body;
-
-  try {
-    const post = await PostModel.findById(id);
-    if (!post) {
-      return res.status(404).json({ error: "Post not found" });
-    }
-
-    const comment = {
-      author,
-      content,
-    };
-    post.comments.push(comment);
-    await post.save();
-
-    res.status(200).json({ message: "Comment added successfully" });
-  } catch (error) {
-    res.status(500).json({ error: "Server error" });
-  }
-});
-
-app.get("/post/:id/comments", async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const post = await PostModel.findById(id);
-    if (!post) {
-      return res.status(404).json({ error: "Post not found" });
-    }
-
-    res.status(200).json(post.comments);
-  } catch (error) {
-    res.status(500).json({ error: "Server error" });
-  }
-});
-
 //////////////////////////////////////////////////////////
 
 app.post("/favorites", async (req, res) => {
@@ -361,29 +322,60 @@ app.get("/user/:userId", async (req, res) => {
 });
 
 ///////////////// Comment ////////////////////////////////
-app.post("/api/posts/:id/comments", async (req, res) => {
+
+// app.post("/favorites", async (req, res) => {
+//   const { postId } = req.body;
+//   const { token } = req.cookies;
+//   jwt.verify(token, secret, {}, async (err, info) => {
+//     if (err) {
+//       res.status(401).json({ message: "認証エラー" });
+//     } else {
+//       try {
+//         const user = await User.findById(info.id);
+//         user.favorites.push(postId);
+//         await user.save();
+//         res.status(200).json({ message: "お気に入りに追加されました" });
+//       } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ message: "サーバーエラーが発生しました" });
+//       }
+//     }
+//   });
+// });
+
+// app.post("/post/comments", async (req, res) => {
+app.post("/post/comments/:postId", async (req, res) => {
+  console.log("-----------------");
+  console.log("postId:", req.params.postId);
+  const userId = req.user ? req.user._id : "defaultUserId";
+  console.log("userId", userId);
+
+  // console.log("req.user:", req.user); // Here we log the content of req.user
+
   try {
-    const post = await PostModel.findById(req.params.id);
+    const post = await PostModel.findById(req.params.postId);
+
     if (!post) {
       return res.status(404).json({ error: "Post not found" });
     }
 
     const comment = {
-      author: req.user._id, // Assuming you have user in req.user
+      author: req.user._id,
       content: req.body.content,
     };
-
     post.comments.push(comment);
     await post.save();
     res.json(post);
   } catch (error) {
+    console.error(error); // Add this line to output the error details
     res.status(500).json({ error: error.toString() });
   }
 });
+
 //コメントを読み込むためのサーバーエンドポイント
-app.get("/api/posts/:id/comments", async (req, res) => {
+app.get("/post/comments/:postId", async (req, res) => {
   try {
-    const post = await PostModel.findById(req.params.id).populate(
+    const post = await PostModel.findById(req.params.postId).populate(
       "comments.author"
     );
     if (!post) {
@@ -394,5 +386,7 @@ app.get("/api/posts/:id/comments", async (req, res) => {
     res.status(500).json({ error: error.toString() });
   }
 });
+
+///////////////////////////////////////////////////
 
 app.listen(4000, () => {});

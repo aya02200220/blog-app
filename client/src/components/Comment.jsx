@@ -20,22 +20,78 @@ const Comment = ({ postInfo }) => {
   const [comments, setComments] = useState([]);
   const { userInfo } = useContext(UserContext);
 
-  // const postId = postInfo._id;
-  // setComments(postInfo.comments);
+  const postId = postInfo._id;
 
   // console.log("userInfo @ Comment:", userInfo);
   // console.log("postInfo @ Comment:", postInfo);
   // console.log("postId:", postId);
 
+  useEffect(() => {
+    setComments(postInfo?.comments);
+  }, [postInfo]);
+
+  const addComment = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch(
+        `http://localhost:4000/post/comments/${postId}`,
+        // `http://localhost:4000/post/comments`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ content: comment }),
+          credentials: "include",
+        }
+      );
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error); // Changed this line to display the server error message
+      }
+
+      // setComments(post.comments); // Assuming comments is a state variable
+      // setComment("");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const addComment2 = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:4000/post/${postId}/comments`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ content: comment }),
+        }
+      );
+      // if (!response.ok) {
+      //   throw new Error("Response is not OK");
+      // }
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error); // Changed this line to display the server error message
+      }
+
+      const post = await response.json();
+      setComments(post.comments); // Assuming comments is a state variable
+      setComment("");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   // useEffect(() => {
   //   const fetchComments = async () => {
   //     try {
-  //       const response = await fetch(`/api/posts/${postId}/comments`);
+  //       const response = await fetch(`http://localhost:4000/post/:id/comments`);
   //       if (!response.ok) {
-  //         throw new Error("Response is not OK");
+  //         const errorData = await response.json();
+  //         throw new Error(errorData.error);
   //       }
   //       const comments = await response.json();
-  //       setComments(comments); // Assuming comments is a state variable
+  //       setComments(comments);
   //     } catch (error) {
   //       console.error(error);
   //     }
@@ -43,24 +99,6 @@ const Comment = ({ postInfo }) => {
 
   //   fetchComments();
   // }, [postId]);
-
-  // const addComment = async () => {
-  //   try {
-  //     const response = await fetch(`/api/posts/${postId}/comments`, {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({ content: comment }),
-  //     });
-  //     if (!response.ok) {
-  //       throw new Error("Response is not OK");
-  //     }
-  //     const post = await response.json();
-  //     setComments(post.comments); // Assuming comments is a state variable
-  //     setComment("");
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
 
   return (
     <>

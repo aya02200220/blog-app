@@ -22,17 +22,19 @@ import TurnedInNotIcon from "@mui/icons-material/TurnedInNot";
 import { Link } from "react-router-dom";
 
 export const AuthorInfo = ({ postInfo, favorite, userName, userId, _id }) => {
-  const [comments, setComments] = useState([]);
   const [isFollowing, setIsFollowing] = useState("false");
   const [isBookMarked, setIsBookMarked] = useState("false");
   const { setUserInfo, userInfo } = useContext(UserContext);
   const [authorInfo, setAuthorInfo] = useState(null); // 投稿者の情報を保持
 
-  // setComments(postInfo?.comments);
+  const [comments, setComments] = useState([]);
+  const favoriteCount = postInfo?.favorite;
 
-  const favoriteCount = postInfo?.favoriteCount;
+  // console.log("postInfo @ AuthorInfo:", postInfo);
 
-  console.log("postInfo @ AuthorInfo:", postInfo);
+  useEffect(() => {
+    setComments(postInfo?.comments);
+  }, [postInfo]);
 
   function stringAvatar(name) {
     return {
@@ -41,22 +43,22 @@ export const AuthorInfo = ({ postInfo, favorite, userName, userId, _id }) => {
   }
 
   useEffect(() => {
-    if (Object.keys(userInfo).length > 0) {
-      console.log("userInfo true:", userInfo);
-      fetch("http://localhost:4000/favorites", {
-        credentials: "include",
-      })
-        .then((res) => res.json())
-        .then((favorites) => {
-          setFavorites(favorites);
-        })
-        .catch((error) => {
-          console.error("Error fetching favorites:", error);
-        });
-    } else {
-      console.log("userInfo false:", userInfo);
-      setFavorites("");
-    }
+    // if (Object.keys(userInfo).length > 0) {
+    //   console.log("userInfo true:", userInfo);
+    //   fetch("http://localhost:4000/favorites", {
+    //     credentials: "include",
+    //   })
+    //     .then((res) => res.json())
+    //     .then((favorites) => {
+    //       setFavorites(favorites);
+    //     })
+    //     .catch((error) => {
+    //       console.error("Error fetching favorites:", error);
+    //     });
+    // } else {
+    //   console.log("userInfo false:", userInfo);
+    //   setFavorites("");
+    // }
 
     // ポスト投稿者の情報を取得する関数
     const fetchAuthorInfo = async () => {
@@ -74,7 +76,7 @@ export const AuthorInfo = ({ postInfo, favorite, userName, userId, _id }) => {
       }
     };
 
-    fetchAuthorInfo();
+    if (postInfo?.author._id) fetchAuthorInfo();
   }, [postInfo?.author._id]);
 
   if (!authorInfo) {

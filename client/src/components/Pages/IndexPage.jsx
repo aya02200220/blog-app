@@ -39,31 +39,66 @@ const IndexPage = () => {
     }
   }, []);
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const userInfoString = localStorage.getItem("userInfo");
+  //     if (userInfoString) {
+  //       const userInfoObj = JSON.parse(userInfoString);
+  //       setUserName(userInfoObj.email);
+
+  //       if (userInfoObj.email) {
+  //         const response = await fetch("http://localhost:4000/favorites", {
+  //           credentials: "include",
+  //         });
+  //         const favoritesData = await response.json();
+  //         setFavorites(favoritesData);
+  //       }
+  //     }
+
+  //     const postsResponse = await fetch("http://localhost:4000/post");
+  //     const postsData = await postsResponse.json();
+  //     setPosts(postsData);
+  //     setLoading(false); // Only set loading to false once both requests have finished
+  //   };
+
+  //   fetchData();
+  //   // }, [userName, userInfo]);
+  // }, []);
+
   useEffect(() => {
     const fetchData = async () => {
-      const userInfoString = localStorage.getItem("userInfo");
-      if (userInfoString) {
-        const userInfoObj = JSON.parse(userInfoString);
-        setUserName(userInfoObj.email);
+      try {
+        const userInfoString = localStorage.getItem("userInfo");
+        if (userInfoString) {
+          const userInfoObj = JSON.parse(userInfoString);
+          setUserName(userInfoObj.email);
 
-        if (userInfoObj.email) {
-          const response = await fetch("http://localhost:4000/favorites", {
-            credentials: "include",
-          });
-          const favoritesData = await response.json();
-          setFavorites(favoritesData);
+          if (userInfoObj.email) {
+            const response = await fetch("http://localhost:4000/favorites", {
+              credentials: "include",
+            });
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const favoritesData = await response.json();
+            setFavorites(favoritesData);
+          }
         }
-      }
 
-      const postsResponse = await fetch("http://localhost:4000/post");
-      const postsData = await postsResponse.json();
-      setPosts(postsData);
-      setLoading(false); // Only set loading to false once both requests have finished
+        const postsResponse = await fetch("http://localhost:4000/post");
+        if (!postsResponse.ok) {
+          throw new Error(`HTTP error! status: ${postsResponse.status}`);
+        }
+        const postsData = await postsResponse.json();
+        setPosts(postsData);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
 
-    fetchData();
-    // }, [userName, userInfo]);
-  }, []);
+    fetchData(); // この呼び出しをuseEffectの内部で行います。
+  }, []); // 依存配列は空にします。
 
   return (
     <>
