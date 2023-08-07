@@ -117,14 +117,14 @@ export const Comments = ({ contents, passPostId, fetchComments }) => {
           width: "100%",
         }}
       >
-        <Box sx={{ mt: "3px", width: "12%" }}>
+        <Box sx={{ mt: "3px", mr: "5px", width: "40px" }}>
           <LoginIcon
             firstLetter={firstLetter}
             lastLetter={lastLetter}
             userIcon={userIcon}
           />
         </Box>
-        <Box sx={{ width: "88%" }}>
+        <Box sx={{ flexGrow: 1 }}>
           <Box
             sx={{
               border: "solid 1px gray",
