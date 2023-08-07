@@ -14,6 +14,7 @@ import {
   TextField,
 } from "@mui/material";
 import { FormLabel } from "@material-ui/core";
+import { Comments } from "./Comments";
 
 const Comment = ({ postInfo }) => {
   const [comment, setComment] = useState("");
@@ -36,7 +37,6 @@ const Comment = ({ postInfo }) => {
     try {
       const response = await fetch(
         `http://localhost:4000/post/comments/${postId}`,
-        // `http://localhost:4000/post/comments`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -46,33 +46,36 @@ const Comment = ({ postInfo }) => {
       );
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error); // Changed this line to display the server error message
+        throw new Error(errorData.error);
       }
 
-      // setComments(post.comments); // Assuming comments is a state variable
-      // setComment("");
+      setComment("");
+      fetchComments();
     } catch (error) {
       console.error(error);
     }
   };
 
-  // useEffect(() => {
-  //   const fetchComments = async () => {
-  //     try {
-  //       const response = await fetch(`http://localhost:4000/post/:id/comments`);
-  //       if (!response.ok) {
-  //         const errorData = await response.json();
-  //         throw new Error(errorData.error);
-  //       }
-  //       const comments = await response.json();
-  //       setComments(comments);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
+  useEffect(() => {
+    fetchComments();
+  }, [postId]);
 
-  //   fetchComments();
-  // }, [postId]);
+  const fetchComments = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:4000/post/comments/${postId}`
+      );
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error);
+      }
+      const comments = await response.json();
+
+      setComments(comments);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <>
@@ -110,6 +113,15 @@ const Comment = ({ postInfo }) => {
         >
           Submit
         </Button>
+      </Box>
+
+      <Box>
+        {comments
+          .slice()
+          .reverse()
+          .map((com) => {
+            return <Comments key={com._id} contents={com} />;
+          })}
       </Box>
     </>
   );

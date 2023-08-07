@@ -325,9 +325,6 @@ app.get("/user/:userId", async (req, res) => {
 
 // コメントを投稿するためのエンドポイント
 app.post("/post/comments/:postId", async (req, res) => {
-  console.log("-----------------");
-  console.log("postId:", req.params.postId);
-
   // JWT トークンを使用してユーザー情報を取得
   const { token } = req.cookies;
   jwt.verify(token, secret, {}, async (err, info) => {

@@ -36,7 +36,6 @@ const PostPage = () => {
       res.json().then((postInfo) => {
         setPostInfo(postInfo);
         setLoading(false);
-
         const favoriteIds = userInfo ? Object.keys(userInfo).length > 0 : false;
 
         if (favoriteIds) {
@@ -46,9 +45,6 @@ const PostPage = () => {
       });
     });
   }, []);
-
-  // console.log("postInfo:", postInfo);
-  // console.log("userInfo:", userInfo);
 
   // ログイン中のユーザーがお気に入りに入れているかを判定する関数
   const isFavorite = (postId) => {
@@ -112,13 +108,7 @@ const PostPage = () => {
           )}
 
           <Box>
-            <AuthorInfo
-              postInfo={postInfo}
-              favorite={favorite}
-              // userName={userName}
-              // userId={userId}
-              // _id={_id}
-            />
+            <AuthorInfo postInfo={postInfo} favorite={favorite} />
           </Box>
 
           {/* ///////////////////////////////////////////////// */}
@@ -194,9 +184,9 @@ const PostPage = () => {
                     by {postInfo.author.firstName} {postInfo.author.lastName}
                   </div>
 
-                  <time>
+                  <Box>
                     {format(new Date(postInfo.createdAt), "yyyy-MM-dd HH:mm")}
-                  </time>
+                  </Box>
                 </Box>
 
                 <div>
