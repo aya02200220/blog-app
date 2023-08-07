@@ -23,10 +23,6 @@ const Comment = ({ postInfo }) => {
 
   const postId = postInfo._id;
 
-  // console.log("userInfo @ Comment:", userInfo);
-  // console.log("postInfo @ Comment:", postInfo);
-  // console.log("postId:", postId);
-
   useEffect(() => {
     setComments(postInfo?.comments);
   }, [postInfo]);
@@ -79,7 +75,9 @@ const Comment = ({ postInfo }) => {
 
   return (
     <>
-      <Typography sx={{ fontSize: "17px" }}>Comments</Typography>
+      <Typography sx={{ fontSize: "20px", fontWeight: "500" }}>
+        Comments
+      </Typography>
       <Divider />
 
       <Box
@@ -87,14 +85,16 @@ const Comment = ({ postInfo }) => {
           mt: 3,
           display: "flex",
           justifyContent: "center",
-          alignItems: "center",
-          height: "56px",
+          // alignItems: "center",
+          height: "auto",
         }}
       >
-        <LoginIcon
-          firstLetter={userInfo.firstName.charAt(0)}
-          lastLetter={userInfo.lastName.charAt(0)}
-        />
+        <Box sx={{ mt: 1 }}>
+          <LoginIcon
+            firstLetter={userInfo.firstName.charAt(0)}
+            lastLetter={userInfo.lastName.charAt(0)}
+          />
+        </Box>
         <TextField
           fullWidth
           type="text"

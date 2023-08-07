@@ -65,17 +65,6 @@ const CreatePost = () => {
     }
   };
 
-  // console.log(userInfo.id === undefined);
-  // if (!userInfo.id === undefined) {
-  //   setLoginCheck(true);
-  // }
-
-  // useEffect(() => {
-  //   if (!loginCheck) {
-  //     setRedirect(true);
-  //   }
-  // }, [loginCheck]);
-
   if (redirect) {
     return <Navigate to="/" />;
   }

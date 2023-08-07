@@ -11,7 +11,13 @@ export const LocalStorageRemove = () => {
   return;
 };
 
-export const AddFiveComponent = (props) => {
-  const result = props.number + 5;
-  return result;
-};
+export function GetLocalStorage() {
+  console.log("Get Local Storage");
+
+  const userInfoString = localStorage.getItem("userInfo");
+  if (userInfoString) {
+    return JSON.parse(userInfoString);
+  }
+
+  return null;
+}

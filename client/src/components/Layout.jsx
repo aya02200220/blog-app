@@ -27,9 +27,6 @@ const Layout = () => {
 
   const { setUserInfo, userInfo } = useContext(UserContext);
   const [userInfoString, setUserInfoString] = useState(null);
-  // const [firstName, setFirstName] = useState(null);
-  // const [lastName, setLastName] = useState(null);
-  // const [userName, setUserName] = useState(null);
 
   const [userData, setUserData] = useState({
     firstName: null,
@@ -56,9 +53,6 @@ const Layout = () => {
         ...prevState,
         userName: userInfoObj.email,
       }));
-      // setFirstName(userInfoObj.firstName);
-      // setLastName(userInfoObj.lastName);
-      // setUserName(userInfoObj.email);
     }
   }, [userInfo]);
 
