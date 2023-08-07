@@ -1,4 +1,4 @@
-// import styles from "../../styles/main.module.scss";
+import styles from "../../styles/main.module.scss";
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { format } from "date-fns";
@@ -158,7 +158,7 @@ const PostPage = () => {
                 <Box
                   sx={{
                     textAlign: "center",
-                    fontSize: { xs: "20px", sm: "25px", md: "30px" },
+                    fontSize: { xs: "23px", sm: "28px", md: "35px" },
                     lineHeight: { xs: "20px", sm: "25px", md: "30px" },
                     fontWeight: "600",
                     mb: "5px",
@@ -173,7 +173,7 @@ const PostPage = () => {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    fontSize: "15px",
+                    fontSize: "18px",
                     mb: 1,
                     gap: { xs: 0, sm: 2 },
                     flexDirection: { xs: "column", sm: "row" },
@@ -192,7 +192,10 @@ const PostPage = () => {
                 <div>
                   <img src={`http://localhost:4000/${postInfo.cover}`} alt="" />
                 </div>
-                <Box dangerouslySetInnerHTML={{ __html: postInfo.content }} />
+                <Box
+                  className="contentBox"
+                  dangerouslySetInnerHTML={{ __html: postInfo.content }}
+                />
 
                 <Box sx={{ mt: 5, width: "100%" }}>
                   <Comment postInfo={postInfo} />

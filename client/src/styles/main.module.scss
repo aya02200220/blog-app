@@ -2,51 +2,55 @@
 @tailwind components;
 @tailwind utilities;
 
-.mainContainer {
-  padding-top: 100px;
-  margin: 0 90px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.navBar {
-  z-index: 1;
-  color: #5b5a5a;
-  background-color: #cdeff79e;
-  height: 60px;
-  display: flex;
-  // border: solid 1px black;
-  justify-content: space-between;
-  align-items: center;
-  position: fixed;
-  width: 100vw;
-  a {
-    cursor: pointer;
-  }
-}
-.logo {
-  font-size: 20px;
-  font-weight: 600;
-  margin-left: 40px;
+.contentBox p {
+  font-size: 50px;
 }
 
-.nav {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 50px;
-  .nav1 {
-    margin-right: 20px;
-  }
-  .nav2 {
-    margin-right: 1px;
-  }
-  .nav3 {
-  }
-  .nav4 {
-    padding-left: 5px;
-  }
-}
+// .mainContainer {
+//   padding-top: 100px;
+//   margin: 0 90px;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+// }
+// .navBar {
+//   z-index: 1;
+//   color: #5b5a5a;
+//   background-color: #cdeff79e;
+//   height: 60px;
+//   display: flex;
+//   // border: solid 1px black;
+//   justify-content: space-between;
+//   align-items: center;
+//   position: fixed;
+//   width: 100vw;
+//   a {
+//     cursor: pointer;
+//   }
+// }
+// .logo {
+//   font-size: 20px;
+//   font-weight: 600;
+//   margin-left: 40px;
+// }
+
+// .nav {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   margin-right: 50px;
+//   .nav1 {
+//     margin-right: 20px;
+//   }
+//   .nav2 {
+//     margin-right: 1px;
+//   }
+//   .nav3 {
+//   }
+//   .nav4 {
+//     padding-left: 5px;
+//   }
+// }
 //////////// Login Icon //////////////
 .loginIcon {
   font-size: 15px;
@@ -64,345 +68,315 @@
   padding-bottom: 2px;
 }
 
-.posts {
-  // border: solid 1px black;
-  display: grid;
-  place-content: center;
-  place-items: center;
-  gap: 20px;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-  justify-content: center;
+// .posts {
+//   // border: solid 1px black;
+//   display: grid;
+//   place-content: center;
+//   place-items: center;
+//   gap: 20px;
+//   grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+//   justify-content: center;
 
-  .post {
-    border: solid 1px black;
-    width: 400px;
-    display: grid;
-    grid-template-columns: 0.9fr 1.1fr;
-    gap: 10px;
-    align-items: center;
+//   .post {
+//     border: solid 1px black;
+//     width: 400px;
+//     display: grid;
+//     grid-template-columns: 0.9fr 1.1fr;
+//     gap: 10px;
+//     align-items: center;
 
-    .postImageContainer {
-      height: 250px;
+//     .postImageContainer {
+//       height: 250px;
 
-      position: relative;
-    }
-    .postImage {
-      display: block;
-      height: 250px;
-      object-fit: cover;
-      width: 100%;
-    }
+//       position: relative;
+//     }
+//     .postImage {
+//       display: block;
+//       height: 250px;
+//       object-fit: cover;
+//       width: 100%;
+//     }
 
-    .authorName {
-      position: absolute;
-      align-items: center;
-      color: #444444;
-      position: absolute;
-      width: 95%;
-      bottom: 7px;
-      left: 50%;
-      transform: translate(-50%, 2%);
-      -webkit-transform: translate(-50%, 2%);
-      -ms-transform: translate(-50%, 2%);
-      overflow-wrap: break-word;
-      line-height: 13px;
-      background-color: rgba(240, 248, 255, 0.409);
-      padding: 6px 6px;
-      border-radius: 4px;
-    }
-
-    .postContents {
-      height: 250px;
-      min-width: 60%;
-      display: flex;
-      flex-direction: column;
-      padding: 5px 10px;
-      // width: 50%;
-      .postTitle {
-        line-height: 19px;
-        padding-top: 10px;
-        font-size: 18px;
-        font-weight: 600;
-        max-height: 45px;
-        overflow-y: scroll;
-        margin-bottom: 10px;
-      }
-      .info {
-        display: flex;
-        color: #5b5a5a;
-        gap: 10px;
-        font-size: 13px;
-
-        .author {
-          font-weight: 600;
-          color: #5b5a5a;
-        }
-        .date {
-          width: 100%;
-          color: #6d6c6c;
-        }
-      }
-      .postWriting {
-        padding: 8px 0;
-        margin-bottom: 10px;
-        line-height: 15px;
-        font-size: 15px;
-        height: max-content;
-        overflow-y: scroll;
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 700px) {
-  .mainContainer {
-    margin: 0 20px;
-  }
-  .nav {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: 50px;
-    .nav1 {
-      margin-right: 20px;
-    }
-    .nav2 {
-      margin-right: 1px;
-    }
-    .nav3 {
-    }
-    .nav4 {
-      padding-left: 5px;
-    }
-  }
-  .posts {
-    .post {
-      grid-template-columns: inherit;
-      max-width: 300px;
-      gap: 10px;
-
-      .postImageContainer {
-        max-width: 300px;
-        height: 250px;
-      }
-      .postImage {
-      }
-      .postContents {
-        max-width: 300px;
-        max-height: 150px;
-        .postTitle {
-          line-height: 17.5px;
-        }
-        .postWriting {
-          line-height: 18px;
-        }
-      }
-
-      .info {
-        font-size: 12px;
-        // flex-direction: column;
-        gap: 10px;
-        line-height: 15px;
-        .author {
-        }
-        .date {
-        }
-      }
-    }
-  }
-}
-@media screen and (max-width: 500px) {
-  .post {
-    // grid-template-rows: 0.9fr 1.1fr;
-  }
-  .logo {
-    text-align: left;
-    font-size: 15px;
-    line-height: 15px;
-    margin-left: 20px;
-  }
-  .nav {
-    font-size: 12px;
-    margin-right: 20px;
-
-    .nav1 {
-      width: 55px;
-      line-height: 10px;
-      text-align: center;
-      margin-right: 10px;
-    }
-    .nav2 {
-      margin-right: 1px;
-    }
-    .nav3 {
-    }
-    .nav4 {
-      padding-left: 5px;
-    }
-  }
-}
-
-////////// LOGIN/REGISTER /////////////////
-.loginForm {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  width: 80%;
-  max-width: 500px;
-  justify-content: center;
-  align-items: center;
-  // border: solid 1px black;
-  .loginTitle {
-    font-size: 30px;
-    font-weight: 500;
-    text-align: center;
-    padding-bottom: 20px;
-  }
-  .textPassword {
-    width: 90%;
-  }
-  .textUsername {
-    width: 90%;
-  }
-}
-
-/////////////// CREATE POST ////////////////////
-.postForm {
-  max-width: 800px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-
-  .postTitle {
-  }
-  .postSummary {
-  }
-  .postFile {
-  }
-  .postButton {
-  }
-}
-@media screen and (max-width: 700px) {
-  .postForm {
-    // width: 400px;
-  }
-}
-/////////////// POST PAGE////////////////////
-.postPage {
-  // max-width: 600px;
-  // padding-bottom: 50px;
-  // display: flex;
-  // flex-direction: column;
-  // justify-content: center;
-  // align-items: center;
-  a {
-    color: #26798e;
-    text-decoration: underline;
-  }
-  img {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    margin: auto 0;
-    margin: 10px 0;
-  }
-  .postPageTitle {
-    // text-align: center;
-    // font-size: 30px;
-    // font-weight: 600;
-    // line-height: 30px;
-    // margin-bottom: 10px;
-  }
-  .postPageTime {
-    font-size: 15px;
-    line-height: 15px;
-    color: #5b5a5a;
-    margin-bottom: 2px;
-  }
-  .postPageAuthor {
-    font-size: 15px;
-    line-height: 15px;
-    margin-bottom: 10px;
-  }
-
-  .postPageEdit {
-    // border: solid 1px black;
-    background-color: #79aed6;
-    border-radius: 4px;
-    padding: 5px 15px;
-    text-decoration: none;
-    margin-bottom: 5px;
-    .postPageEditButton {
-      display: inline-block;
-      text-decoration: none;
-      // padding-right: 5px;
-    }
-    .postPageEditIcon {
-      margin-right: 4px;
-    }
-  }
-
-  .postPageImgContainer {
-    max-width: 1100px;
-    margin-bottom: 10px;
-    max-height: 300px;
-    display: flex;
-    overflow: hidden;
-    .postPageImg {
-      object-fit: cover;
-      object-position: center center;
-      width: 100%;
-    }
-  }
-  .postPageContent {
-    font-size: 16px;
-    line-height: 22px;
-    max-width: 1100px;
-  }
-}
-@media screen and (max-width: 700px) {
-  .postPageImgContainer {
-    padding: 0 60px;
-    .postPageImg {
-    }
-  }
-  .postPageContent {
-    padding: 0 60px;
-  }
-}
-@media screen and (max-width: 500px) {
-  .postPageContent {
-    padding: 0 20px;
-  }
-}
-
-////////////////////////////////////////////////////////
-// .ellipsisArea {
-//   background: #fff20d;
-//   overflow: hidden;
-//   width: 100%;
-//   max-width: 400px;
-// }
-// .ellipsisArea_p {
-//   font-size: 14px;
-//   height: 42px;
-//   line-height: 1.5;
-//   position: relative;
-//   margin: 0;
-// }
-// .ellipsisArea_p:before,
-// .ellipsisArea_p:after {
-//   background: #fff20d;
+// .authorName {
 //   position: absolute;
+//   align-items: center;
+//   color: #444444;
+//   position: absolute;
+//   width: 95%;
+//   bottom: 7px;
+//   left: 50%;
+//   transform: translate(-50%, 2%);
+//   -webkit-transform: translate(-50%, 2%);
+//   -ms-transform: translate(-50%, 2%);
+//   overflow-wrap: break-word;
+//   line-height: 13px;
+//   background-color: rgba(240, 248, 255, 0.409);
+//   padding: 6px 6px;
+//   border-radius: 4px;
 // }
-// .ellipsisArea_p:before {
-//   content: "...";
-//   top: 21px;
-//   right: 0;
+
+// .postContents {
+//   height: 250px;
+//   min-width: 60%;
+//   display: flex;
+//   flex-direction: column;
+//   padding: 5px 10px;
+//   // width: 50%;
+//   .postTitle {
+//     line-height: 19px;
+//     padding-top: 10px;
+//     font-size: 18px;
+//     font-weight: 600;
+//     max-height: 45px;
+//     overflow-y: scroll;
+//     margin-bottom: 10px;
+//   }
+//   .info {
+//     display: flex;
+//     color: #5b5a5a;
+//     gap: 10px;
+//     font-size: 13px;
+
+//     .author {
+//       font-weight: 600;
+//       color: #5b5a5a;
+//     }
+//     .date {
+//       width: 100%;
+//       color: #6d6c6c;
+//     }
+//   }
+//   .postWriting {
+//     padding: 8px 0;
+//     margin-bottom: 10px;
+//     line-height: 15px;
+//     font-size: 15px;
+//     height: max-content;
+//     overflow-y: scroll;
+//   }
 // }
-// .ellipsisArea_p:after {
-//   content: "";
-//   height: 100%;
-//   width: 100%;
+//   }
+// }
+
+// @media screen and (max-width: 700px) {
+//   .mainContainer {
+//     margin: 0 20px;
+//   }
+//   .nav {
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     margin-right: 50px;
+//     .nav1 {
+//       margin-right: 20px;
+//     }
+//     .nav2 {
+//       margin-right: 1px;
+//     }
+//     .nav3 {
+//     }
+//     .nav4 {
+//       padding-left: 5px;
+//     }
+//   }
+//   .posts {
+//     .post {
+//       grid-template-columns: inherit;
+//       max-width: 300px;
+//       gap: 10px;
+
+//       .postImageContainer {
+//         max-width: 300px;
+//         height: 250px;
+//       }
+//       .postImage {
+//       }
+//       .postContents {
+//         max-width: 300px;
+//         max-height: 150px;
+//         .postTitle {
+//           line-height: 17.5px;
+//         }
+//         .postWriting {
+//           line-height: 18px;
+//         }
+//       }
+
+//       .info {
+//         font-size: 12px;
+//         // flex-direction: column;
+//         gap: 10px;
+//         line-height: 15px;
+//         .author {
+//         }
+//         .date {
+//         }
+//       }
+//     }
+//   }
+// }
+// @media screen and (max-width: 500px) {
+//   .post {
+//     // grid-template-rows: 0.9fr 1.1fr;
+//   }
+//   .logo {
+//     text-align: left;
+//     font-size: 15px;
+//     line-height: 15px;
+//     margin-left: 20px;
+//   }
+//   .nav {
+//     font-size: 12px;
+//     margin-right: 20px;
+
+//     .nav1 {
+//       width: 55px;
+//       line-height: 10px;
+//       text-align: center;
+//       margin-right: 10px;
+//     }
+//     .nav2 {
+//       margin-right: 1px;
+//     }
+//     .nav3 {
+//     }
+//     .nav4 {
+//       padding-left: 5px;
+//     }
+//   }
+// }
+
+// ////////// LOGIN/REGISTER /////////////////
+// .loginForm {
+//   display: flex;
+//   flex-direction: column;
+//   gap: 15px;
+//   width: 80%;
+//   max-width: 500px;
+//   justify-content: center;
+//   align-items: center;
+//   // border: solid 1px black;
+//   .loginTitle {
+//     font-size: 30px;
+//     font-weight: 500;
+//     text-align: center;
+//     padding-bottom: 20px;
+//   }
+//   .textPassword {
+//     width: 90%;
+//   }
+//   .textUsername {
+//     width: 90%;
+//   }
+// }
+
+// /////////////// CREATE POST ////////////////////
+// .postForm {
+//   max-width: 800px;
+//   display: flex;
+//   flex-direction: column;
+//   gap: 5px;
+
+//   .postTitle {
+//   }
+//   .postSummary {
+//   }
+//   .postFile {
+//   }
+//   .postButton {
+//   }
+// }
+// @media screen and (max-width: 700px) {
+//   .postForm {
+//     // width: 400px;
+//   }
+// }
+/////////////// POST PAGE////////////////////
+// .postPage {
+//   // max-width: 600px;
+//   // padding-bottom: 50px;
+//   // display: flex;
+//   // flex-direction: column;
+//   // justify-content: center;
+//   // align-items: center;
+//   a {
+//     color: #26798e;
+//     text-decoration: underline;
+//   }
+//   img {
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     text-align: center;
+//     margin: auto 0;
+//     margin: 10px 0;
+//   }
+//   .postPageTitle {
+// text-align: center;
+// font-size: 30px;
+// font-weight: 600;
+// line-height: 30px;
+// margin-bottom: 10px;
+// }
+// .postPageTime {
+//   font-size: 15px;
+//   line-height: 15px;
+//   color: #5b5a5a;
+//   margin-bottom: 2px;
+// }
+// .postPageAuthor {
+//   font-size: 15px;
+//   line-height: 15px;
+//   margin-bottom: 10px;
+// }
+
+// .postPageEdit {
+//   // border: solid 1px black;
+//   background-color: #79aed6;
+//   border-radius: 4px;
+//   padding: 5px 15px;
+//   text-decoration: none;
+//   margin-bottom: 5px;
+//   .postPageEditButton {
+//     display: inline-block;
+//     text-decoration: none;
+//     // padding-right: 5px;
+//   }
+//   .postPageEditIcon {
+//     margin-right: 4px;
+//   }
+// }
+
+// .postPageImgContainer {
+//   max-width: 1100px;
+//   margin-bottom: 10px;
+//   max-height: 300px;
+//   display: flex;
+//   overflow: hidden;
+//   .postPageImg {
+//     object-fit: cover;
+//     object-position: center center;
+//     width: 100%;
+//   }
+// }
+// .postPageContent {
+//   font-size: 16px;
+//   line-height: 22px;
+//   max-width: 1100px;
+// }
+// }
+// @media screen and (max-width: 700px) {
+//   .postPageImgContainer {
+//     padding: 0 60px;
+//     .postPageImg {
+//     }
+//   }
+//   .postPageContent {
+//     padding: 0 60px;
+//   }
+// }
+// @media screen and (max-width: 500px) {
+//   .postPageContent {
+//     padding: 0 20px;
+//   }
 // }

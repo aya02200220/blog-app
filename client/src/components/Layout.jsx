@@ -56,6 +56,8 @@ const Layout = () => {
     }
   }, [userInfo]);
 
+  console.log("userData.userName:", userData.userName);
+
   useEffect(() => {
     if (userData.userName) {
       // ログイン処理が完了している場合にユーザー情報を取得
