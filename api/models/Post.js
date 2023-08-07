@@ -1,6 +1,25 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
+// const CommentSchema = new Schema(
+//   {
+//     author: {
+//       type: mongoose.Schema.Types.ObjectId,
+//       ref: "User",
+//       required: true,
+//     },
+//     authorFirstName: String,
+//     authorLastName: String,
+//     content: {
+//       type: String,
+//       required: true,
+//     },
+//   },
+//   {
+//     timestamps: true,
+//   }
+// );
+
 const CommentSchema = new Schema(
   {
     author: {
@@ -17,6 +36,7 @@ const CommentSchema = new Schema(
   },
   {
     timestamps: true,
+    _id: true,
   }
 );
 

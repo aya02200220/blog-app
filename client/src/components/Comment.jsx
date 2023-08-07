@@ -27,9 +27,12 @@ const Comment = ({ postInfo }) => {
     setComments(postInfo?.comments);
   }, [postInfo]);
 
+  useEffect(() => {
+    fetchComments();
+  }, [postId]);
+
   const addComment = async (e) => {
     e.preventDefault();
-
     try {
       const response = await fetch(
         `http://localhost:4000/post/comments/${postId}`,
@@ -44,17 +47,36 @@ const Comment = ({ postInfo }) => {
         const errorData = await response.json();
         throw new Error(errorData.error);
       }
-
       setComment("");
       fetchComments();
     } catch (error) {
       console.error(error);
     }
   };
+  const handleDelete = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:4000/posts/${postId}/comments/${commentId}`,
+        // `http://localhost:4000/comments/${commentId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include", // 認証情報を送信
+        }
+      );
 
-  useEffect(() => {
-    fetchComments();
-  }, [postId]);
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data.message);
+      } else {
+        console.error(`Failed to delete the comment: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Failed to delete the comment:", error);
+    }
+  };
 
   const fetchComments = async () => {
     try {
@@ -120,7 +142,14 @@ const Comment = ({ postInfo }) => {
           .slice()
           .reverse()
           .map((com) => {
-            return <Comments key={com._id} contents={com} />;
+            return (
+              <Comments
+                fetchComments={fetchComments}
+                key={com._id}
+                contents={com}
+                passPostId={postId}
+              />
+            );
           })}
       </Box>
     </>

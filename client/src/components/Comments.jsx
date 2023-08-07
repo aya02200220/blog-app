@@ -1,24 +1,14 @@
-import React, { useContext, useState, useEffect } from "react";
-import { UserContext } from "./UserContext";
+import React, { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { GetLocalStorage } from "./Functions/LocalStorage";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import CancelSharpIcon from "@mui/icons-material/CancelSharp";
 
-import {
-  Box,
-  Input,
-  Typography,
-  Button,
-  IconButton,
-  Divider,
-  Skeleton,
-  CircularProgress,
-  TextField,
-} from "@mui/material";
+import { Box, Typography, Button, TextField } from "@mui/material";
 import { LoginIcon } from "./LoginIcon";
 
-export const Comments = ({ contents }) => {
+export const Comments = ({ contents, passPostId, fetchComments }) => {
   const commentStyle = {
     maxHeight: "5em",
     overflowY: "auto",
@@ -29,6 +19,8 @@ export const Comments = ({ contents }) => {
   // const [storageLastName, setStorageLastName] = useState(null);
   // const [storageUserName, setStorageUserName] = useState(null);
   const [storageID, setStorageID] = useState(null);
+  // const [isEditing, setIsEditing] = useState(false);
+  // const [editedComment, setEditedComment] = useState(false);
 
   useEffect(() => {
     const userInfo = GetLocalStorage();
@@ -47,10 +39,12 @@ export const Comments = ({ contents }) => {
     lastName = "",
     userIcon = "",
   } = author;
+
   const content = contents.content || "";
   const createdAt = contents.createdAt || "";
-  const updatedAt = contents.updatedAt || "";
-  const _id = contents._id || "";
+  // const updatedAt = contents.updatedAt || "";
+  const commentId = contents._id || "";
+  const postId = passPostId || "";
 
   const firstLetter = firstName ? firstName.charAt(0) : "";
   const lastLetter = lastName ? lastName.charAt(0) : "";
@@ -58,18 +52,59 @@ export const Comments = ({ contents }) => {
     ? format(new Date(createdAt), "MMM d , yyyy")
     : "";
 
-  const { userInfo } = useContext(UserContext);
   const isAuthor = authorId === storageID;
 
-  console.log(authorId, userInfo._id);
-  console.log();
+  // const handleEdit = () => {
+  //   setEditedComment(contents.content || "");
+  //   setIsEditing(!isEditing);
+  // };
 
-  const handleEdit = () => {
-    // Edit comment logic here
-  };
+  // const handleSave = async () => {
+  //   setIsEditing(false);
+  //   try {
+  //     const response = await fetch(
+  //       `http://localhost:4000/comments/${commentId}`,
+  //       {
+  //         method: "PUT",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify({ content: editedComment }),
+  //         credentials: "include",
+  //       }
+  //     );
+  //     if (!response.ok) {
+  //       const errorData = await response.json();
+  //       throw new Error(errorData.error);
+  //     }
+  //     // Update the state or refetch the comments after successfully editing
+  //     // fetchComments();
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
-  const handleDelete = () => {
-    // Delete comment logic here
+  const handleDelete = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:4000/posts/${postId}/comments/${commentId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include", // 認証情報を送信
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data.message);
+        fetchComments();
+      } else {
+        console.error(`Failed to delete the comment: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Failed to delete the comment:", error);
+    }
   };
 
   return (
@@ -121,9 +156,7 @@ export const Comments = ({ contents }) => {
               <Box sx={{ display: "flex" }}>
                 {isAuthor && (
                   <>
-                    {/* <EditIcon sx={{ fontSize: "20px" }} />
-                    <DeleteIcon sx={{ fontSize: "20px" }} /> */}
-                    <Button
+                    {/* <Button
                       onClick={handleEdit}
                       sx={{
                         padding: "0",
@@ -132,8 +165,14 @@ export const Comments = ({ contents }) => {
                         marginRight: 1,
                       }}
                     >
-                      <EditIcon sx={{ fontSize: "20px", color: "#787878" }} />
-                    </Button>
+                      {isEditing ? (
+                        <CancelSharpIcon
+                          sx={{ fontSize: "20px", color: "#787878" }}
+                        />
+                      ) : (
+                        <EditIcon sx={{ fontSize: "20px", color: "#787878" }} />
+                      )}
+                    </Button> */}
                     <Button
                       onClick={handleDelete}
                       sx={{
@@ -149,13 +188,31 @@ export const Comments = ({ contents }) => {
                 )}
               </Box>
             </Box>
-
+            {/* {isEditing ? (
+              <TextField
+                fullWidth
+                type="text"
+                id="comment"
+                multiline
+                variant="filled"
+                sx={{ height: "100%" }}
+                value={editedComment}
+                onChange={(e) => setEditedComment(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    handleSave();
+                    e.preventDefault(); // Prevents the addition of a new line in the input on pressing Enter
+                  }
+                // }}
+              />
+            ) : ( */}
             <Typography
               style={commentStyle}
               sx={{ lineHeight: "19px", mt: 1, wordWrap: "break-word" }}
             >
               {content}
             </Typography>
+            {/* )} */}
           </Box>
         </Box>
       </Box>

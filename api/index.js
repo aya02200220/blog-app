@@ -92,45 +92,6 @@ app.post("/login", async (req, res) => {
   }
 });
 
-// app.post("/login", async (req, res) => {
-//   // const { userName, password } = req.body;
-//   const { firstName, lastName, email, password } = req.body;
-//   const userInfo = await User.findOne({ email });
-//   const passCheck = bcrypt.compareSync(password, userInfo.password);
-//   if (passCheck) {
-//     // Login
-//     jwt.sign(
-//       {
-//         firstName: userInfo.firstName,
-//         lastName: userInfo.lastName,
-//         email,
-//         id: userInfo._id,
-//       },
-//       secret,
-//       {},
-//       (err, token) => {
-//         if (err) throw err;
-//         res.cookie("token", token, { httpOnly: true }).json({
-//           id: userInfo._id,
-//           email,
-//           firstName: userInfo.firstName,
-//           lastName: userInfo.lastName,
-//           followers: userInfo.followers,
-//           userIcon: userInfo.userIcon,
-//           following: userInfo.following,
-//           bio: userInfo.bio,
-//           followers: userInfo.followers,
-//           userIcon: userInfo.userIcon,
-//           following: userInfo.following,
-//           bio: userInfo.bio,
-//         });
-//       }
-//     );
-//   } else {
-//     res.status(404).json("wrong credentials");
-//   }
-// });
-
 app.get("/profile", (req, res) => {
   const { token } = req.cookies;
   jwt.verify(token, secret, {}, (err, info) => {
@@ -353,7 +314,7 @@ app.post("/post/comments/:postId", async (req, res) => {
   });
 });
 
-// コメントを読み込むためのサーバーエンドポイント
+// コメントを読み込むためのサーバーエンドポイント................................
 app.get("/post/comments/:postId", async (req, res) => {
   try {
     const post = await PostModel.findById(req.params.postId).populate(
@@ -366,6 +327,71 @@ app.get("/post/comments/:postId", async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.toString() });
   }
+});
+
+// アップデートコメント.................................................
+app.put("/comments/:commentId", async (req, res) => {
+  const { token } = req.cookies;
+  jwt.verify(token, secret, {}, async (err, info) => {
+    if (err) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+    try {
+      const { commentId } = req.params;
+      const { content } = req.body;
+      const comment = await Comment.findById(commentId);
+      if (!comment) {
+        return res.status(404).json({ error: "Comment not found" });
+      }
+      if (String(comment.author) !== String(info.id)) {
+        return res
+          .status(403)
+          .json({ error: "You are not the author of this comment" });
+      }
+      comment.content = content;
+      await comment.save();
+      res.json({ message: "Comment updated", comment });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Server error" });
+    }
+  });
+});
+
+//delete ........................................................
+app.delete("/posts/:postId/comments/:commentId", async (req, res) => {
+  const { token } = req.cookies;
+  jwt.verify(token, secret, {}, async (err, info) => {
+    const { postId, commentId } = req.params;
+
+    try {
+      const post = await PostModel.findById(postId);
+
+      if (!post) {
+        return res.status(404).json({ error: "Post not found" });
+      }
+
+      // Check if the comment exists
+      const commentIndex = post.comments.findIndex(
+        (comment) => comment._id.toString() === commentId
+      );
+
+      if (commentIndex === -1) {
+        return res.status(404).json({ error: "Comment not found" });
+      }
+
+      // Remove the comment
+      post.comments.splice(commentIndex, 1);
+
+      // Save the post
+      await post.save();
+
+      res.json({ message: "Comment deleted" });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Server error" });
+    }
+  });
 });
 
 ///////////////////////////////////////////////////
