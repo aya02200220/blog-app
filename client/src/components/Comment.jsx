@@ -56,32 +56,6 @@ const Comment = ({ postInfo }) => {
     }
   };
 
-  const addComment2 = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:4000/post/${postId}/comments`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ content: comment }),
-        }
-      );
-      // if (!response.ok) {
-      //   throw new Error("Response is not OK");
-      // }
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error); // Changed this line to display the server error message
-      }
-
-      const post = await response.json();
-      setComments(post.comments); // Assuming comments is a state variable
-      setComment("");
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   // useEffect(() => {
   //   const fetchComments = async () => {
   //     try {

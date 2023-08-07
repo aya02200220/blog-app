@@ -323,56 +323,40 @@ app.get("/user/:userId", async (req, res) => {
 
 ///////////////// Comment ////////////////////////////////
 
-// app.post("/favorites", async (req, res) => {
-//   const { postId } = req.body;
-//   const { token } = req.cookies;
-//   jwt.verify(token, secret, {}, async (err, info) => {
-//     if (err) {
-//       res.status(401).json({ message: "認証エラー" });
-//     } else {
-//       try {
-//         const user = await User.findById(info.id);
-//         user.favorites.push(postId);
-//         await user.save();
-//         res.status(200).json({ message: "お気に入りに追加されました" });
-//       } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ message: "サーバーエラーが発生しました" });
-//       }
-//     }
-//   });
-// });
-
-// app.post("/post/comments", async (req, res) => {
+// コメントを投稿するためのエンドポイント
 app.post("/post/comments/:postId", async (req, res) => {
   console.log("-----------------");
   console.log("postId:", req.params.postId);
-  const userId = req.user ? req.user._id : "defaultUserId";
-  console.log("userId", userId);
 
-  // console.log("req.user:", req.user); // Here we log the content of req.user
-
-  try {
-    const post = await PostModel.findById(req.params.postId);
-
-    if (!post) {
-      return res.status(404).json({ error: "Post not found" });
+  // JWT トークンを使用してユーザー情報を取得
+  const { token } = req.cookies;
+  jwt.verify(token, secret, {}, async (err, info) => {
+    if (err) {
+      return res.status(401).json({ message: "認証エラー" });
     }
 
-    const comment = {
-      author: req.user._id,
-      content: req.body.content,
-    };
-    post.comments.push(comment);
-    await post.save();
-    res.json(post);
-  } catch (error) {
-    console.error(error); // Add this line to output the error details
-    res.status(500).json({ error: error.toString() });
-  }
+    try {
+      const post = await PostModel.findById(req.params.postId);
+
+      if (!post) {
+        return res.status(404).json({ error: "Post not found" });
+      }
+
+      const comment = {
+        author: info.id,
+        content: req.body.content,
+      };
+      post.comments.push(comment);
+      await post.save();
+      res.json(post);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: error.toString() });
+    }
+  });
 });
 
-//コメントを読み込むためのサーバーエンドポイント
+// コメントを読み込むためのサーバーエンドポイント
 app.get("/post/comments/:postId", async (req, res) => {
   try {
     const post = await PostModel.findById(req.params.postId).populate(
