@@ -19,8 +19,8 @@ export const Comments = ({ contents, passPostId, fetchComments }) => {
   // const [storageLastName, setStorageLastName] = useState(null);
   // const [storageUserName, setStorageUserName] = useState(null);
   const [storageID, setStorageID] = useState(null);
-  // const [isEditing, setIsEditing] = useState(false);
-  // const [editedComment, setEditedComment] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedComment, setEditedComment] = useState(false);
 
   useEffect(() => {
     const userInfo = GetLocalStorage();
@@ -54,33 +54,32 @@ export const Comments = ({ contents, passPostId, fetchComments }) => {
 
   const isAuthor = authorId === storageID;
 
-  // const handleEdit = () => {
-  //   setEditedComment(contents.content || "");
-  //   setIsEditing(!isEditing);
-  // };
+  const handleEdit = () => {
+    setEditedComment(contents.content || "");
+    setIsEditing(!isEditing);
+  };
 
-  // const handleSave = async () => {
-  //   setIsEditing(false);
-  //   try {
-  //     const response = await fetch(
-  //       `http://localhost:4000/comments/${commentId}`,
-  //       {
-  //         method: "PUT",
-  //         headers: { "Content-Type": "application/json" },
-  //         body: JSON.stringify({ content: editedComment }),
-  //         credentials: "include",
-  //       }
-  //     );
-  //     if (!response.ok) {
-  //       const errorData = await response.json();
-  //       throw new Error(errorData.error);
-  //     }
-  //     // Update the state or refetch the comments after successfully editing
-  //     // fetchComments();
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+  const handleSave = async () => {
+    setIsEditing(false);
+    try {
+      const response = await fetch(
+        `http://localhost:4000/posts/${postId}/comments/${commentId}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ content: editedComment }),
+          credentials: "include",
+        }
+      );
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error);
+      }
+      fetchComments();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleDelete = async () => {
     try {
@@ -91,7 +90,7 @@ export const Comments = ({ contents, passPostId, fetchComments }) => {
           headers: {
             "Content-Type": "application/json",
           },
-          credentials: "include", // 認証情報を送信
+          credentials: "include",
         }
       );
 
@@ -156,7 +155,7 @@ export const Comments = ({ contents, passPostId, fetchComments }) => {
               <Box sx={{ display: "flex" }}>
                 {isAuthor && (
                   <>
-                    {/* <Button
+                    <Button
                       onClick={handleEdit}
                       sx={{
                         padding: "0",
@@ -172,7 +171,7 @@ export const Comments = ({ contents, passPostId, fetchComments }) => {
                       ) : (
                         <EditIcon sx={{ fontSize: "20px", color: "#787878" }} />
                       )}
-                    </Button> */}
+                    </Button>
                     <Button
                       onClick={handleDelete}
                       sx={{
@@ -188,7 +187,7 @@ export const Comments = ({ contents, passPostId, fetchComments }) => {
                 )}
               </Box>
             </Box>
-            {/* {isEditing ? (
+            {isEditing ? (
               <TextField
                 fullWidth
                 type="text"
@@ -203,16 +202,16 @@ export const Comments = ({ contents, passPostId, fetchComments }) => {
                     handleSave();
                     e.preventDefault(); // Prevents the addition of a new line in the input on pressing Enter
                   }
-                // }}
+                }}
               />
-            ) : ( */}
-            <Typography
-              style={commentStyle}
-              sx={{ lineHeight: "19px", mt: 1, wordWrap: "break-word" }}
-            >
-              {content}
-            </Typography>
-            {/* )} */}
+            ) : (
+              <Typography
+                style={commentStyle}
+                sx={{ lineHeight: "19px", mt: 1, wordWrap: "break-word" }}
+              >
+                {content}
+              </Typography>
+            )}
           </Box>
         </Box>
       </Box>

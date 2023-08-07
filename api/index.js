@@ -330,26 +330,44 @@ app.get("/post/comments/:postId", async (req, res) => {
 });
 
 // アップデートコメント.................................................
-app.put("/comments/:commentId", async (req, res) => {
+app.put("/posts/:postId/comments/:commentId", async (req, res) => {
   const { token } = req.cookies;
   jwt.verify(token, secret, {}, async (err, info) => {
     if (err) {
       return res.status(401).json({ error: "Unauthorized" });
     }
+
+    const { postId, commentId } = req.params;
+    const { content } = req.body;
+
     try {
-      const { commentId } = req.params;
-      const { content } = req.body;
-      const comment = await Comment.findById(commentId);
+      const post = await PostModel.findById(postId);
+
+      if (!post) {
+        return res.status(404).json({ error: "Post not found" });
+      }
+
+      // Check if the comment exists
+      const comment = post.comments.find(
+        (comment) => comment._id.toString() === commentId
+      );
+
       if (!comment) {
         return res.status(404).json({ error: "Comment not found" });
       }
+
       if (String(comment.author) !== String(info.id)) {
         return res
           .status(403)
           .json({ error: "You are not the author of this comment" });
       }
+
+      // Update the comment
       comment.content = content;
-      await comment.save();
+
+      // Save the post
+      await post.save();
+
       res.json({ message: "Comment updated", comment });
     } catch (error) {
       console.error(error);
