@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { UserContext } from "./UserContext";
 import { LoginIcon } from "./LoginIcon";
+import { GetLocalStorage } from "./Functions/LocalStorage";
 
 import {
   Box,
@@ -16,9 +17,11 @@ import {
 import { FormLabel } from "@material-ui/core";
 import { Comments } from "./Comments";
 
-const Comment = ({ postInfo }) => {
+const Comment = ({ postInfo, onCommentAdded }) => {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
+  const [storageID, setStorageID] = useState(null);
+
   const { userInfo } = useContext(UserContext);
 
   const postId = postInfo._id;
@@ -30,6 +33,16 @@ const Comment = ({ postInfo }) => {
   useEffect(() => {
     fetchComments();
   }, [postId]);
+
+  useEffect(() => {
+    const userInfo = GetLocalStorage();
+    if (userInfo) {
+      // setStorageFirstName(userInfo.firstName);
+      // setStorageLastName(userInfo.lastName);
+      // setStorageUserName(userInfo.email);
+      setStorageID(userInfo.id);
+    }
+  }, []);
 
   const addComment = async (e) => {
     e.preventDefault();
@@ -49,32 +62,9 @@ const Comment = ({ postInfo }) => {
       }
       setComment("");
       fetchComments();
+      onCommentAdded();
     } catch (error) {
       console.error(error);
-    }
-  };
-  const handleDelete = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:4000/posts/${postId}/comments/${commentId}`,
-        // `http://localhost:4000/comments/${commentId}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include", // 認証情報を送信
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data.message);
-      } else {
-        console.error(`Failed to delete the comment: ${response.status}`);
-      }
-    } catch (error) {
-      console.error("Failed to delete the comment:", error);
     }
   };
 
@@ -148,6 +138,7 @@ const Comment = ({ postInfo }) => {
                 key={com._id}
                 contents={com}
                 passPostId={postId}
+                storageID={storageID}
               />
             );
           })}

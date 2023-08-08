@@ -21,26 +21,67 @@ import TurnedInNotIcon from "@mui/icons-material/TurnedInNot";
 
 import { Link } from "react-router-dom";
 
-export const AuthorInfo = ({ postInfo, favorite, userName, userId, _id }) => {
-  const [isFollowing, setIsFollowing] = useState("false");
-  const [isBookMarked, setIsBookMarked] = useState("false");
+export const AuthorInfo = ({
+  postInfo,
+  favorite,
+  userName,
+  userId,
+  _id,
+  commentUpdated,
+}) => {
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [isBookMarked, setIsBookMarked] = useState(false);
   const { setUserInfo, userInfo } = useContext(UserContext);
+  const [getPostInfo, setGetPostInfo] = useState(null);
+
   const [authorInfo, setAuthorInfo] = useState(null); // 投稿者の情報を保持
 
   const [comments, setComments] = useState([]);
   const favoriteCount = postInfo?.favorite;
 
-  // console.log("postInfo @ AuthorInfo:", postInfo);
-
   useEffect(() => {
     setComments(postInfo?.comments);
   }, [postInfo]);
+
+  const postID = postInfo?._id;
 
   function stringAvatar(name) {
     return {
       children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
     };
   }
+
+  // ポスト投稿者の情報を取得---------------------------------------
+  const fetchAuthorInfo = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:4000/user/${postInfo.author._id}`
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      setAuthorInfo(data); // 投稿者の情報をセット
+    } catch (error) {
+      console.error("Error fetching author info:", error);
+    }
+  };
+
+  // Comments update---------------------------------------
+  useEffect(() => {
+    console.log("-------comment up date-----------");
+    if (postID) {
+      fetch(`http://localhost:4000/post/${postID}`)
+        .then((res) => res.json())
+        .then((fetchedPostInfo) => {
+          setGetPostInfo(fetchedPostInfo);
+          setComments(fetchedPostInfo.comments);
+        })
+        .catch((error) => {
+          console.error("Error fetching post info:", error);
+        });
+    }
+  }, [commentUpdated]);
 
   useEffect(() => {
     // if (Object.keys(userInfo).length > 0) {
@@ -59,22 +100,6 @@ export const AuthorInfo = ({ postInfo, favorite, userName, userId, _id }) => {
     //   console.log("userInfo false:", userInfo);
     //   setFavorites("");
     // }
-
-    // ポスト投稿者の情報を取得する関数
-    const fetchAuthorInfo = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:4000/user/${postInfo.author._id}`
-        );
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
-        setAuthorInfo(data); // 投稿者の情報をセット
-      } catch (error) {
-        console.error("Error fetching author info:", error);
-      }
-    };
 
     if (postInfo?.author._id) fetchAuthorInfo();
   }, [postInfo?.author._id]);
@@ -264,14 +289,42 @@ export const AuthorInfo = ({ postInfo, favorite, userName, userId, _id }) => {
               )}
             </IconButton>
 
-            <Box sx={{ mt: 1, display: "flex", gap: 1 }}>
+            <Box
+              sx={{
+                mt: 1,
+                display: "flex",
+                gap: 1,
+                justifyContent: "center",
+              }}
+            >
               <IconButton
                 size="small"
                 sx={{ borderRadius: 1.5, width: "50px" }}
+                onClick={() => {
+                  // 指定したIDまでスムーズにスクロール
+                  document
+                    .getElementById("comments-section")
+                    .scrollIntoView({ behavior: "smooth" });
+                }}
               >
-                <Box sx={{ display: "flex", justifyContent: "center" }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
                   <ChatBubbleOutlineIcon />
-                  <Typography>{comments.length}</Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "20px",
+                      fontWeight: "500",
+                      ml: 0.5,
+                      mb: 0.5,
+                    }}
+                  >
+                    {comments.length}
+                  </Typography>
                 </Box>
               </IconButton>
 

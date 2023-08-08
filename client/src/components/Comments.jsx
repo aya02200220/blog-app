@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { format } from "date-fns";
-import { GetLocalStorage } from "./Functions/LocalStorage";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import CancelSharpIcon from "@mui/icons-material/CancelSharp";
@@ -8,7 +7,12 @@ import CancelSharpIcon from "@mui/icons-material/CancelSharp";
 import { Box, Typography, Button, TextField } from "@mui/material";
 import { LoginIcon } from "./LoginIcon";
 
-export const Comments = ({ contents, passPostId, fetchComments }) => {
+export const Comments = ({
+  contents,
+  passPostId,
+  fetchComments,
+  storageID,
+}) => {
   const commentStyle = {
     maxHeight: "5em",
     overflowY: "auto",
@@ -18,19 +22,8 @@ export const Comments = ({ contents, passPostId, fetchComments }) => {
   // const [storageFirstName, setStorageFirstName] = useState(null);
   // const [storageLastName, setStorageLastName] = useState(null);
   // const [storageUserName, setStorageUserName] = useState(null);
-  const [storageID, setStorageID] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editedComment, setEditedComment] = useState(false);
-
-  useEffect(() => {
-    const userInfo = GetLocalStorage();
-    if (userInfo) {
-      // setStorageFirstName(userInfo.firstName);
-      // setStorageLastName(userInfo.lastName);
-      // setStorageUserName(userInfo.email);
-      setStorageID(userInfo.id);
-    }
-  }, []);
 
   const author = contents.author || {};
   const {
@@ -42,7 +35,6 @@ export const Comments = ({ contents, passPostId, fetchComments }) => {
 
   const content = contents.content || "";
   const createdAt = contents.createdAt || "";
-  // const updatedAt = contents.updatedAt || "";
   const commentId = contents._id || "";
   const postId = passPostId || "";
 
@@ -127,9 +119,10 @@ export const Comments = ({ contents, passPostId, fetchComments }) => {
         <Box sx={{ flexGrow: 1 }}>
           <Box
             sx={{
-              border: "solid 1px gray",
               p: "8px 15px",
               borderRadius: "4px",
+              backgroundColor: isAuthor ? "#faf1bf" : "#c9e9ff",
+              border: isAuthor ? "solid 3px #c4bd98" : "solid 3px #c0dbed",
             }}
           >
             <Box
@@ -145,10 +138,10 @@ export const Comments = ({ contents, passPostId, fetchComments }) => {
                 <Typography sx={{ fontWeight: "600", color: "#4d4d4d" }}>
                   {firstName}
                 </Typography>
-                <Typography sx={{ fontWeight: "600", color: "#4d4d4d" }}>
+                <Typography sx={{ ml: 1, fontWeight: "600", color: "#4d4d4d" }}>
                   {lastName}
                 </Typography>
-                <Typography sx={{ ml: 1, color: "gray", fontWeight: "500" }}>
+                <Typography sx={{ ml: 2, color: "gray", fontWeight: "500" }}>
                   {formattedCreatedAt}
                 </Typography>
               </Box>

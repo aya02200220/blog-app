@@ -25,6 +25,7 @@ const PostPage = () => {
   const [loading, setLoading] = useState(true);
   const [postInfo, setPostInfo] = useState(null);
   const [favorite, setFavorite] = useState(null);
+  const [commentUpdated, setCommentUpdated] = useState(false);
 
   const { userInfo } = useContext(UserContext);
   const { id } = useParams();
@@ -75,7 +76,7 @@ const PostPage = () => {
               borderRadius: 1,
               position: "fixed",
               top: "80px",
-              left: { xs: "60px", sm: "77px", md: "253px", lr: "300px" },
+              left: { xs: "60px", sm: "77px", md: "249px", lr: "300px" },
               backgroundColor: "#fff",
               zIndex: 1,
             }}
@@ -108,7 +109,11 @@ const PostPage = () => {
           )}
 
           <Box>
-            <AuthorInfo postInfo={postInfo} favorite={favorite} />
+            <AuthorInfo
+              postInfo={postInfo}
+              commentUpdated={commentUpdated}
+              favorite={favorite}
+            />
           </Box>
 
           {/* ///////////////////////////////////////////////// */}
@@ -196,9 +201,12 @@ const PostPage = () => {
                   className="contentBox"
                   dangerouslySetInnerHTML={{ __html: postInfo.content }}
                 />
-
+                <Box id="comments-section" sx={{ mb: 4 }}></Box>
                 <Box sx={{ mt: 5, width: "100%" }}>
-                  <Comment postInfo={postInfo} />
+                  <Comment
+                    postInfo={postInfo}
+                    onCommentAdded={() => setCommentUpdated(!commentUpdated)}
+                  />
                 </Box>
               </Box>
             </>
