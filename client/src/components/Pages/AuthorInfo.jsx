@@ -262,7 +262,7 @@ export const AuthorInfo = ({
             </Box>
 
             <IconButton size="small" sx={{ mt: 1, borderRadius: 1.5 }}>
-              {isFollowing ? (
+              {!isFollowing ? (
                 <Box
                   sx={{
                     display: "flex",

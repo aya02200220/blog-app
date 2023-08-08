@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useState, useContext } from "react";
+import { login } from "../Functions/Login";
 
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -44,7 +45,7 @@ export default function SignUp() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isRegistered, setIsRegistered] = useState(false);
+  const [redirect, setRedirect] = useState(false);
   const { setUserInfo } = useContext(UserContext);
 
   const register = async (e) => {
@@ -56,7 +57,7 @@ export default function SignUp() {
       headers: { "content-Type": "application/json" },
     });
     if (data.status === 200) {
-      login();
+      callLogin();
       toast.success("You are successfully registered!");
     } else {
       // toast.error("Registration failed");
@@ -64,31 +65,20 @@ export default function SignUp() {
     }
   };
 
-  const login = async (e) => {
+  const callLogin = async (e) => {
     // e.preventDefault();
-    console.log("Loging try");
-    const data = await fetch("http://localhost:4000/login", {
-      method: "POST",
-      body: JSON.stringify({ firstName, lastName, email, password }),
-      headers: { "content-Type": "application/json" },
-      credentials: "include",
-    });
-    if (data.status === 200) {
-      data.json().then((userInfo) => {
-        console.log("data:", data);
-        console.log("userinfo:", userInfo);
-        setUserInfo(userInfo);
-        localStorage.setItem("userInfo", userInfo);
-      });
-      setIsRegistered(true);
-      // toast.success("You are logged in!");
-    } else {
-      toast.error("Login failed");
+
+    const userInfo = await login(email, password);
+    console.log("Call Login");
+    if (userInfo) {
+      setUserInfo(userInfo);
+      setRedirect(true);
+      console.log("Call Login userInfo:", userInfo);
     }
   };
 
-  if (isRegistered) {
-    return <Navigate to="/" />;
+  if (redirect) {
+    return <Navigate to={"/"} />;
   }
 
   return (

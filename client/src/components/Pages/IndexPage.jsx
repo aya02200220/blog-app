@@ -4,7 +4,7 @@ import { UserContext } from "../UserContext";
 import { Box, Container } from "@mui/material/";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
-import { SideMenu } from "../SideMenu";
+import { GetLocalStorage } from "../Functions/LocalStorage";
 
 import Post from "../Post2";
 
@@ -68,12 +68,13 @@ const IndexPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userInfoString = localStorage.getItem("userInfo");
-        if (userInfoString) {
-          const userInfoObj = JSON.parse(userInfoString);
-          setUserName(userInfoObj.email);
+        const userInfo = GetLocalStorage();
+        // const userInfoString = localStorage.getItem("userInfo");
+        if (userInfo) {
+          // const userInfoObj = JSON.parse(userInfoString);
+          setUserName(userInfo.email);
 
-          if (userInfoObj.email) {
+          if (userInfo.email) {
             const response = await fetch("http://localhost:4000/favorites", {
               credentials: "include",
             });
@@ -97,8 +98,8 @@ const IndexPage = () => {
       }
     };
 
-    fetchData(); // この呼び出しをuseEffectの内部で行います。
-  }, []); // 依存配列は空にします。
+    fetchData();
+  }, []);
 
   return (
     <>
