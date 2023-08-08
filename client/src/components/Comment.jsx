@@ -68,6 +68,32 @@ const Comment = ({ postInfo, onCommentAdded }) => {
     }
   };
 
+  const handleDelete = async (postId, commentId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:4000/posts/${postId}/comments/${commentId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data.message);
+        fetchComments();
+        onCommentAdded();
+      } else {
+        console.error(`Failed to delete the comment: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Failed to delete the comment:", error);
+    }
+  };
+
   const fetchComments = async () => {
     try {
       const response = await fetch(
@@ -134,6 +160,7 @@ const Comment = ({ postInfo, onCommentAdded }) => {
           .map((com) => {
             return (
               <Comments
+                handleDelete={handleDelete}
                 fetchComments={fetchComments}
                 key={com._id}
                 contents={com}

@@ -51,36 +51,6 @@ export default function SignIn() {
   const [redirect, setRedirect] = useState(false);
   const { setUserInfo } = useContext(UserContext);
 
-  // const login = async (e) => {
-  //   e.preventDefault();
-
-  //   try {
-  //     const data = await fetch("http://localhost:4000/login", {
-  //       method: "POST",
-  //       body: JSON.stringify({ email, password }),
-  //       headers: { "Content-Type": "application/json" },
-  //       credentials: "include",
-  //     });
-
-  //     if (data.status === 200) {
-  //       const userInfo = await data.json();
-  //       LocalStorageRemove();
-  //       console.log("Login userInfo:", userInfo);
-  //       LocalStorage({ userInfo: userInfo });
-  //       setUserInfo(userInfo);
-
-  //       toast.success("You are logged in!");
-  //       // ログインが成功した場合、ホームページにリダイレクト
-  //       setRedirect(true);
-  //     } else {
-  //       toast.error("Login failed");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error during login:", error);
-  //     toast.error("An error occurred during login");
-  //   }
-  // };
-
   const callLogin = async (e) => {
     e.preventDefault();
 
@@ -116,31 +86,6 @@ export default function SignIn() {
           </Typography>
           <Box component="form" noValidate onSubmit={callLogin} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              {/* <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="given-name"
-                  name="firstName"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  autoFocus
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                />
-              </Grid> */}
-              {/* <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                />
-              </Grid> */}
               <Grid item xs={12}>
                 <TextField
                   required

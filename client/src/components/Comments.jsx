@@ -12,6 +12,7 @@ export const Comments = ({
   passPostId,
   fetchComments,
   storageID,
+  handleDelete,
 }) => {
   const commentStyle = {
     maxHeight: "5em",
@@ -73,30 +74,30 @@ export const Comments = ({
     }
   };
 
-  const handleDelete = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:4000/posts/${postId}/comments/${commentId}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        }
-      );
+  // const handleDelete = async () => {
+  //   try {
+  //     const response = await fetch(
+  //       `http://localhost:4000/posts/${postId}/comments/${commentId}`,
+  //       {
+  //         method: "DELETE",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         credentials: "include",
+  //       }
+  //     );
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data.message);
-        fetchComments();
-      } else {
-        console.error(`Failed to delete the comment: ${response.status}`);
-      }
-    } catch (error) {
-      console.error("Failed to delete the comment:", error);
-    }
-  };
+  //     if (response.ok) {
+  //       const data = await response.json();
+  //       console.log(data.message);
+  //       fetchComments();
+  //     } else {
+  //       console.error(`Failed to delete the comment: ${response.status}`);
+  //     }
+  //   } catch (error) {
+  //     console.error("Failed to delete the comment:", error);
+  //   }
+  // };
 
   return (
     <>
@@ -166,7 +167,7 @@ export const Comments = ({
                       )}
                     </Button>
                     <Button
-                      onClick={handleDelete}
+                      onClick={() => handleDelete(postId, commentId)}
                       sx={{
                         padding: "0",
                         minWidth: "auto",
