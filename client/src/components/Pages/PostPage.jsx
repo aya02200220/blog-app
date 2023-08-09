@@ -31,12 +31,12 @@ const PostPage = () => {
   const { userInfo } = useContext(UserContext);
   const { id } = useParams();
 
-  console.log("Post page userInfo:", userInfo);
+  // console.log("Post page userInfo:", userInfo);
 
   const handleComplete = () => {
-    console.log(
-      "孫コンポーネントのレンダリングが終わり、子コンポーネントからのcallbackが完了"
-    );
+    // console.log(
+    //   "孫コンポーネントのレンダリングが終わり、子コンポーネントからのcallbackが完了"
+    // );
     setIsAllRendered(true);
   };
 
@@ -49,7 +49,7 @@ const PostPage = () => {
         setLoading(false);
         const favoriteIds = userInfo ? Object.keys(userInfo).length > 0 : false;
 
-        console.log("Post page postinfo-----------------:", postInfo);
+        // console.log("Post page postinfo-----------------:", postInfo);
 
         if (favoriteIds) {
           setFavorite(isFavorite(postInfo._id));
@@ -129,6 +129,20 @@ const PostPage = () => {
               onComplete={handleComplete}
             />
           </Box>
+
+          {/* {postInfo ? (
+            <Box>
+              <AuthorInfo
+                postInfo={postInfo}
+                commentUpdated={commentUpdated}
+                favorite={favorite}
+                loginUser={userInfo}
+                onComplete={handleComplete}
+              />
+            </Box>
+          ) : (
+            <AuthorInfoFalse />
+          )} */}
 
           {/* ///////////////////////////////////////////////// */}
 

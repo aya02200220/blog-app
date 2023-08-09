@@ -10,16 +10,12 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 export const Favorite = ({ favorite, userName, userId, _id, onComplete }) => {
   const [isFavorite, setIsFavorite] = useState(favorite);
 
-  console.log("favoriteコンポーネント:", favorite);
-  console.log("favoriteコンポーネントisFavorite:", isFavorite);
-
-  useEffect(() => {
-    console.log("Favorite Component Mounted!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-  }, []);
+  // console.log("favoriteコンポーネント:", favorite);
+  // console.log("favoriteコンポーネントisFavorite:", isFavorite);
 
   useEffect(() => {
     if (onComplete) {
-      console.log("孫コンポーネントのレンダリングが終わりました");
+      // console.log("孫コンポーネントのレンダリングが終わりました");
       onComplete();
     }
   }, [onComplete]);

@@ -25,23 +25,22 @@ export const AuthorInfo = ({
   const { setUserInfo, userInfo } = useContext(UserContext);
   const [getPostInfo, setGetPostInfo] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [authorInfo, setAuthorInfo] = useState(null); // 投稿者の情報を保持
+  const [authorInfo, setAuthorInfo] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const [comments, setComments] = useState([]);
   const favoriteCount = postInfo?.favorites.length;
 
+  console.log("AuthorInfo --------------------------------");
+
   // console.log("postInfo Author :", postInfo);
   // console.log("postInfo loginUser :", loginUser);
 
-  useEffect(() => {
-    console.log("Parent Component Mounted");
-  }, []);
-
   const handleGrandChildComplete = () => {
     if (onComplete) {
-      console.log(
-        "孫コンポーネントのレンダリングが終わったので、親へのcallbackを実行"
-      );
+      // console.log(
+      //   "孫コンポーネントのレンダリングが終わったので、親へのcallbackを実行"
+      // );
       setIsRendered(true);
       onComplete();
     }
@@ -52,7 +51,6 @@ export const AuthorInfo = ({
   }, [postInfo]);
 
   const postID = postInfo?._id;
-  console.log("postID:::::::", postID);
 
   function stringAvatar(name) {
     return {
@@ -78,7 +76,7 @@ export const AuthorInfo = ({
 
   // Comments update---------------------------------------
   useEffect(() => {
-    console.log("-------comment up date-----------");
+    // console.log("-------comment up date-----------");
     if (postID) {
       fetch(`http://localhost:4000/post/${postID}`)
         .then((res) => res.json())
@@ -93,6 +91,8 @@ export const AuthorInfo = ({
   }, [commentUpdated]);
 
   useEffect(() => {
+    setLoading(true);
+
     const fetchData = async () => {
       if (userInfo.email) {
         const favoritesData = await fetchFavorites(userInfo.email);
@@ -101,15 +101,19 @@ export const AuthorInfo = ({
             (post) => post._id === postID
           );
           setIsFavorite(isIdFavorite);
-          console.log("Favorite Data:", favoritesData);
-          console.log("Fav postID:", postID);
-          console.log("Favorite ????:", isIdFavorite);
+          // console.log("Favorite Data:", favoritesData);
+          // console.log("Fav postID:", postID);
+          // console.log("Favorite ????:", isIdFavorite);
         }
       }
     };
     fetchData();
     if (postInfo?.author._id) fetchAuthorInfo();
   }, [postInfo?.author._id]);
+
+  useEffect(() => {
+    setLoading(false);
+  }, [isFavorite]);
 
   // const { firstName, lastName, followers, userIcon } = authorInfo;
   let firstName, lastName, followers, userIcon;
@@ -118,6 +122,7 @@ export const AuthorInfo = ({
   }
 
   if (!authorInfo) return <AuthorInfoFalse />;
+  if (loading) return <AuthorInfoFalse />;
 
   return (
     <>
