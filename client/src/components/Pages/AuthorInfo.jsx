@@ -1,23 +1,12 @@
 import React, { useState, useContext, useEffect } from "react";
 import { UserContext } from "../UserContext";
 import { Favorite } from "../Functions/Favorite";
+import { fetchFavorites } from "../Functions/Favorites";
 
-import {
-  Box,
-  Avatar,
-  Typography,
-  Button,
-  IconButton,
-  Divider,
-  Skeleton,
-  CircularProgress,
-} from "@mui/material";
+import { Box, Avatar, Typography, IconButton, Skeleton } from "@mui/material";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import FileDownloadDoneIcon from "@mui/icons-material/FileDownloadDone";
-import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
-import MessageIcon from "@mui/icons-material/Message";
-import TurnedInNotIcon from "@mui/icons-material/TurnedInNot";
 
 import { Link } from "react-router-dom";
 
@@ -28,22 +17,42 @@ export const AuthorInfo = ({
   userId,
   _id,
   commentUpdated,
+  loginUser,
+  onComplete,
 }) => {
   const [isFollowing, setIsFollowing] = useState(false);
-  const [isBookMarked, setIsBookMarked] = useState(false);
+  const [isRendered, setIsRendered] = useState(false);
   const { setUserInfo, userInfo } = useContext(UserContext);
   const [getPostInfo, setGetPostInfo] = useState(null);
-
+  const [isFavorite, setIsFavorite] = useState(false);
   const [authorInfo, setAuthorInfo] = useState(null); // 投稿者の情報を保持
 
   const [comments, setComments] = useState([]);
-  const favoriteCount = postInfo?.favorite;
+  const favoriteCount = postInfo?.favorites.length;
+
+  // console.log("postInfo Author :", postInfo);
+  // console.log("postInfo loginUser :", loginUser);
+
+  useEffect(() => {
+    console.log("Parent Component Mounted");
+  }, []);
+
+  const handleGrandChildComplete = () => {
+    if (onComplete) {
+      console.log(
+        "孫コンポーネントのレンダリングが終わったので、親へのcallbackを実行"
+      );
+      setIsRendered(true);
+      onComplete();
+    }
+  };
 
   useEffect(() => {
     setComments(postInfo?.comments);
   }, [postInfo]);
 
   const postID = postInfo?._id;
+  console.log("postID:::::::", postID);
 
   function stringAvatar(name) {
     return {
@@ -84,95 +93,31 @@ export const AuthorInfo = ({
   }, [commentUpdated]);
 
   useEffect(() => {
-    // if (Object.keys(userInfo).length > 0) {
-    //   console.log("userInfo true:", userInfo);
-    //   fetch("http://localhost:4000/favorites", {
-    //     credentials: "include",
-    //   })
-    //     .then((res) => res.json())
-    //     .then((favorites) => {
-    //       setFavorites(favorites);
-    //     })
-    //     .catch((error) => {
-    //       console.error("Error fetching favorites:", error);
-    //     });
-    // } else {
-    //   console.log("userInfo false:", userInfo);
-    //   setFavorites("");
-    // }
-
+    const fetchData = async () => {
+      if (userInfo.email) {
+        const favoritesData = await fetchFavorites(userInfo.email);
+        if (favoritesData) {
+          const isIdFavorite = favoritesData.some(
+            (post) => post._id === postID
+          );
+          setIsFavorite(isIdFavorite);
+          console.log("Favorite Data:", favoritesData);
+          console.log("Fav postID:", postID);
+          console.log("Favorite ????:", isIdFavorite);
+        }
+      }
+    };
+    fetchData();
     if (postInfo?.author._id) fetchAuthorInfo();
   }, [postInfo?.author._id]);
 
-  if (!authorInfo) {
-    return (
-      <Box
-        sx={{
-          width: "200px",
-          display: { xs: "none", sm: "flex", md: "flex" },
-        }}
-      >
-        <Box
-          sx={{
-            border: "solid 3px #f0f0f0",
-            height: "300px",
-            width: "200px",
-            position: "fixed",
-            display: "flex",
-            alignItems: "center",
-            flexDirection: "column",
-
-            borderRadius: "20px",
-            backgroundColor: "#f5f5f5",
-          }}
-        >
-          <Box
-            sx={{
-              border: "solid 3px #919aba",
-              mt: 3,
-              width: 90,
-              height: 90,
-              borderRadius: 100,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Skeleton variant="circular" width={80} height={80} />
-          </Box>
-
-          <Box
-            sx={{
-              display: "flex",
-              maxWidth: "180px",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              textAlign: "center",
-              mt: 2,
-              color: "#757e9f",
-            }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                gap: 1,
-                wordBreak: "break-word",
-              }}
-            >
-              <Skeleton variant="text" width="120px" />
-            </Box>
-
-            <Box mt={2}>
-              <Skeleton variant="text" width="120px" />
-            </Box>
-          </Box>
-        </Box>
-      </Box>
-    );
+  // const { firstName, lastName, followers, userIcon } = authorInfo;
+  let firstName, lastName, followers, userIcon;
+  if (authorInfo) {
+    ({ firstName, lastName, followers, userIcon } = authorInfo);
   }
 
-  const { firstName, lastName, followers, userIcon } = authorInfo;
+  if (!authorInfo) return <AuthorInfoFalse />;
 
   return (
     <>
@@ -209,11 +154,20 @@ export const AuthorInfo = ({
             }}
           >
             <Link to={`/`}>
-              <Avatar
-                {...stringAvatar(`${firstName} ${lastName}`)}
-                src={userIcon}
-                sx={{ width: 80, height: 80 }}
-              />
+              {firstName && lastName && userIcon ? (
+                <Avatar
+                  {...stringAvatar(`${firstName} ${lastName}`)}
+                  src={userIcon}
+                  sx={{ width: 80, height: 80 }}
+                />
+              ) : (
+                <Skeleton
+                  animation="wave"
+                  variant="circular"
+                  width={40}
+                  height={40}
+                />
+              )}
             </Link>
           </Box>
 
@@ -237,15 +191,24 @@ export const AuthorInfo = ({
                   wordBreak: "break-word",
                 }}
               >
-                <Typography
-                  sx={{
-                    fontSize: "16px",
-                    fontWeight: "700",
-                    lineHeight: "12px",
-                  }}
-                >
-                  {firstName} {lastName}
-                </Typography>
+                {firstName && lastName ? (
+                  <Typography
+                    sx={{
+                      fontSize: "16px",
+                      fontWeight: "700",
+                      lineHeight: "12px",
+                    }}
+                  >
+                    {firstName} {lastName}
+                  </Typography>
+                ) : (
+                  <Skeleton
+                    animation="wave"
+                    height={10}
+                    width="80%"
+                    style={{ marginBottom: 6 }}
+                  />
+                )}
               </Box>
             </Link>
             <Box mt={2}>
@@ -257,7 +220,7 @@ export const AuthorInfo = ({
                   fontWeight: "500",
                 }}
               >
-                Follower: {followers}
+                Follower: {followers ? followers : "0"}
               </Typography>
             </Box>
 
@@ -323,7 +286,7 @@ export const AuthorInfo = ({
                       mb: 0.5,
                     }}
                   >
-                    {comments.length}
+                    {comments ? comments.length : 0}
                   </Typography>
                 </Box>
               </IconButton>
@@ -340,10 +303,12 @@ export const AuthorInfo = ({
                   }}
                 >
                   <Favorite
-                    favorite={favorite}
-                    userName={userName}
-                    userId={userId}
-                    _id={_id}
+                    onComplete={handleGrandChildComplete}
+                    favorite={isFavorite}
+                    userName={loginUser.email}
+                    userId={loginUser.id}
+                    _id={postID}
+                    // _id={_id}
                   />
                   <Typography>{favoriteCount}</Typography>
                 </Box>
@@ -353,5 +318,73 @@ export const AuthorInfo = ({
         </Box>
       </Box>
     </>
+  );
+};
+
+export const AuthorInfoFalse = () => {
+  return (
+    <Box
+      sx={{
+        width: "200px",
+        display: { xs: "none", sm: "flex", md: "flex" },
+      }}
+    >
+      <Box
+        sx={{
+          border: "solid 3px #f0f0f0",
+          height: "300px",
+          width: "200px",
+          position: "fixed",
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+
+          borderRadius: "20px",
+          backgroundColor: "#f5f5f5",
+        }}
+      >
+        <Box
+          sx={{
+            border: "solid 3px #919aba",
+            mt: 3,
+            width: 90,
+            height: 90,
+            borderRadius: 100,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Skeleton variant="circular" width={80} height={80} />
+        </Box>
+
+        <Box
+          sx={{
+            display: "flex",
+            maxWidth: "180px",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            textAlign: "center",
+            mt: 2,
+            color: "#757e9f",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              gap: 1,
+              wordBreak: "break-word",
+            }}
+          >
+            <Skeleton variant="text" width="120px" />
+          </Box>
+
+          <Box mt={2}>
+            <Skeleton variant="text" width="120px" />
+          </Box>
+        </Box>
+      </Box>
+    </Box>
   );
 };

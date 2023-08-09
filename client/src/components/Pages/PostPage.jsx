@@ -18,17 +18,27 @@ import CircularProgress from "@mui/material/CircularProgress";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Typography from "@mui/material/Typography";
 
-import { AuthorInfo } from "./AuthorInfo";
+import { AuthorInfo, AuthorInfoFalse } from "./AuthorInfo";
 import Comment from "../Comment";
 
 const PostPage = () => {
   const [loading, setLoading] = useState(true);
+  const [isAllRendered, setIsAllRendered] = useState(false);
   const [postInfo, setPostInfo] = useState(null);
   const [favorite, setFavorite] = useState(null);
   const [commentUpdated, setCommentUpdated] = useState(false);
 
   const { userInfo } = useContext(UserContext);
   const { id } = useParams();
+
+  console.log("Post page userInfo:", userInfo);
+
+  const handleComplete = () => {
+    console.log(
+      "孫コンポーネントのレンダリングが終わり、子コンポーネントからのcallbackが完了"
+    );
+    setIsAllRendered(true);
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -38,6 +48,8 @@ const PostPage = () => {
         setPostInfo(postInfo);
         setLoading(false);
         const favoriteIds = userInfo ? Object.keys(userInfo).length > 0 : false;
+
+        console.log("Post page postinfo-----------------:", postInfo);
 
         if (favoriteIds) {
           setFavorite(isFavorite(postInfo._id));
@@ -113,6 +125,8 @@ const PostPage = () => {
               postInfo={postInfo}
               commentUpdated={commentUpdated}
               favorite={favorite}
+              loginUser={userInfo}
+              onComplete={handleComplete}
             />
           </Box>
 

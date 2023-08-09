@@ -7,30 +7,43 @@ import Box from "@mui/material/Box";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 
-export const Favorite = ({ favorite, userName, userId, _id }) => {
+export const Favorite = ({ favorite, userName, userId, _id, onComplete }) => {
   const [isFavorite, setIsFavorite] = useState(favorite);
 
+  console.log("favoriteコンポーネント:", favorite);
+  console.log("favoriteコンポーネントisFavorite:", isFavorite);
+
+  useEffect(() => {
+    console.log("Favorite Component Mounted!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+  }, []);
+
+  useEffect(() => {
+    if (onComplete) {
+      console.log("孫コンポーネントのレンダリングが終わりました");
+      onComplete();
+    }
+  }, [onComplete]);
+
   const handleFavoriteClick = (postId) => {
-    console.log(postId);
-    console.log(userName);
-    console.log(userId);
-    console.log(_id);
+    console.log("postId:", postId);
+    console.log("userName:", userName);
+    console.log("userId:", userId);
+    console.log("Post_id:", _id);
 
     if (!userName) {
       toast.error("You need to login to bookmark!");
       return;
     }
-
-    setIsFavorite(!isFavorite);
-    if (!isFavorite) {
-      addToFavorites(postId);
-    } else {
+    if (isFavorite) {
       removeFromFavorites(postId);
+    } else {
+      addToFavorites(postId);
     }
   };
 
   const addToFavorites = async (postId) => {
     try {
+      // APIからの応答を受け取ってから状態を変更
       const response = await fetch("http://localhost:4000/favorites", {
         method: "POST",
         headers: {
@@ -43,6 +56,7 @@ export const Favorite = ({ favorite, userName, userId, _id }) => {
       if (response.ok) {
         console.log("内容確認：");
         toast.success("Added to your favorites");
+        setIsFavorite(true); // ここで更新
       } else {
         const data = await response.json();
         throw new Error(data.message);
@@ -52,38 +66,6 @@ export const Favorite = ({ favorite, userName, userId, _id }) => {
       toast.error("Failed to add to favorites");
     }
   };
-
-  // const addToFavorites = async (postId) => {
-  //   try {
-  //     // 重複をチェック
-  //     if (favorite.includes(postId)) {
-  //       toast.error("This post is already in your favorites");
-  //       return;
-  //     }
-
-  //     const response = await fetch("http://localhost:4000/favorites", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ postId: postId }),
-  //       credentials: "include",
-  //     });
-
-  //     if (response.ok) {
-  //       console.log("内容確認：");
-  //       toast.success("Added to your favorites");
-  //       // 追加した場合、isFavoriteを更新して重複を防ぐ
-  //       setIsFavorite(true);
-  //     } else {
-  //       const data = await response.json();
-  //       throw new Error(data.message);
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //     toast.error("Failed to add to favorites");
-  //   }
-  // };
 
   // お気に入りから削除する関数
   const removeFromFavorites = async (postId) => {
@@ -97,7 +79,8 @@ export const Favorite = ({ favorite, userName, userId, _id }) => {
       );
 
       if (response.ok) {
-        toast.error("Removed from your favorites");
+        toast.success("Removed from your favorites"); // 成功メッセージをtoastで表示
+        setIsFavorite(false); // 成功した場合のみisFavoriteを更新
       } else {
         const data = await response.json();
         throw new Error(data.message);

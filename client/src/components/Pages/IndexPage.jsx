@@ -5,6 +5,7 @@ import { Box, Container } from "@mui/material/";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import { GetLocalStorage } from "../Functions/LocalStorage";
+import { fetchFavorites } from "../Functions/Favorites";
 
 import Post from "../Post2";
 
@@ -27,6 +28,7 @@ const IndexPage = () => {
   console.log("firstName:", firstName);
   console.log("lastName:", lastName);
   console.log("userName email:", userName);
+  console.log("favorites:", favorites);
 
   useEffect(() => {
     const userInfoString = localStorage.getItem("userInfo");
@@ -39,50 +41,18 @@ const IndexPage = () => {
     }
   }, []);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const userInfoString = localStorage.getItem("userInfo");
-  //     if (userInfoString) {
-  //       const userInfoObj = JSON.parse(userInfoString);
-  //       setUserName(userInfoObj.email);
-
-  //       if (userInfoObj.email) {
-  //         const response = await fetch("http://localhost:4000/favorites", {
-  //           credentials: "include",
-  //         });
-  //         const favoritesData = await response.json();
-  //         setFavorites(favoritesData);
-  //       }
-  //     }
-
-  //     const postsResponse = await fetch("http://localhost:4000/post");
-  //     const postsData = await postsResponse.json();
-  //     setPosts(postsData);
-  //     setLoading(false); // Only set loading to false once both requests have finished
-  //   };
-
-  //   fetchData();
-  //   // }, [userName, userInfo]);
-  // }, []);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const userInfo = GetLocalStorage();
-        // const userInfoString = localStorage.getItem("userInfo");
         if (userInfo) {
-          // const userInfoObj = JSON.parse(userInfoString);
           setUserName(userInfo.email);
 
           if (userInfo.email) {
-            const response = await fetch("http://localhost:4000/favorites", {
-              credentials: "include",
-            });
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
+            const favoritesData = await fetchFavorites(userInfo.email);
+            if (favoritesData) {
+              setFavorites(favoritesData);
             }
-            const favoritesData = await response.json();
-            setFavorites(favoritesData);
           }
         }
 
