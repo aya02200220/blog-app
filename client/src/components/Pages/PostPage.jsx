@@ -192,9 +192,10 @@ const PostPage = () => {
                   sx={{
                     textAlign: "center",
                     fontSize: { xs: "23px", sm: "28px", md: "35px" },
-                    lineHeight: { xs: "20px", sm: "25px", md: "30px" },
+                    lineHeight: { xs: "22px", sm: "27px", md: "34px" },
                     fontWeight: "600",
                     mb: "5px",
+                    wordBreak: "break-word",
                   }}
                 >
                   {postInfo.title}

@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
+import PropTypes from "prop-types";
+
 import { Link } from "react-router-dom";
 import { Favorite } from "./Functions/Favorite";
 
@@ -93,18 +95,23 @@ export const Post = React.memo(function PostCard({
                   sx={{
                     pt: { xs: 1, md: "inherit" },
                     width: { xs: "90%", sm: "100%" },
-
                     fontSize: "22px",
                     fontWeight: "500",
                     lineHeight: "22px",
                     minHeight: "30px",
-                    maxHeight: "77.9px",
-
+                    wordBreak: "break-word",
                     display: "-webkit-box",
                     WebkitBoxOrient: "vertical",
                     WebkitLineClamp: 3, // 行数指定
                     overflow: "hidden",
                     textAlign: { xs: "center", sm: "inherit" },
+                    // height: title.length > 60 ? "76.6px" : "auto",
+                    height:
+                      title.length > 60
+                        ? "76.6px"
+                        : title.length <= 44
+                        ? "56px"
+                        : "auto",
                   }}
                 >
                   {title}
@@ -196,5 +203,11 @@ export const Post = React.memo(function PostCard({
     </>
   );
 });
+
+Post.propTypes = {
+  title: PropTypes.string.isRequired,
+  // 他のpropsも同様に定義することができる
+  // 例: _id: PropTypes.string.isRequired,
+};
 
 export default Post;
