@@ -24,7 +24,7 @@ export const AuthorInfo = ({
   const [isRendered, setIsRendered] = useState(false);
   const { setUserInfo, userInfo } = useContext(UserContext);
   const [getPostInfo, setGetPostInfo] = useState(null);
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [isFavorite, setIsFavorite] = useState();
   const [authorInfo, setAuthorInfo] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -94,16 +94,16 @@ export const AuthorInfo = ({
     setLoading(true);
 
     const fetchData = async () => {
-      if (userInfo.email) {
+      if (userInfo.email && postID) {
         const favoritesData = await fetchFavorites(userInfo.email);
         if (favoritesData) {
           const isIdFavorite = favoritesData.some(
             (post) => post._id === postID
           );
           setIsFavorite(isIdFavorite);
-          // console.log("Favorite Data:", favoritesData);
-          // console.log("Fav postID:", postID);
-          // console.log("Favorite ????:", isIdFavorite);
+          console.log("Favorite Data:", favoritesData);
+          console.log("Fav postID:", postID);
+          console.log("Favorite ????:", isIdFavorite);
         }
       }
     };
