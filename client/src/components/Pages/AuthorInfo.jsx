@@ -315,7 +315,16 @@ export const AuthorInfo = ({
                     _id={postID}
                     // _id={_id}
                   />
-                  <Typography>{favoriteCount}</Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "20px",
+                      fontWeight: "500",
+                      ml: 0.5,
+                      mb: 0.5,
+                    }}
+                  >
+                    {favoriteCount}
+                  </Typography>
                 </Box>
               </IconButton>
             </Box>

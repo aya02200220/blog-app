@@ -94,11 +94,11 @@ export const Post = React.memo(function PostCard({
                     pt: { xs: 1, md: "inherit" },
                     width: { xs: "90%", sm: "100%" },
 
-                    fontSize: "23px",
+                    fontSize: "22px",
                     fontWeight: "500",
                     lineHeight: "22px",
                     minHeight: "30px",
-                    maxHeight: "77.8px",
+                    maxHeight: "77.9px",
 
                     display: "-webkit-box",
                     WebkitBoxOrient: "vertical",

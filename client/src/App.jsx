@@ -19,14 +19,14 @@ function App() {
       MuiDrawer: {
         styleOverrides: {
           paper: {
-            backgroundColor: "#2b4f64", // この色はDrawerの背景色に適用されます
+            backgroundColor: "#333", // この色はDrawerの背景色に適用されます
             color: "#fff",
           },
         },
       },
     },
     typography: {
-      fontFamily: "Barlow, Arial, sans-serif",
+      fontFamily: "REM, Arial, sans-serif",
     },
     breakpoints: {
       values: {

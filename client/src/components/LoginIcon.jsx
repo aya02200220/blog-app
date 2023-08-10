@@ -11,8 +11,16 @@ export const LoginIcon = (props) => {
         fontSize: "15px",
         font: "#fff",
         marginRight: "5px",
+
+        backgroundColor: "#da8dea",
+        color: "#fff",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        textAlign: "center",
+        fontWeight: "600",
+        paddingBottom: "2px",
       }}
-      className={styles.loginIcon}
     >
       {props.firstLetter}
       {props.lastLetter}

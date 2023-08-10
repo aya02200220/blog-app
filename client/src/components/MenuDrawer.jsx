@@ -155,7 +155,13 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
 
           {userName && (
             <Box sx={{ mt: 3 }}>
-              <Box sx={{ backgroundColor: "#a53939", color: "#fff" }}>
+              <Box
+                sx={{
+                  // backgroundColor: "#a53939",
+                  backgroundColor: "#c1c1c1c1",
+                  color: "#fff",
+                }}
+              >
                 <ListItemButton onClick={logout}>
                   <ListItemIcon>
                     <LogoutIcon

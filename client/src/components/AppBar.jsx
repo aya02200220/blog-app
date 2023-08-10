@@ -16,6 +16,8 @@ import { Box } from "@mui/material";
 const MyAppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
+  boxShadow: "none",
+  borderBottom: "solid 1px #333",
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
@@ -46,7 +48,7 @@ export const AppBar = (props, { userData }) => {
         sx={{
           pr: "24px", // keep right padding when drawer closed
           // backgroundColor: "#353a40",
-          backgroundColor: "#f8f8f8",
+          backgroundColor: "#fff",
         }}
       >
         <Box sx={{ display: { xs: "none", sm: "none", md: "block" } }}>
@@ -70,7 +72,8 @@ export const AppBar = (props, { userData }) => {
           variant="h6"
           color="inherit"
           noWrap
-          sx={{ flexGrow: 1, color: "#717070" }}
+          // sx={{ flexGrow: 1, color: "#717070" }}
+          sx={{ flexGrow: 1, color: "#333" }}
         >
           <Link to={`/`}>{title}</Link>
         </Typography>
