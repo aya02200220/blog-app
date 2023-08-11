@@ -178,6 +178,7 @@ const PostPage = () => {
               <Box
                 sx={{
                   // border: "solid 1px black",
+                  flexGrow: 1,
                   minWidth: { xs: "90%", sm: "55%", md: "65%" },
                   maxWidth: "650px",
                   pb: "50px",
@@ -189,6 +190,7 @@ const PostPage = () => {
                 }}
               >
                 <Box
+                  className={styles.postTitle}
                   sx={{
                     textAlign: "center",
                     fontSize: { xs: "23px", sm: "28px", md: "35px" },
@@ -202,6 +204,7 @@ const PostPage = () => {
                 </Box>
 
                 <Box
+                  className={styles.postAuthor}
                   sx={{
                     color: "#969696",
                     display: "flex",
@@ -227,7 +230,8 @@ const PostPage = () => {
                   <img src={`http://localhost:4000/${postInfo.cover}`} alt="" />
                 </div>
                 <Box
-                  className="contentBox"
+                  sx={{ width: "100%", wordBreak: "break-word" }}
+                  className={styles.contentBox}
                   dangerouslySetInnerHTML={{ __html: postInfo.content }}
                 />
                 <Box id="comments-section" sx={{ mb: 4 }}></Box>

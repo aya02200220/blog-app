@@ -1,9 +1,14 @@
 import TextField from "@mui/material/TextField";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { Link } from "react-router-dom";
+
 import { useState, useContext, useEffect } from "react";
 import { UserContext } from "../UserContext";
-import Button from "@mui/material/Button";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
+
+import { Button, IconButton } from "@mui/material/";
 
 import Box from "@material-ui/core/Box";
 
@@ -69,50 +74,70 @@ const CreatePost = () => {
     return <Navigate to="/" />;
   }
   return (
-    <Box
-      sx={{
-        mt: 15,
-        ml: 2,
-        mr: 2,
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Box sx={{ maxWidth: "550px" }}>
-        <form onSubmit={createNewPost}>
-          <TextField
-            fullWidth
-            type="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            variant="outlined"
-            placeholder="Title"
-          ></TextField>
-          <Box mt={1}>
-            <input type="file" onChange={(ev) => setFiles(ev.target.files)} />
-          </Box>
-          <Box mt={1}>
-            <ReactQuill
-              value={content}
-              onChange={(newValue) => setContent(newValue)}
-              modules={modules}
-              formats={formats}
-              style={{ height: editorHeight }}
-            />
-          </Box>
-          <Button
-            fullWidth
-            variant="contained"
-            sx={{ height: "45px", mt: { xs: 9, sm: 6, md: 6 } }}
-            onClick={createNewPost}
-          >
-            Create Post
-          </Button>{" "}
-        </form>
+    <>
+      <Link to={`/`}>
+        <IconButton
+          variant="outlined"
+          sx={{
+            fontSize: "14px",
+            height: "22px",
+            borderRadius: 1,
+            position: "fixed",
+            top: "80px",
+            left: { xs: "66px", sm: "100px", md: "260px" },
+            backgroundColor: "#fff",
+            zIndex: 1,
+          }}
+        >
+          <ArrowBackIcon icon={faPenToSquare} />
+          BACK
+        </IconButton>
+      </Link>
+      <Box
+        sx={{
+          mt: 15,
+          ml: { xs: 0, sm: 2 },
+          mr: { xs: 0, sm: 2 },
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Box sx={{ width: { xs: "90%", sm: "100%" }, maxWidth: "550px" }}>
+          <form onSubmit={createNewPost}>
+            <TextField
+              fullWidth
+              type="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              variant="outlined"
+              placeholder="Title"
+            ></TextField>
+            <Box mt={1}>
+              <input type="file" onChange={(ev) => setFiles(ev.target.files)} />
+            </Box>
+            <Box mt={1}>
+              <ReactQuill
+                value={content}
+                onChange={(newValue) => setContent(newValue)}
+                modules={modules}
+                formats={formats}
+                style={{ height: editorHeight }}
+              />
+            </Box>
+            <Button
+              fullWidth
+              variant="contained"
+              sx={{ height: "45px", mt: { xs: 9, sm: 6, md: 6 } }}
+              onClick={createNewPost}
+            >
+              Create Post
+            </Button>{" "}
+          </form>
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 

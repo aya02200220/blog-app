@@ -2,8 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+.postTitle {
+  font-family: "REM", sans-serif;
+}
+.postAuthor {
+  font-family: "REM", sans-serif;
+}
 .contentBox p {
-  font-size: 50px;
+  font-family: "REM", sans-serif;
+
+  width: 100%;
+  font-size: 18px;
+  font-weight: 300;
 }
 
 // .mainContainer {

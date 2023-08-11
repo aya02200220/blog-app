@@ -121,15 +121,15 @@ const EditPost = () => {
           <Box
             sx={{
               mt: 15,
-              ml: 2,
-              mr: 2,
+              ml: { xs: 0, sm: 2 },
+              mr: { xs: 0, sm: 2 },
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
             }}
           >
-            <Box sx={{ maxWidth: "550px" }}>
+            <Box sx={{ width: { xs: "90%", sm: "100%" }, maxWidth: "550px" }}>
               <form onSubmit={updatePost}>
                 <TextField
                   fullWidth

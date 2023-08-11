@@ -55,6 +55,41 @@ export const Post = React.memo(function PostCard({
     setIsFavorite(favorite);
   }, [favorite]);
 
+  const getTitleHeight = (titleLength, screenSize) => {
+    const thresholds = {
+      xs: { values: [40, 60], heights: ["50px", "60px"] },
+      sm: { values: [50, 70], heights: ["60px", "70px"] },
+      md: { values: [48, 119], heights: ["70px", "80px"] },
+      // 必要に応じて他のscreenSizeも追加
+    };
+
+    const currentThreshold = thresholds[screenSize];
+    console.log(
+      title,
+      ":",
+      titleLength,
+      ":",
+      screenSize,
+      ":",
+      currentThreshold
+    );
+
+    if (!currentThreshold) return "auto";
+
+    if (titleLength > currentThreshold.values[1])
+      return currentThreshold.heights[1];
+    if (titleLength <= currentThreshold.values[0])
+      return currentThreshold.heights[0];
+    return "auto";
+
+    // height:
+    //     title.length > 60
+    //       ? "76.6px"
+    //       : title.length <= 44
+    //       ? "56px"
+    //       : "auto",
+  };
+
   return (
     <>
       <Box>
@@ -92,27 +127,69 @@ export const Post = React.memo(function PostCard({
               >
                 <Typography
                   variant="h1"
-                  sx={{
+                  // sx={{
+                  //   pt: { xs: 1, md: "inherit" },
+                  //   width: { xs: "90%", sm: "100%" },
+                  //   fontSize: "22px",
+                  //   fontWeight: "500",
+                  //   lineHeight: "22px",
+                  //   minHeight: "30px",
+                  //   wordBreak: "break-word",
+                  //   display: "-webkit-box",
+                  //   WebkitBoxOrient: "vertical",
+                  //   WebkitLineClamp: 3, // 行数指定
+                  //   overflow: "hidden",
+                  //   textAlign: { xs: "center", sm: "inherit" },
+                  //   // height: title.length > 60 ? "76.6px" : "auto",
+                  //   height:
+                  //     title.length > 60
+                  //       ? "76.6px"
+                  //       : title.length <= 44
+                  //       ? "56px"
+                  //       : "auto",
+                  // }}
+                  sx={(theme) => ({
                     pt: { xs: 1, md: "inherit" },
                     width: { xs: "90%", sm: "100%" },
                     fontSize: "22px",
                     fontWeight: "500",
                     lineHeight: "22px",
-                    minHeight: "30px",
+                    // minHeight: "30px",
                     wordBreak: "break-word",
                     display: "-webkit-box",
                     WebkitBoxOrient: "vertical",
                     WebkitLineClamp: 3, // 行数指定
                     overflow: "hidden",
                     textAlign: { xs: "center", sm: "inherit" },
-                    // height: title.length > 60 ? "76.6px" : "auto",
-                    height:
-                      title.length > 60
-                        ? "76.6px"
-                        : title.length <= 44
-                        ? "56px"
-                        : "auto",
-                  }}
+                    // height: "auto",
+                    // maxHeight: { xs: "", sm: "", md: "77px" },
+                    minHeight: {
+                      xs: title.length > 48 ? "68.6px" : "auto",
+                      sm:
+                        title.length > 63
+                          ? "76px"
+                          : (title.length <= 42) & (title.length > 21)
+                          ? "54px"
+                          : "32px",
+                      md:
+                        title.length > 48
+                          ? "68.6px"
+                          : (title.length <= 48) & (title.length > 24)
+                          ? "45px"
+                          : "25px",
+                    },
+                    // height: {
+                    //   xs: "",
+                    //   sm: "",
+                    //   md: title.length > 114 ? "77px" : "auto",
+                    // },
+
+                    // height: {
+                    //   xs: getTitleHeight(title.length, "xs"),
+                    //   sm: getTitleHeight(title.length, "sm"),
+                    //   md: getTitleHeight(title.length, "md"),
+                    // },
+                  })}
                 >
                   {title}
                 </Typography>
@@ -142,6 +219,7 @@ export const Post = React.memo(function PostCard({
                     lineHeight: "21px",
                     minHeight: "63.3px",
                     maxHeight: "63.3px",
+                    wordBreak: "break-word",
 
                     display: "-webkit-box",
                     WebkitBoxOrient: "vertical",
