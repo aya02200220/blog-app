@@ -1,5 +1,7 @@
 import { lazy } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { ToastContainer } from "react-toastify";
+
 import { Route, Routes } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { UserContextProvider } from "./components/UserContext";
@@ -53,6 +55,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <Box sx={{ display: "flex" }}>
           <Toaster />
+          <ToastContainer />
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route index element={<IndexPage />} />

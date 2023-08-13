@@ -92,27 +92,6 @@ export const Post = React.memo(function PostCard({
               >
                 <Typography
                   variant="h1"
-                  // sx={{
-                  //   pt: { xs: 1, md: "inherit" },
-                  //   width: { xs: "90%", sm: "100%" },
-                  //   fontSize: "22px",
-                  //   fontWeight: "500",
-                  //   lineHeight: "22px",
-                  //   minHeight: "30px",
-                  //   wordBreak: "break-word",
-                  //   display: "-webkit-box",
-                  //   WebkitBoxOrient: "vertical",
-                  //   WebkitLineClamp: 3, // 行数指定
-                  //   overflow: "hidden",
-                  //   textAlign: { xs: "center", sm: "inherit" },
-                  //   // height: title.length > 60 ? "76.6px" : "auto",
-                  //   height:
-                  //     title.length > 60
-                  //       ? "76.6px"
-                  //       : title.length <= 44
-                  //       ? "56px"
-                  //       : "auto",
-                  // }}
                   sx={(theme) => ({
                     pt: { xs: 1, md: "inherit" },
                     width: { xs: "90%", sm: "100%" },
@@ -126,8 +105,6 @@ export const Post = React.memo(function PostCard({
                     WebkitLineClamp: 3, // 行数指定
                     overflow: "hidden",
                     textAlign: { xs: "center", sm: "inherit" },
-                    // height: "auto",
-                    // maxHeight: { xs: "", sm: "", md: "77px" },
                     minHeight: {
                       xs:
                         title.length > 63
@@ -161,7 +138,7 @@ export const Post = React.memo(function PostCard({
                     justifyContent: { xs: "center", sm: "inherit" },
                   }}
                 >
-                  <Typography sx={{ fontSize: "14px", fontWeight: "700" }}>
+                  <Typography sx={{ fontSize: "14px", fontWeight: "500" }}>
                     {/* {author?.firstName} {author?.lastName} */}
                     {author.firstName} {author.lastName}
                   </Typography>
@@ -174,10 +151,10 @@ export const Post = React.memo(function PostCard({
                     mt: "5px",
                     color: "#6b6b6b",
                     fontSize: { xs: "18px", md: "20px" },
-                    fontWeight: "400",
+                    fontWeight: "300",
                     lineHeight: "21px",
-                    minHeight: "63.3px",
-                    maxHeight: "63.3px",
+                    minHeight: "63.5px",
+                    maxHeight: "63.5px",
                     wordBreak: "break-word",
 
                     display: "-webkit-box",

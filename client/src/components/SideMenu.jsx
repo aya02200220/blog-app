@@ -4,7 +4,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 
 import { SearchWindow } from "./SearchWindow";
 import { UserContext } from "./UserContext";
-import { LocalStorage, LocalStorageRemove } from "./Functions/LocalStorage";
+import { LocalStorageRemove } from "./Functions/LocalStorage";
 
 import toast from "react-hot-toast";
 

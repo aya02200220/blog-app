@@ -31,13 +31,13 @@ const IndexPage = () => {
   // console.log("favorites:", favorites);
 
   useEffect(() => {
-    const userInfoString = localStorage.getItem("userInfo");
+    const userInfoString = GetLocalStorage();
     if (userInfoString) {
-      const userInfoObj = JSON.parse(userInfoString);
+      // const userInfoObj = JSON.parse(userInfoString);
       // setUserInfo(userInfoObj);
-      setFirstName(userInfoObj.firstName);
-      setLastName(userInfoObj.lastName);
-      setUserName(userInfoObj.email);
+      setFirstName(userInfoString.firstName);
+      setLastName(userInfoString.lastName);
+      setUserName(userInfoString.email);
     }
   }, []);
 

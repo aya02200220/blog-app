@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { UserContext } from "./UserContext";
-import { LocalStorage, LocalStorageRemove } from "./Functions/LocalStorage";
+import { LocalStorageRemove } from "./Functions/LocalStorage";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import toast from "react-hot-toast";
@@ -143,15 +143,16 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
             </ListItemIcon>
             <ListItemText primary="Your Posts" />
           </ListItemButton>
-
-          <ListItemButton to="/account">
-            <ListItemIcon>
-              <PersonOutlineIcon
-                sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
-              />
-            </ListItemIcon>
-            <ListItemText primary="Account" />
-          </ListItemButton>
+          {userName && (
+            <ListItemButton to="/account">
+              <ListItemIcon>
+                <PersonOutlineIcon
+                  sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
+                />
+              </ListItemIcon>
+              <ListItemText primary="Account" />
+            </ListItemButton>
+          )}
 
           {userName && (
             <Box sx={{ mt: 3 }}>

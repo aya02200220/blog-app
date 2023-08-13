@@ -92,14 +92,72 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.get("/profile", (req, res) => {
+//////////// Profile endpoints ///////////////////////////////////////////
+// app.get("/profile", (req, res) => {
+//   const { token } = req.cookies;
+//   jwt.verify(token, secret, {}, (err, info) => {
+//     if (err) throw err;
+//     console.log("INFO:", info); // こちらに移動
+//     res.json(info);
+//   });
+// });
+
+app.get("/profile", async (req, res) => {
   const { token } = req.cookies;
-  jwt.verify(token, secret, {}, (err, info) => {
-    if (err) throw err;
-    res.json(info);
+  jwt.verify(token, secret, async (err, info) => {
+    if (err) {
+      return res.status(401).json({ message: "Token verification failed." });
+    }
+    try {
+      // JWTからユーザーIDを取得（仮定）
+      const userId = info.id;
+
+      // データベースからユーザーIDを使用して最新の情報を取得
+      const updatedUserInfo = await User.findById(userId);
+      if (!updatedUserInfo) {
+        return res.status(404).json({ message: "User not found." });
+      }
+
+      res.json(updatedUserInfo);
+    } catch (error) {
+      console.error("Database error:", error);
+      res.status(500).json({ message: "Internal server error." });
+    }
   });
-  // console.log("INFO:", info);
 });
+
+app.post("/updateProfile", async (req, res) => {
+  const { token } = req.cookies;
+  jwt.verify(token, secret, {}, async (err, info) => {
+    if (err) {
+      return res.status(401).json({ message: "認証エラー" });
+    }
+
+    const { firstName, lastName, userIcon, bio } = req.body; // リクエストから更新したいデータを取得
+
+    try {
+      const user = await User.findById(info.id); // ユーザーIDに基づいてユーザー情報を検索
+
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      // 更新したい情報が提供されていれば、ユーザーオブジェクトの該当フィールドを更新
+      if (firstName) user.firstName = firstName;
+      if (lastName) user.lastName = lastName;
+      if (userIcon) user.userIcon = userIcon;
+      if (bio) user.bio = bio;
+
+      await user.save(); // 更新されたユーザー情報を保存
+
+      res.status(200).json({ message: "プロファイルが更新されました", user });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "サーバーエラーが発生しました" });
+    }
+  });
+});
+///////////////////////////////////////////////////////////////////////////////////
 
 app.post("/logout", (req, res) => {
   res.clearCookie("token").json("ok");

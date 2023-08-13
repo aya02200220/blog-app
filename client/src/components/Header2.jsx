@@ -1,6 +1,6 @@
 import * as React from "react";
 import Hamburger from "./Hamburger";
-import { LocalStorage, LocalStorageRemove } from "./Functions/LocalStorage";
+import { LocalStorageRemove } from "./Functions/LocalStorage";
 
 import { SearchWindow } from "./SearchWindow";
 
