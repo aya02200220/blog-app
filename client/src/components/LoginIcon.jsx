@@ -1,14 +1,26 @@
 import styles from "../styles/main.module.scss";
-import Box from "@mui/material/Box";
+import { Box, Avatar } from "@mui/material/";
 
 export const LoginIcon = (props) => {
+  const defaultSize = "40px";
+
+  // if (!props.firstName) return null;
+
   return (
-    <Box
+    <Avatar
+      src={props.userIcon}
       sx={{
-        height: "40px",
-        minWidth: "40px",
-        borderRadius: "50px",
-        fontSize: "15px",
+        height: {
+          // xs: props.size ? "100px" : defaultSize,
+          xs: props.size ? "130px" : defaultSize,
+          md: props.size || defaultSize,
+        },
+        minWidth: {
+          // xs: props.size ? "100px" : defaultSize,
+          xs: props.size ? "130px" : defaultSize,
+          md: props.size || defaultSize,
+        },
+        fontSize: props.size ? "55px" : "15px",
         font: "#fff",
         marginRight: "5px",
 
@@ -24,6 +36,6 @@ export const LoginIcon = (props) => {
     >
       {props.firstLetter}
       {props.lastLetter}
-    </Box>
+    </Avatar>
   );
 };

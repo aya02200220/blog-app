@@ -55,41 +55,6 @@ export const Post = React.memo(function PostCard({
     setIsFavorite(favorite);
   }, [favorite]);
 
-  const getTitleHeight = (titleLength, screenSize) => {
-    const thresholds = {
-      xs: { values: [40, 60], heights: ["50px", "60px"] },
-      sm: { values: [50, 70], heights: ["60px", "70px"] },
-      md: { values: [48, 119], heights: ["70px", "80px"] },
-      // 必要に応じて他のscreenSizeも追加
-    };
-
-    const currentThreshold = thresholds[screenSize];
-    console.log(
-      title,
-      ":",
-      titleLength,
-      ":",
-      screenSize,
-      ":",
-      currentThreshold
-    );
-
-    if (!currentThreshold) return "auto";
-
-    if (titleLength > currentThreshold.values[1])
-      return currentThreshold.heights[1];
-    if (titleLength <= currentThreshold.values[0])
-      return currentThreshold.heights[0];
-    return "auto";
-
-    // height:
-    //     title.length > 60
-    //       ? "76.6px"
-    //       : title.length <= 44
-    //       ? "56px"
-    //       : "auto",
-  };
-
   return (
     <>
       <Box>
@@ -164,7 +129,12 @@ export const Post = React.memo(function PostCard({
                     // height: "auto",
                     // maxHeight: { xs: "", sm: "", md: "77px" },
                     minHeight: {
-                      xs: title.length > 48 ? "68.6px" : "auto",
+                      xs:
+                        title.length > 63
+                          ? "76px"
+                          : (title.length <= 43) & (title.length > 22)
+                          ? "54px"
+                          : "32px",
                       sm:
                         title.length > 63
                           ? "76px"
@@ -178,17 +148,6 @@ export const Post = React.memo(function PostCard({
                           ? "45px"
                           : "25px",
                     },
-                    // height: {
-                    //   xs: "",
-                    //   sm: "",
-                    //   md: title.length > 114 ? "77px" : "auto",
-                    // },
-
-                    // height: {
-                    //   xs: getTitleHeight(title.length, "xs"),
-                    //   sm: getTitleHeight(title.length, "sm"),
-                    //   md: getTitleHeight(title.length, "md"),
-                    // },
                   })}
                 >
                   {title}

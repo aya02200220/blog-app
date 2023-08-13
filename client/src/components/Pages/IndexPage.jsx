@@ -25,10 +25,10 @@ const IndexPage = () => {
       Object.keys(userInfo).length
     );
   }
-  console.log("firstName:", firstName);
-  console.log("lastName:", lastName);
-  console.log("userName email:", userName);
-  console.log("favorites:", favorites);
+  // console.log("firstName:", firstName);
+  // console.log("lastName:", lastName);
+  // console.log("userName email:", userName);
+  // console.log("favorites:", favorites);
 
   useEffect(() => {
     const userInfoString = localStorage.getItem("userInfo");
