@@ -41,6 +41,7 @@ export const AppBar = (props, { userData }) => {
   const firstName = props.userData?.firstName;
   const lastName = props.userData?.lastName;
   const userName = props.userData?.userName;
+  const userIcon = props.userData?.userIcon;
 
   return (
     <MyAppBar position="absolute" open={open}>
@@ -89,6 +90,7 @@ export const AppBar = (props, { userData }) => {
             <LoginIcon
               firstLetter={firstName.charAt(0)}
               lastLetter={lastName.charAt(0)}
+              userIcon={userIcon}
             />
           </IconButton>
         )}

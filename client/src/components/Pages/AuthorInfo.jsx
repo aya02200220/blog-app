@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { UserContext } from "../UserContext";
 import { Favorite } from "../Functions/Favorite";
 import { fetchFavorites } from "../Functions/Favorites";
+import { GetLocalStorage } from "../Functions/LocalStorage";
 
 import { Box, Avatar, Typography, IconButton, Skeleton } from "@mui/material";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
@@ -22,7 +23,7 @@ export const AuthorInfo = ({
 }) => {
   const [isFollowing, setIsFollowing] = useState(false);
   const [isRendered, setIsRendered] = useState(false);
-  const { setUserInfo, userInfo } = useContext(UserContext);
+  // const { setUserInfo, userInfo } = useContext(UserContext);
   const [getPostInfo, setGetPostInfo] = useState(null);
   const [isFavorite, setIsFavorite] = useState();
   const [authorInfo, setAuthorInfo] = useState(null);
@@ -69,6 +70,7 @@ export const AuthorInfo = ({
       }
       const data = await response.json();
       setAuthorInfo(data); // 投稿者の情報をセット
+      console.log("Author info set :", data);
     } catch (error) {
       console.error("Error fetching author info:", error);
     }
@@ -92,8 +94,11 @@ export const AuthorInfo = ({
 
   useEffect(() => {
     setLoading(true);
+    const userInfo = GetLocalStorage();
+    console.log(" 確認前の：", userInfo);
 
     const fetchData = async () => {
+      console.log("確認んんんん：", userInfo.email);
       if (userInfo.email && postID) {
         const favoritesData = await fetchFavorites(userInfo.email);
         if (favoritesData) {

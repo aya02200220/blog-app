@@ -8,6 +8,7 @@ import { GetLocalStorage } from "../Functions/LocalStorage";
 import { LoginIcon } from "../LoginIcon";
 import { LocalStorageRemove, LocalStorage } from "../Functions/LocalStorage";
 import { FetchProfile } from "../Functions/FetchProfile";
+import { resizeImage } from "../Functions/ResizeImage";
 
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import { alpha } from "@mui/material/styles";
@@ -103,15 +104,19 @@ const AccountPage = () => {
     }
   };
 
-  const handleFileUpload = (event) => {
+  const handleFileUpload = async (event) => {
     const file = event.target.files[0];
-    const reader = new FileReader();
 
-    reader.onloadend = () => {
-      setUserIcon(reader.result);
-    };
-
-    reader.readAsDataURL(file);
+    try {
+      const resizedBlob = await resizeImage(file, 800, 800);
+      const reader = new FileReader();
+      reader.readAsDataURL(resizedBlob);
+      reader.onloadend = () => {
+        setUserIcon(reader.result);
+      };
+    } catch (error) {
+      console.error("Image resizing failed:", error);
+    }
   };
 
   return (

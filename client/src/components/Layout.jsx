@@ -32,6 +32,7 @@ const Layout = () => {
     firstName: null,
     lastName: null,
     userName: null,
+    userIcon: null,
   });
 
   console.log("Layout:", userData.userName);
@@ -52,6 +53,10 @@ const Layout = () => {
       setUserData((prevState) => ({
         ...prevState,
         userName: userInfoObj.email,
+      }));
+      setUserData((prevState) => ({
+        ...prevState,
+        userIcon: userInfoObj.userIcon,
       }));
     }
   }, [userInfo]);

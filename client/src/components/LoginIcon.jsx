@@ -4,38 +4,38 @@ import { Box, Avatar } from "@mui/material/";
 export const LoginIcon = (props) => {
   const defaultSize = "40px";
 
-  // if (!props.firstName) return null;
-
   return (
-    <Avatar
-      src={props.userIcon}
-      sx={{
-        height: {
-          // xs: props.size ? "100px" : defaultSize,
-          xs: props.size ? "130px" : defaultSize,
-          md: props.size || defaultSize,
-        },
-        minWidth: {
-          // xs: props.size ? "100px" : defaultSize,
-          xs: props.size ? "130px" : defaultSize,
-          md: props.size || defaultSize,
-        },
-        fontSize: props.size ? "55px" : "15px",
-        font: "#fff",
-        marginRight: "5px",
+    <>
+      <Avatar
+        src={props.userIcon}
+        sx={{
+          height: {
+            // xs: props.size ? "100px" : defaultSize,
+            xs: props.size ? "130px" : defaultSize,
+            md: props.size || defaultSize,
+          },
+          minWidth: {
+            // xs: props.size ? "100px" : defaultSize,
+            xs: props.size ? "130px" : defaultSize,
+            md: props.size || defaultSize,
+          },
+          fontSize: props.size ? "55px" : "15px",
+          font: "#fff",
+          marginRight: "5px",
 
-        backgroundColor: "#da8dea",
-        color: "#fff",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        textAlign: "center",
-        fontWeight: "600",
-        paddingBottom: "2px",
-      }}
-    >
-      {props.firstLetter}
-      {props.lastLetter}
-    </Avatar>
+          backgroundColor: "#da8dea",
+          color: "#fff",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          textAlign: "center",
+          fontWeight: "600",
+          paddingBottom: "2px",
+        }}
+      >
+        {props.firstLetter}
+        {props.lastLetter}
+      </Avatar>
+    </>
   );
 };
