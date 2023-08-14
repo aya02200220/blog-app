@@ -18,6 +18,8 @@ const app = express();
 app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
 app.use(express.json());
 app.use(cookieParser());
+const authMiddleware = require("./middleware/auth.js");
+
 app.use("/uploads", express.static(__dirname + "/uploads"));
 
 // mongoose.connect(
@@ -86,16 +88,23 @@ app.post("/login", async (req, res) => {
       {},
       (err, token) => {
         if (err) throw err;
-        res.cookie("token", token, { httpOnly: true }).json({
-          id: userInfo._id,
-          email,
-          firstName: userInfo.firstName,
-          lastName: userInfo.lastName,
-          followers: userInfo.followers,
-          userIcon: userInfo.userIcon,
-          following: userInfo.following,
-          bio: userInfo.bio,
-        });
+        res
+          .cookie("token", token, {
+            httpOnly: true,
+            sameSite: "None",
+            secure: false,
+          })
+          .json({
+            // res.cookie("token", token, { httpOnly: true }).json({
+            id: userInfo._id,
+            email,
+            firstName: userInfo.firstName,
+            lastName: userInfo.lastName,
+            followers: userInfo.followers,
+            userIcon: userInfo.userIcon,
+            following: userInfo.following,
+            bio: userInfo.bio,
+          });
       }
     );
   } catch (error) {
@@ -112,7 +121,7 @@ app.post("/login", async (req, res) => {
 //     res.json(info);
 //   });
 // });
-
+app.use("/profile", authMiddleware); // この行を追加
 app.get("/profile", async (req, res) => {
   const { token } = req.cookies;
   jwt.verify(token, secret, async (err, info) => {
@@ -267,7 +276,7 @@ app.get("/posts", async (req, res) => {
 });
 
 //////////////////////////////////////////////////////////
-
+app.use("/favorites", authMiddleware); // この行を追加
 app.post("/favorites", async (req, res) => {
   const { postId } = req.body;
   const { token } = req.cookies;
@@ -288,24 +297,37 @@ app.post("/favorites", async (req, res) => {
   });
 });
 
+app.use("/favorites", authMiddleware);
+
 app.get("/favorites", async (req, res) => {
-  const { token } = req.cookies;
-  jwt.verify(token, secret, {}, async (err, info) => {
-    if (err) {
-      res.status(401).json({ message: "認証エラー" });
-    } else {
-      try {
-        const user = await User.findById(info.id).populate("favorites");
-        const favorites = user.favorites;
-        res.status(200).json(favorites);
-        console.log("Server favorites", favorites);
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "サーバーエラーが発生しました" });
-      }
-    }
-  });
+  try {
+    const user = await User.findById(req.userData.id).populate("favorites");
+    const favorites = user.favorites;
+    res.status(200).json(favorites);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "サーバーエラーが発生しました" });
+  }
 });
+
+// app.get("/favorites", async (req, res) => {
+//   const { token } = req.cookies;
+//   jwt.verify(token, secret, {}, async (err, info) => {
+//     if (err) {
+//       res.status(401).json({ message: "認証エラー" });
+//     } else {
+//       try {
+//         const user = await User.findById(info.id).populate("favorites");
+//         const favorites = user.favorites;
+//         res.status(200).json(favorites);
+//         console.log("Server favorites", favorites);
+//       } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ message: "サーバーエラーが発生しました" });
+//       }
+//     }
+//   });
+// });
 
 app.delete("/favorites/:postId", async (req, res) => {
   const { token } = req.cookies;

@@ -56,7 +56,9 @@ const IndexPage = () => {
           }
         }
 
-        const postsResponse = await fetch("http://localhost:4000/post");
+        const postsResponse = await fetch("http://localhost:4000/profile", {
+          credentials: "include",
+        });
         if (!postsResponse.ok) {
           throw new Error(`HTTP error! status: ${postsResponse.status}`);
         }
