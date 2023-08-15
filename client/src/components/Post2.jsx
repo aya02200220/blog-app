@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 
@@ -17,13 +18,13 @@ import Share from "@material-ui/icons/Share";
 import { UserContext } from "./UserContext";
 
 export const Post = React.memo(function PostCard({
-  _id,
-  title,
-  cover,
-  content,
+  _id = "1",
+  title = "No title",
+  cover = "No cover",
+  content = "No content",
   createdAt,
-  author,
-  favorite,
+  author = "No author",
+  favorite = false,
 }) {
   const [isFavorite, setIsFavorite] = useState(favorite);
 
@@ -107,21 +108,21 @@ export const Post = React.memo(function PostCard({
                     textAlign: { xs: "center", sm: "inherit" },
                     minHeight: {
                       xs:
-                        title.length > 63
+                        title?.length > 63
                           ? "76px"
-                          : (title.length <= 43) & (title.length > 22)
+                          : (title?.length <= 43) & (title?.length > 22)
                           ? "54px"
                           : "32px",
                       sm:
-                        title.length > 63
+                        title?.length > 63
                           ? "76px"
-                          : (title.length <= 42) & (title.length > 21)
+                          : (title?.length <= 42) & (title?.length > 21)
                           ? "54px"
                           : "32px",
                       md:
-                        title.length > 48
+                        title?.length > 48
                           ? "68.6px"
-                          : (title.length <= 48) & (title.length > 24)
+                          : (title?.length <= 48) & (title?.length > 24)
                           ? "45px"
                           : "25px",
                     },
@@ -140,10 +141,10 @@ export const Post = React.memo(function PostCard({
                 >
                   <Typography sx={{ fontSize: "14px", fontWeight: "500" }}>
                     {/* {author?.firstName} {author?.lastName} */}
-                    {author.firstName} {author.lastName}
+                    {author?.firstName} {author?.lastName}
                   </Typography>
                   <Typography sx={{ fontSize: "14px", fontWeight: "600" }}>
-                    {formatDistanceToNow(new Date(createdAt))} ago
+                    {createdAt && formatDistanceToNow(new Date(createdAt))} ago
                   </Typography>
                 </Box>
                 <Typography
