@@ -18,6 +18,7 @@ const IndexPage = () => {
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
   const [userName, setUserName] = useState(null);
+  const [userId, setUserId] = useState(null);
 
   if (userInfo) {
     console.log(
@@ -32,12 +33,14 @@ const IndexPage = () => {
 
   useEffect(() => {
     const userInfoString = GetLocalStorage();
+    console.log("userInfoString:", userInfoString);
     if (userInfoString) {
       // const userInfoObj = JSON.parse(userInfoString);
       // setUserInfo(userInfoObj);
       setFirstName(userInfoString.firstName);
       setLastName(userInfoString.lastName);
       setUserName(userInfoString.email);
+      setUserId(userInfoString.id);
     }
   }, []);
 
@@ -46,7 +49,9 @@ const IndexPage = () => {
       try {
         const userInfo = GetLocalStorage();
         if (userInfo) {
+          console.log("userInfo:", userInfo);
           setUserName(userInfo.email);
+          setUserId(userInfo.id);
 
           if (userInfo.email) {
             const favoritesData = await fetchFavorites(userInfo.email);
@@ -56,14 +61,14 @@ const IndexPage = () => {
           }
         }
 
-        const postsResponse = await fetch("http://localhost:4000/profile", {
+        const postsResponse = await fetch("http://localhost:4000/post", {
           credentials: "include",
         });
         if (!postsResponse.ok) {
           throw new Error(`HTTP error! status: ${postsResponse.status}`);
         }
         const postsData = await postsResponse.json();
-        setPosts(postsData);
+        setPosts(postsData); 
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);

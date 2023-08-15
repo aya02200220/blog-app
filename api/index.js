@@ -615,8 +615,6 @@ app.post("/login", async (req, res) => {
 
     const token = await signToken(payload, secret);
 
-    console.log("Token:", token);
-
     res.cookie("token", token);
 
     res.json({
@@ -643,8 +641,8 @@ app.post("/login", async (req, res) => {
 //     res.json(info);
 //   });
 // });
-app.use("/profile", authMiddleware); // この行を追加
-app.get("/profile", async (req, res) => {
+// app.use("/profile", authMiddleware); // この行を追加
+app.get("/profile", authMiddleware, async (req, res) => {
   const { token } = req.cookies;
   jwt.verify(token, secret, async (err, info) => {
     if (err) {
