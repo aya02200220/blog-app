@@ -22,15 +22,7 @@ const Comment = ({ postInfo, onCommentAdded }) => {
   const [comments, setComments] = useState([]);
   const [storageID, setStorageID] = useState(null);
 
-  // const { userInfo } = useContext(UserContext);
-
-  const [loading, setLoading] = useState(true);
-  const [userInfo, setUserInfo] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [userName, setUserName] = useState("");
-  const [bio, setBio] = useState("");
-  const [userIcon, setUserIcon] = useState("");
+  const { userInfo } = useContext(UserContext);
 
   const postId = postInfo._id;
 
@@ -43,18 +35,12 @@ const Comment = ({ postInfo, onCommentAdded }) => {
   }, [postId]);
 
   useEffect(() => {
-    setLoading(true);
-    const fetchedUserInfo = GetLocalStorage();
-    if (fetchedUserInfo) {
-      console.log(fetchedUserInfo.firstName);
-      setUserInfo(fetchedUserInfo);
-      // setFirstName(userInfo.firstName);
-      // setLastName(userInfo.lastName);
-      // setUserName(userInfo.email);
-      // setUserIcon(userInfo.userIcon);
+    const userInfo = GetLocalStorage();
+    if (userInfo) {
+      // setStorageFirstName(userInfo.firstName);
+      // setStorageLastName(userInfo.lastName);
+      // setStorageUserName(userInfo.email);
       setStorageID(userInfo.id);
-      setLoading(false);
-      console.log("GetLocalStorage***********");
     }
   }, []);
 
@@ -125,10 +111,6 @@ const Comment = ({ postInfo, onCommentAdded }) => {
     }
   };
 
-  if (loading) {
-    return null;
-  }
-
   return (
     <>
       <Typography sx={{ fontSize: "20px", fontWeight: "500" }}>
@@ -136,41 +118,57 @@ const Comment = ({ postInfo, onCommentAdded }) => {
       </Typography>
       <Divider />
 
-      <Box
-        sx={{
-          mt: 3,
-          display: "flex",
-          justifyContent: "center",
-          // alignItems: "center",
-          height: "auto",
-        }}
-      >
-        <Box sx={{ mt: 1 }}>
-          <LoginIcon
-            firstLetter={userInfo.firstName?.charAt(0)}
-            lastLetter={userInfo.lastName?.charAt(0)}
-            userIcon={userInfo.userIcon}
-          />
-        </Box>
-        <TextField
-          fullWidth
-          type="text"
-          id="comment"
-          label="Add comment"
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-          multiline
-          // rowsMax={4}
-          sx={{ height: "100%" }}
-        />
-        <Button
-          variant="contained"
-          onClick={(e) => addComment(e)}
-          sx={{ height: "50px", ml: 1 }}
+      {Object.keys(userInfo).length > 0 ? (
+        <Box
+          sx={{
+            mt: 3,
+            display: "flex",
+            justifyContent: "center",
+            // alignItems: "center",
+            height: "auto",
+          }}
         >
-          Submit
-        </Button>
-      </Box>
+          <Box sx={{ mt: 1 }}>
+            <LoginIcon
+              firstLetter={userInfo.firstName.charAt(0)}
+              lastLetter={userInfo.lastName.charAt(0)}
+            />
+          </Box>
+          <TextField
+            fullWidth
+            type="text"
+            id="comment"
+            label="Add comment"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            multiline
+            // rowsMax={4}
+            sx={{ height: "100%" }}
+          />
+          <Button
+            variant="contained"
+            onClick={(e) => addComment(e)}
+            sx={{ height: "50px", ml: 1 }}
+          >
+            Submit
+          </Button>
+        </Box>
+      ) : (
+        <>
+          <Typography
+            sx={{
+              mt: 2,
+              fontSize: "20px",
+              textAlign: "center",
+              mb: 2,
+              color: "#8c8c8c",
+            }}
+          >
+            - Sign In to Leave Your Comments -
+          </Typography>
+          <Divider />
+        </>
+      )}
 
       <Box>
         {comments
