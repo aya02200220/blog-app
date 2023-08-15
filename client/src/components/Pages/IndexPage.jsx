@@ -68,7 +68,7 @@ const IndexPage = () => {
           throw new Error(`HTTP error! status: ${postsResponse.status}`);
         }
         const postsData = await postsResponse.json();
-        setPosts(postsData);
+        setPosts(postsData); 
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);

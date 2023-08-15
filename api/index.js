@@ -627,7 +627,6 @@ app.post("/login", async (req, res) => {
       following: userInfo.following,
       bio: userInfo.bio,
     });
-
   } catch (error) {
     console.error("Error during login:", error.message);
     res.status(500).json({ error: "Server error" });
