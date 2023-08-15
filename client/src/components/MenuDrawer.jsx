@@ -87,6 +87,7 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
 
     if (response.ok) {
       LocalStorageRemove();
+      setUserInfo(null);
 
       navigate("/temp");
       setTimeout(() => navigate("/"), 0);

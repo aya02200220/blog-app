@@ -121,7 +121,7 @@ export const Post = React.memo(function PostCard({
                           : "32px",
                       md:
                         title?.length > 48
-                          ? "68.6px"
+                          ? "67.8px"
                           : (title?.length <= 48) & (title?.length > 24)
                           ? "45px"
                           : "25px",
