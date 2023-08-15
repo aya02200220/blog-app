@@ -2,7 +2,6 @@ import React, { useState, useContext, useEffect } from "react";
 import { UserContext } from "../UserContext";
 import { Favorite } from "../Functions/Favorite";
 import { fetchFavorites } from "../Functions/Favorites";
-import { GetLocalStorage } from "../Functions/LocalStorage";
 
 import { Box, Avatar, Typography, IconButton, Skeleton } from "@mui/material";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
@@ -23,7 +22,7 @@ export const AuthorInfo = ({
 }) => {
   const [isFollowing, setIsFollowing] = useState(false);
   const [isRendered, setIsRendered] = useState(false);
-  // const { setUserInfo, userInfo } = useContext(UserContext);
+  const { setUserInfo, userInfo } = useContext(UserContext);
   const [getPostInfo, setGetPostInfo] = useState(null);
   const [isFavorite, setIsFavorite] = useState();
   const [authorInfo, setAuthorInfo] = useState(null);
@@ -61,6 +60,7 @@ export const AuthorInfo = ({
 
   // ポスト投稿者の情報を取得---------------------------------------
   const fetchAuthorInfo = async () => {
+    // console.log("AuthorInfo------ポスト投稿者の情報を取得");
     try {
       const response = await fetch(
         `http://localhost:4000/user/${postInfo.author._id}`
@@ -70,7 +70,6 @@ export const AuthorInfo = ({
       }
       const data = await response.json();
       setAuthorInfo(data); // 投稿者の情報をセット
-      console.log("Author info set :", data);
     } catch (error) {
       console.error("Error fetching author info:", error);
     }
@@ -78,7 +77,7 @@ export const AuthorInfo = ({
 
   // Comments update---------------------------------------
   useEffect(() => {
-    // console.log("-------comment up date-----------");
+    // console.log("AuthorInfo-------comment up date");
     if (postID) {
       fetch(`http://localhost:4000/post/${postID}`)
         .then((res) => res.json())
@@ -94,11 +93,10 @@ export const AuthorInfo = ({
 
   useEffect(() => {
     setLoading(true);
-    const userInfo = GetLocalStorage();
-    console.log(" 確認前の：", userInfo);
+    // console.log("AuthorInfo-----Fetch Fav");
+    // console.log(userInfo.email, postID);
 
     const fetchData = async () => {
-      console.log("確認んんんん：", userInfo.email);
       if (userInfo.email && postID) {
         const favoritesData = await fetchFavorites(userInfo.email);
         if (favoritesData) {
@@ -106,19 +104,23 @@ export const AuthorInfo = ({
             (post) => post._id === postID
           );
           setIsFavorite(isIdFavorite);
-          console.log("Favorite Data:", favoritesData);
-          console.log("Fav postID:", postID);
-          console.log("Favorite ????:", isIdFavorite);
+          setLoading(false);
+          // console.log("Favorite Data:", favoritesData);
+          // console.log("Fav postID:", postID);
+          // console.log("Favorite ????:", isIdFavorite);
         }
+      } else {
+        setLoading(false);
       }
     };
     fetchData();
     if (postInfo?.author._id) fetchAuthorInfo();
   }, [postInfo?.author._id]);
 
-  useEffect(() => {
-    setLoading(false);
-  }, [isFavorite]);
+  // useEffect(() => {
+  //   setLoading(false);
+  //   console.log("AuthorInfo------set Loading False");
+  // }, [isFavorite]);
 
   // const { firstName, lastName, followers, userIcon } = authorInfo;
   let firstName, lastName, followers, userIcon;
@@ -310,6 +312,7 @@ export const AuthorInfo = ({
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
+                    mb: 0.6,
                   }}
                 >
                   <Favorite
@@ -320,7 +323,7 @@ export const AuthorInfo = ({
                     _id={postID}
                     // _id={_id}
                   />
-                  {/* <Typography
+                  <Typography
                     sx={{
                       fontSize: "20px",
                       fontWeight: "500",
@@ -328,8 +331,8 @@ export const AuthorInfo = ({
                       mb: 0.5,
                     }}
                   >
-                    {favoriteCount}
-                  </Typography> */}
+                    {/* {favoriteCount} */}
+                  </Typography>
                 </Box>
               </IconButton>
             </Box>
