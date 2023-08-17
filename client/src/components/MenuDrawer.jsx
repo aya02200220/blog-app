@@ -1,24 +1,35 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { UserContext } from "./UserContext";
 import { LocalStorageRemove } from "./Functions/LocalStorage";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 
 import { styled } from "@mui/material/styles";
 
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
+import {
+  Toolbar,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  IconButton,
+  Divider,
+  Box,
+  Button,
+  Collapse,
+} from "@mui/material/";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
 import MuiListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import MuiDrawer from "@mui/material/Drawer";
-import { Box, Button } from "@mui/material/";
+// import Collapse from "@mui/material/Collapse";
+
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import HomeIcon from "@mui/icons-material/Home";
+import LockIcon from "@mui/icons-material/Lock";
 import PeopleIcon from "@mui/icons-material/People";
 import ViewInArIcon from "@mui/icons-material/ViewInAr";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -73,11 +84,23 @@ const ListItemButton = (props) => {
 
 export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const currentPath = location.pathname;
+  const [showSecurity, setShowSecurity] = useState(false);
 
   const { setUserInfo, userInfo } = useContext(UserContext);
   const firstName = userData?.firstName;
   const lastName = userData?.lastName;
   const userName = userData?.userName;
+
+  useEffect(() => {
+    console.log("showSecurity", showSecurity);
+    if (location.pathname === "/account" || location.pathname === "/security") {
+      setShowSecurity(true);
+    } else {
+      setShowSecurity(false);
+    }
+  }, [location.pathname]);
 
   async function logout() {
     const response = await fetch("http://localhost:4000/logout", {
@@ -96,6 +119,21 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
       toast.error("Logout failed!");
     }
   }
+
+  const handleClick = () => {
+    if (!userName) {
+      toast.info("Sign in to create a new post!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
+  };
 
   return (
     <Drawer variant="permanent" open={open}>
@@ -122,7 +160,10 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
             <ListItemText primary="Home" />
           </ListItemButton>
 
-          <ListItemButton to={userName ? "/create" : "/login"}>
+          <ListItemButton
+            to={userName ? "/create" : "/login"}
+            onClick={handleClick}
+          >
             <ListItemIcon>
               <BorderColorIcon
                 sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
@@ -144,16 +185,31 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
             </ListItemIcon>
             <ListItemText primary="Your Posts" />
           </ListItemButton>
+
           {userName && (
-            <ListItemButton to="/account">
-              <ListItemIcon>
-                <PersonOutlineIcon
-                  sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
-                />
-              </ListItemIcon>
-              <ListItemText primary="Account" />
-            </ListItemButton>
+            <>
+              <ListItemButton to="/account">
+                <ListItemIcon>
+                  <PersonOutlineIcon
+                    sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
+                  />
+                </ListItemIcon>
+                <ListItemText primary="Account" />
+              </ListItemButton>
+              <Collapse in={showSecurity} timeout="auto" unmountOnExit>
+                <ListItemButton
+                  to="/security"
+                  sx={{ backgroundColor: "#DA8DEA" }}
+                >
+                  <ListItemIcon>
+                    <LockIcon sx={{ color: "#fff", pl: 1, fontSize: "31px" }} />
+                  </ListItemIcon>
+                  <ListItemText primary="Security" />
+                </ListItemButton>
+              </Collapse>
+            </>
           )}
+          {/* ///////////////////////////////////////////////////////////////// */}
 
           {userName && (
             <Box sx={{ mt: 3 }}>

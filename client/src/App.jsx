@@ -43,6 +43,7 @@ function App() {
 
   const LoginPage = lazy(() => import("./components/Pages/LoginPage2"));
   const AccountPage = lazy(() => import("./components/Pages/AccountPage"));
+  const SecurityPage = lazy(() => import("./components/Pages/SecurityPage"));
   const RegisterPage = lazy(() => import("./components/Pages/RegisterPage2"));
   const CreatePost = lazy(() => import("./components/Pages/CreatePost"));
   const PostPage = lazy(() => import("./components/Pages/PostPage"));
@@ -67,6 +68,7 @@ function App() {
               <Route path="/favorites" element={<FavoritePage />} />
               <Route path="/yourposts" element={<YourPosts />} />
               <Route path="/account" element={<AccountPage />} />
+              <Route path="/security" element={<SecurityPage />} />
             </Route>
           </Routes>
         </Box>

@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
+import { format, differenceInDays, isToday } from "date-fns";
 
 import { Link } from "react-router-dom";
 import { Favorite } from "./Functions/Favorite";
@@ -55,6 +56,21 @@ export const Post = React.memo(function PostCard({
   useEffect(() => {
     setIsFavorite(favorite);
   }, [favorite]);
+
+  // Create at date format ////////////////////////////////////
+  const formatDate = (createdAt) => {
+    const currentDate = new Date();
+    const createdDate = new Date(createdAt);
+    const daysDifference = differenceInDays(currentDate, createdDate);
+
+    if (daysDifference < 7) {
+      // Less than a week ago
+      return formatDistanceToNow(createdDate) + " ago";
+    } else {
+      // More than a week ago
+      return format(createdDate, "MMM d, yyyy");
+    }
+  };
 
   return (
     <>
@@ -121,7 +137,7 @@ export const Post = React.memo(function PostCard({
                           : "32px",
                       md:
                         title?.length > 48
-                          ? "67.8px"
+                          ? "67.3px"
                           : (title?.length <= 48) & (title?.length > 24)
                           ? "45px"
                           : "25px",
@@ -139,12 +155,12 @@ export const Post = React.memo(function PostCard({
                     justifyContent: { xs: "center", sm: "inherit" },
                   }}
                 >
-                  <Typography sx={{ fontSize: "14px", fontWeight: "500" }}>
+                  <Typography sx={{ fontSize: "14px", fontWeight: "600" }}>
                     {/* {author?.firstName} {author?.lastName} */}
                     {author?.firstName} {author?.lastName}
                   </Typography>
-                  <Typography sx={{ fontSize: "14px", fontWeight: "600" }}>
-                    {createdAt && formatDistanceToNow(new Date(createdAt))} ago
+                  <Typography sx={{ fontSize: "14px", fontWeight: "400" }}>
+                    {createdAt && formatDate(createdAt)}
                   </Typography>
                 </Box>
                 <Typography

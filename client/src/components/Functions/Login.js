@@ -88,7 +88,17 @@ export const login = async (email, password) => {
       const userInfo = response.data;
       clearLocalStorage();
       saveToLocalStorage({ userInfo });
-      toast.success("You are logged in!");
+      toast.success("You are logged in!", {
+        position: "top-right",
+        autoClose: 900,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+
       return userInfo;
     } else {
       toast.error("Login failed");

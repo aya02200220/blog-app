@@ -527,27 +527,54 @@ const app = express();
 app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
 app.use(express.json());
 app.use(cookieParser());
+const salt = bcrypt.genSaltSync(10);
+const secret = "f834rfnjefn934rhfeuifn34fj";
+
 const authMiddleware = require("./middleware/auth.js");
 
 app.use("/uploads", express.static(__dirname + "/uploads"));
 
-// mongoose.connect(
-//   "mongodb+srv://blog-app:blog-app123@cluster0.nv5qviq.mongodb.net/?retryWrites=true&w=majority"
-// );
-
 const YOUR_CONNECTION_STRING =
   "mongodb+srv://blog-app:blog-app123@cluster0.nv5qviq.mongodb.net/?retryWrites=true&w=majority";
+
+// mongoose
+//   .connect(YOUR_CONNECTION_STRING, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//   })
+//   .then(() => console.log("Connected to MongoDB"))
+//   .catch((error) => console.error("Error connecting to MongoDB:", error));
+
+const PORT = 4000;
 
 mongoose
   .connect(YOUR_CONNECTION_STRING, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((error) => console.error("Error connecting to MongoDB:", error));
+  .then(() => {
+    console.log("Connected to MongoDB");
 
-const salt = bcrypt.genSaltSync(10);
-const secret = "f834rfnjefn934rhfeuifn34fj";
+    app.get("/posts", async (req, res) => {
+      try {
+        const posts = await Post.find()
+          .populate("author", ["firstName", "lastName", "email"])
+          .sort({ createdAt: -1 })
+          .limit(15);
+        res.json(posts);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+        res.status(500).json({ error: "Server error" });
+      }
+    });
+
+    app.listen(PORT, () => {
+      console.log(`Server started on http://localhost:${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.error("Error connecting to MongoDB:", error);
+  });
 
 app.post("/register", async (req, res) => {
   // const { userName, password } = req.body;
@@ -633,15 +660,7 @@ app.post("/login", async (req, res) => {
   }
 });
 //////////// Profile endpoints ///////////////////////////////////////////
-// app.get("/profile", (req, res) => {
-//   const { token } = req.cookies;
-//   jwt.verify(token, secret, {}, (err, info) => {
-//     if (err) throw err;
-//     console.log("INFO:", info); // こちらに移動
-//     res.json(info);
-//   });
-// });
-// app.use("/profile", authMiddleware); // この行を追加
+
 app.get("/profile", authMiddleware, async (req, res) => {
   const { token } = req.cookies;
   jwt.verify(token, secret, async (err, info) => {
@@ -818,7 +837,6 @@ app.post("/favorites", async (req, res) => {
 });
 
 app.use("/favorites", authMiddleware);
-
 app.get("/favorites", async (req, res) => {
   try {
     const user = await User.findById(req.userData.id).populate("favorites");
@@ -829,25 +847,6 @@ app.get("/favorites", async (req, res) => {
     res.status(500).json({ message: "サーバーエラーが発生しました" });
   }
 });
-
-// app.get("/favorites", async (req, res) => {
-//   const { token } = req.cookies;
-//   jwt.verify(token, secret, {}, async (err, info) => {
-//     if (err) {
-//       res.status(401).json({ message: "認証エラー" });
-//     } else {
-//       try {
-//         const user = await User.findById(info.id).populate("favorites");
-//         const favorites = user.favorites;
-//         res.status(200).json(favorites);
-//         console.log("Server favorites", favorites);
-//       } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ message: "サーバーエラーが発生しました" });
-//       }
-//     }
-//   });
-// });
 
 app.delete("/favorites/:postId", async (req, res) => {
   const { token } = req.cookies;
@@ -1025,4 +1024,4 @@ app.delete("/posts/:postId/comments/:commentId", async (req, res) => {
 
 ///////////////////////////////////////////////////
 
-app.listen(4000, () => {});
+// app.listen(PORT, () => {});
