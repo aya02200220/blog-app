@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { UserContext } from "./UserContext";
 import { Link } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 import { styled } from "@mui/material/styles";
 import MuiAppBar from "@mui/material/AppBar";
@@ -45,6 +46,7 @@ export const AppBar = (props, { userData }) => {
 
   return (
     <MyAppBar position="absolute" open={open}>
+      <ToastContainer />
       <Toolbar
         sx={{
           pr: "24px", // keep right padding when drawer closed

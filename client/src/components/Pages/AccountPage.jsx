@@ -62,45 +62,60 @@ const AccountPage = () => {
 
   const updateUserData = async () => {
     if (isChanged()) {
-      try {
-        const response = await fetch("http://localhost:4000/updateProfile", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify({
-            firstName: firstName,
-            lastName: lastName,
-            bio: bio,
-            userIcon: userIcon,
-          }),
+      if (!firstName || !lastName) {
+        toast.error("Fill Required Form", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
         });
 
-        if (!response.ok) {
-          const text = await response.text();
-          throw new Error(
-            `HTTP error! status: ${response.status}, message: ${text}`
+        return;
+      } else {
+        try {
+          const response = await fetch("http://localhost:4000/updateProfile", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify({
+              firstName: firstName,
+              lastName: lastName,
+              bio: bio,
+              userIcon: userIcon,
+            }),
+          });
+
+          if (!response.ok) {
+            const text = await response.text();
+            throw new Error(
+              `HTTP error! status: ${response.status}, message: ${text}`
+            );
+          }
+
+          const updatedInfo = await response.json();
+          // ユーザー情報を再取得
+          const newUserInfo = await FetchProfile(updatedInfo.user.email);
+          setUserInfo(newUserInfo);
+          setFirstName(newUserInfo.firstName);
+          setLastName(newUserInfo.lastName);
+          setUserName(newUserInfo.email);
+          setBio(newUserInfo.bio);
+          setUserIcon(newUserInfo.userIcon);
+
+          LocalStorageRemove();
+          LocalStorage({ userInfo: newUserInfo });
+        } catch (error) {
+          console.error(
+            "There was a problem with the update operation:",
+            error.message
           );
         }
-
-        const updatedInfo = await response.json();
-        // ユーザー情報を再取得
-        const newUserInfo = await FetchProfile(updatedInfo.user.email);
-        setUserInfo(newUserInfo);
-        setFirstName(newUserInfo.firstName);
-        setLastName(newUserInfo.lastName);
-        setUserName(newUserInfo.email);
-        setBio(newUserInfo.bio);
-        setUserIcon(newUserInfo.userIcon);
-
-        LocalStorageRemove();
-        LocalStorage({ userInfo: newUserInfo });
-      } catch (error) {
-        console.error(
-          "There was a problem with the update operation:",
-          error.message
-        );
       }
     }
   };
@@ -252,25 +267,26 @@ const AccountPage = () => {
                     width: "90%",
                   }}
                 >
-                  <Typography sx={{ fontWeight: "500" }}>First Name</Typography>
                   <TextField
+                    required
                     fullWidth
-                    // type="title"
+                    id="filled-required"
+                    label="First Name"
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
                     variant="outlined"
-                    placeholder="firstName"
-                  ></TextField>
-                  <Typography sx={{ fontWeight: "500" }}>Last Name</Typography>
+                  />
+
                   <TextField
+                    sx={{ mt: 3 }}
+                    required
                     fullWidth
-                    // type="title"
+                    id="filled-required"
+                    label="Last Name"
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
                     variant="outlined"
-                    placeholder="firstName"
-                    className={styles.customHeight}
-                  ></TextField>
+                  />
                 </Box>
               </Box>
               <Box sx={{ ml: 2, mr: 2, mb: 2 }}>

@@ -2,8 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { UserContext } from "./UserContext";
 import { LocalStorageRemove } from "./Functions/LocalStorage";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
-
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 import { styled } from "@mui/material/styles";
 
@@ -161,128 +160,139 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
   };
 
   return (
-    <Drawer variant="permanent" open={open}>
-      <Toolbar
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "flex-end",
-          px: [1],
-        }}
-      >
-        <IconButton onClick={toggleDrawer}>
-          <ChevronLeftIcon sx={{ color: "#fff" }} />
-        </IconButton>
-      </Toolbar>
-      <Divider />
+    <>
+      <ToastContainer />
+      <Drawer variant="permanent" open={open}>
+        <Toolbar
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-end",
+            px: [1],
+          }}
+        >
+          <IconButton onClick={toggleDrawer}>
+            <ChevronLeftIcon sx={{ color: "#fff" }} />
+          </IconButton>
+        </Toolbar>
+        <Divider />
 
-      <Box>
-        <List component="nav" sx={{ display: "flex", flexDirection: "column" }}>
-          <ListItemButton to="/">
-            <ListItemIcon>
-              <HomeIcon sx={{ color: "#fff", pl: 1, fontSize: "31px" }} />
-            </ListItemIcon>
-            <ListItemText primary="Home" />
-          </ListItemButton>
-
-          <ListItemButton
-            to={userName ? "/create" : "/login"}
-            onClick={handleClick}
+        <Box>
+          <List
+            component="nav"
+            sx={{ display: "flex", flexDirection: "column" }}
           >
-            <ListItemIcon>
-              <BorderColorIcon
-                sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
-              />
-            </ListItemIcon>
-            <ListItemText primary="Create Post" />
-          </ListItemButton>
+            <ListItemButton to="/">
+              <ListItemIcon>
+                <HomeIcon sx={{ color: "#fff", pl: 1, fontSize: "31px" }} />
+              </ListItemIcon>
+              <ListItemText primary="Home" />
+            </ListItemButton>
 
-          <ListItemButton to="/favorites">
-            <ListItemIcon>
-              <BookmarkIcon sx={{ color: "#fff", pl: 1, fontSize: "31px" }} />
-            </ListItemIcon>
-            <ListItemText primary="Bookmark" />
-          </ListItemButton>
-
-          <ListItemButton to="/yourposts">
-            <ListItemIcon>
-              <ArticleIcon sx={{ color: "#fff", pl: 1, fontSize: "31px" }} />
-            </ListItemIcon>
-            <ListItemText primary="Your Posts" />
-          </ListItemButton>
-
-          {userName && (
-            <>
-              <ListItemButton to="/account">
-                <ListItemIcon>
-                  <PersonOutlineIcon
-                    sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
-                  />
-                </ListItemIcon>
-                <ListItemText primary="Account" />
-              </ListItemButton>
-              <Collapse in={showSecurity} timeout="auto" unmountOnExit>
-                <ListItemButton
-                  to="/security"
-                  sx={{ backgroundColor: "#DA8DEA" }}
-                >
-                  <ListItemIcon>
-                    <LockIcon sx={{ color: "#fff", pl: 1, fontSize: "31px" }} />
-                  </ListItemIcon>
-                  <ListItemText primary="Security" />
-                </ListItemButton>
-              </Collapse>
-            </>
-          )}
-          {/* ///////////////////////////////////////////////////////////////// */}
-
-          {userName && (
-            <Box sx={{ mt: 3 }}>
-              <Box
-                sx={{
-                  // backgroundColor: "#a53939",
-                  backgroundColor: "#c1c1c1c1",
-                  color: "#fff",
-                }}
+            <ListItemButton>
+              <ListItemIcon>
+                <BorderColorIcon
+                  sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
+                />
+              </ListItemIcon>
+              <NavLink
+                to={userName ? "/create" : "/login"}
+                onClick={handleClick}
+                activeStyle={{ color: "blue" }} // ここでアクティブな場合のスタイルを指定
               >
-                <ListItemButton onClick={logout}>
-                  <ListItemIcon>
-                    <LogoutIcon
-                      sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
-                    />
-                  </ListItemIcon>
-                  <ListItemText primary="Sign Out" />
-                </ListItemButton>
-              </Box>
-            </Box>
-          )}
-          {!userName && (
-            <Box sx={{ mt: 3 }}>
-              <Box sx={{ backgroundColor: "#4d59a0", color: "#fff" }}>
-                <ListItemButton to="/login">
-                  <ListItemIcon>
-                    <LoginIcon
-                      sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
-                    />
-                  </ListItemIcon>
-                  <ListItemText primary="Sign In" />
-                </ListItemButton>
-              </Box>
+                <ListItemText primary="Create Post" />
+              </NavLink>
+            </ListItemButton>
 
-              <Box sx={{ backgroundColor: "#468041", color: "#fff" }}>
-                <ListItemButton to="/register">
+            <ListItemButton to="/favorites">
+              <ListItemIcon>
+                <BookmarkIcon sx={{ color: "#fff", pl: 1, fontSize: "31px" }} />
+              </ListItemIcon>
+              <ListItemText primary="Bookmark" />
+            </ListItemButton>
+
+            <ListItemButton to="/yourposts">
+              <ListItemIcon>
+                <ArticleIcon sx={{ color: "#fff", pl: 1, fontSize: "31px" }} />
+              </ListItemIcon>
+              <ListItemText primary="Your Posts" />
+            </ListItemButton>
+
+            {userName && (
+              <>
+                <ListItemButton to="/account">
                   <ListItemIcon>
-                    <PersonAddIcon
+                    <PersonOutlineIcon
                       sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
                     />
                   </ListItemIcon>
-                  <ListItemText primary="Register" />
+                  <ListItemText primary="Account" />
                 </ListItemButton>
+                <Collapse in={showSecurity} timeout="auto" unmountOnExit>
+                  <ListItemButton
+                    to="/security"
+                    sx={{ backgroundColor: "#DA8DEA" }}
+                  >
+                    <ListItemIcon>
+                      <LockIcon
+                        sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
+                      />
+                    </ListItemIcon>
+                    <ListItemText primary="Security" />
+                  </ListItemButton>
+                </Collapse>
+              </>
+            )}
+            {/* ///////////////////////////////////////////////////////////////// */}
+
+            {userName && (
+              <Box sx={{ mt: 3 }}>
+                <Box
+                  sx={{
+                    // backgroundColor: "#a53939",
+                    backgroundColor: "#c1c1c1c1",
+                    color: "#fff",
+                  }}
+                >
+                  <ListItemButton onClick={logout}>
+                    <ListItemIcon>
+                      <LogoutIcon
+                        sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
+                      />
+                    </ListItemIcon>
+                    <ListItemText primary="Sign Out" />
+                  </ListItemButton>
+                </Box>
               </Box>
-            </Box>
-          )}
-        </List>
-      </Box>
-    </Drawer>
+            )}
+            {!userName && (
+              <Box sx={{ mt: 3 }}>
+                <Box sx={{ backgroundColor: "#4d59a0", color: "#fff" }}>
+                  <ListItemButton to="/login">
+                    <ListItemIcon>
+                      <LoginIcon
+                        sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
+                      />
+                    </ListItemIcon>
+                    <ListItemText primary="Sign In" />
+                  </ListItemButton>
+                </Box>
+
+                <Box sx={{ backgroundColor: "#468041", color: "#fff" }}>
+                  <ListItemButton to="/register">
+                    <ListItemIcon>
+                      <PersonAddIcon
+                        sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
+                      />
+                    </ListItemIcon>
+                    <ListItemText primary="Register" />
+                  </ListItemButton>
+                </Box>
+              </Box>
+            )}
+          </List>
+        </Box>
+      </Drawer>
+    </>
   );
 };

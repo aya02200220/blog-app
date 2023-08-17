@@ -118,7 +118,7 @@ const Layout = () => {
           overflow: "auto",
         }}
       >
-        {/* <Toolbar /> */}
+        <Toolbar />
         <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
           <Suspense fallback={<div>Loading...</div>}>
             <Outlet />

@@ -1,30 +1,28 @@
 import { useState, useEffect, useContext } from "react";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 import { UserContext } from "../UserContext";
 import styles from "../../styles/main.module.scss";
 import { Link } from "react-router-dom";
 import { GetLocalStorage } from "../Functions/LocalStorage";
 
-import CircularProgress from "@mui/material/CircularProgress";
-import LockIcon from "@mui/icons-material/Lock";
-
-import { LoginIcon } from "../LoginIcon";
 import { LocalStorageRemove, LocalStorage } from "../Functions/LocalStorage";
 import { FetchProfile } from "../Functions/FetchProfile";
 
 import {
   Box,
-  Avatar,
   Button,
   Typography,
   IconButton,
   TextField,
   Divider,
+  CircularProgress,
+  InputAdornment,
 } from "@mui/material";
-import { TextareaAutosize } from "@mui/base/TextareaAutosize";
-import Textarea from "@mui/joy/Textarea";
 
+import LockIcon from "@mui/icons-material/Lock";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 
@@ -37,69 +35,106 @@ const SecurityPage = () => {
   const [passwordError, setPasswordError] = useState("");
   const { setUserInfo, userInfo } = useContext(UserContext);
 
+  const [showPassword1, setShowPassword1] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
+
+  const togglePasswordVisibility1 = () => {
+    setShowPassword1(!showPassword1);
+  };
+  const togglePasswordVisibility2 = () => {
+    setShowPassword2(!showPassword2);
+  };
+
   console.log("Security Page userInfo:", userInfo);
 
-  let initialUserInfo = FetchProfile(userInfo?.email);
-
-  // const isChanged = () => {
-  //   return (
-  //     userName !== initialUserInfo.email ||
-  //     password !== initialUserInfo.password
-  //   );
-  // };
-
-  // useEffect(() => {
-  //   if (initialUserInfo) {
-  //     setPassword(initialUserInfo.password);
-  //     setUserName(initialUserInfo.email);
-  //     setLoading(false);
-  //   }
-  // }, [userInfo]);
+  // let initialUserInfo = FetchProfile(userInfo?.email);
 
   const updatePassword = async () => {
-    if (newPassword !== confirmPassword) {
-      setPasswordError("Passwords do not match");
-      return;
-    }
-
-    try {
-      const response = await fetch("http://localhost:4000/updatePassword", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          currentPassword: currentPassword,
-          newPassword: newPassword,
-        }),
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      toast.error("Fill Required Form", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
       });
-
-      if (!response.ok) {
-        const text = await response.text();
-        throw new Error(
-          `HTTP error! status: ${response.status}, message: ${text}`
-        );
+    } else {
+      if (newPassword !== confirmPassword) {
+        setPasswordError("Passwords do not match");
+        return;
       }
 
-      const updated = await response.json();
-      if (updated.success) {
-        // パスワードの更新に成功したら、適切なメッセージを表示
-        toast.success("Password updated successfully!");
-      } else {
-        // エラーメッセージを表示
-        toast.error("Failed to update password");
+      try {
+        setPasswordError("");
+
+        const response = await fetch("http://localhost:4000/updatePassword", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            currentPassword: currentPassword,
+            newPassword: newPassword,
+          }),
+        });
+
+        // トークンなしパシワード変更///////////////////////////////////////////////////
+        // const response = await fetch("http://localhost:4000/updatePassword", {
+        //   method: "POST",
+        //   headers: { "Content-Type": "application/json" },
+        //   body: JSON.stringify({
+        //     userId: "64bc5d1fe0fec1f8eca46c07",
+        //     currentPassword: currentPassword,
+        //     newPassword: newPassword,
+        //   }),
+        // });
+        //////////////////////////////////////////////////////////////////////////
+
+        if (!response.ok) {
+          // const text = await response.text();
+          // errorMsg(text);
+          // errorMsg("Incorrect current password");
+          // throw new Error(
+          //   `HTTP error! status: ${response.status}, message: ${text}`
+          // );
+        }
+
+        const updated = await response.json();
+        if (updated.success) {
+          toast.success("Password updated successfully!");
+          setCurrentPassword("");
+          setNewPassword("");
+          setConfirmPassword("");
+        } else {
+          errorMsg(`Failed to update　　　　　　${updated.message}`);
+        }
+      } catch (error) {
+        errorMsg(`There was a problem with the password update operation:
+        ${error.message}`);
       }
-    } catch (error) {
-      console.error(
-        "There was a problem with the password update operation:",
-        error.message
-      );
     }
+  };
+
+  const errorMsg = (msg) => {
+    toast.error(msg, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
   };
 
   return (
     <>
+      <ToastContainer />
       <Box
         sx={{
           mt: "110px",
@@ -179,73 +214,118 @@ const SecurityPage = () => {
                   }}
                 >
                   {/* //////////////////////////////////////////////////////////////////// */}
-                  <Box sx={{ width: "100%" }}>
+                  <Box sx={{ width: "100%", position: "relative" }}>
                     <Typography
-                      sx={{ fontWeight: "600", mt: 3, textAlign: "center" }}
+                      sx={{
+                        fontWeight: "600",
+                        mt: 3,
+                        textAlign: "center",
+                      }}
                     >
                       Change Password
                     </Typography>
 
-                    <Box sx={{ display: "flex", alignItems: "center", mt: 3 }}>
-                      <Box sx={{ width: "100px" }}>
-                        <Typography
-                          sx={{ fontWeight: "400", fontSize: "15px" }}
-                        >
-                          Current Password
-                        </Typography>
-                      </Box>
-                      <Box sx={{ flexGrow: 1 }}>
-                        <TextField
-                          fullWidth
-                          type="password"
-                          value={currentPassword}
-                          onChange={(e) => setCurrentPassword(e.target.value)}
-                          variant="outlined"
-                          placeholder="Current Password"
-                          sx={{ flexGrow: 1 }}
-                        />
-                      </Box>
-                    </Box>
+                    <TextField
+                      sx={{ mt: 2 }}
+                      required
+                      fullWidth
+                      variant="outlined"
+                      id="filled-required"
+                      label="Current Password"
+                      type={showPassword1 ? "text" : "password"}
+                      value={currentPassword}
+                      onChange={(e) => setCurrentPassword(e.target.value)}
+                      placeholder="Current Password"
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton onClick={togglePasswordVisibility1}>
+                              {showPassword1 ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                    <Divider sx={{ mt: 3 }} />
 
-                    <Box sx={{ display: "flex", alignItems: "center", mt: 3 }}>
-                      <Box sx={{ width: "100px" }}>
-                        <Typography
-                          sx={{ fontWeight: "400", fontSize: "15px" }}
-                        >
-                          New Password
-                        </Typography>
-                      </Box>
-                      <Box sx={{ flexGrow: 1 }}>
-                        <TextField
-                          fullWidth
-                          type="password"
-                          value={newPassword}
-                          onChange={(e) => setNewPassword(e.target.value)}
-                          variant="outlined"
-                          placeholder="New Password"
-                        />
+                    <TextField
+                      sx={{ mt: 3 }}
+                      required
+                      fullWidth
+                      variant="outlined"
+                      id="filled-required"
+                      label="New Password"
+                      type={showPassword2 ? "text" : "password"}
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      placeholder="New Password"
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton onClick={togglePasswordVisibility2}>
+                              {showPassword2 ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
 
-                        <TextField
-                          fullWidth
-                          type="password"
-                          value={confirmPassword}
-                          onChange={(e) => setConfirmPassword(e.target.value)}
-                          variant="outlined"
-                          placeholder="Confirm New Password"
-                        />
-                        <Typography color="error">{passwordError}</Typography>
-                      </Box>
+                    <TextField
+                      required
+                      fullWidth
+                      label="ConfirmPassword"
+                      type={showPassword2 ? "text" : "password"}
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      variant="outlined"
+                      placeholder="Confirm New Password"
+                      sx={{ mt: 2 }}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton onClick={togglePasswordVisibility2}>
+                              {showPassword2 ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <Box
+                        sx={{
+                          width: "80px",
+                        }}
+                      ></Box>
                     </Box>
+                    <Typography
+                      color="error"
+                      sx={{ textAlign: "right", mr: 1 }}
+                    >
+                      {passwordError}
+                    </Typography>
                   </Box>
                 </Box>
               </Box>
 
-              <Box sx={{ m: 2 }}>
+              <Box sx={{ m: 3, mt: 4 }}>
                 <Button
                   onClick={updatePassword}
                   variant="contained"
                   fullWidth
-                  sx={{ height: "40px" }}
+                  sx={{ height: "50px" }}
                 >
                   Change Password
                 </Button>
