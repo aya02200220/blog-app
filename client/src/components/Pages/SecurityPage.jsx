@@ -114,9 +114,7 @@ const SecurityPage = () => {
               <Box
                 sx={{
                   display: "flex",
-                  // justifyContent: "center",
                   alignItems: "center",
-                  // ml: 2,
                 }}
               >
                 <Typography sx={{ ml: 2, mt: 2, mb: 2, fontWeight: "600" }}>

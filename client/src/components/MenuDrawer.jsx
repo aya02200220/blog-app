@@ -9,9 +9,6 @@ import { styled } from "@mui/material/styles";
 
 import {
   Toolbar,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
   IconButton,
   Divider,
   Box,
@@ -26,13 +23,9 @@ import ListItemText from "@mui/material/ListItemText";
 import MuiDrawer from "@mui/material/Drawer";
 // import Collapse from "@mui/material/Collapse";
 
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
 import HomeIcon from "@mui/icons-material/Home";
 import LockIcon from "@mui/icons-material/Lock";
-import PeopleIcon from "@mui/icons-material/People";
-import ViewInArIcon from "@mui/icons-material/ViewInAr";
-import MenuIcon from "@mui/icons-material/Menu";
+import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import ArticleIcon from "@mui/icons-material/Article";
@@ -73,11 +66,43 @@ const Drawer = styled(MuiDrawer, {
   },
 }));
 
+// const ListItemButton = (props) => {
+//   const { to, children, ...rest } = props;
+//   return (
+//     <MuiListItemButton component={RouterLink} to={to} {...rest}>
+//       {children}
+//     </MuiListItemButton>
+//   );
+// };
+
 const ListItemButton = (props) => {
   const { to, children, ...rest } = props;
+  const location = useLocation();
+
   return (
-    <MuiListItemButton component={RouterLink} to={to} {...rest}>
+    <MuiListItemButton
+      component={RouterLink}
+      to={to}
+      {...rest}
+      sx={{
+        position: "relative",
+        transition: "background-color 0.4s",
+        ...(to === location.pathname && {
+          // backgroundColor: "#E2808A",
+          // backgroundColor: "#D8A7B1",
+          backgroundColor: "#E588A3",
+        }),
+        "&:hover": {
+          backgroundColor: "#D8A7B1", // 例: "rgba(255, 255, 255, 0.2)"
+        },
+      }}
+    >
       {children}
+      {to === location.pathname && (
+        <ListItemIcon sx={{ position: "absolute", right: -30 }}>
+          <ArrowRightIcon /> {/* 三角形のアイコン */}
+        </ListItemIcon>
+      )}
     </MuiListItemButton>
   );
 };
@@ -95,12 +120,12 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
 
   useEffect(() => {
     console.log("showSecurity", showSecurity);
-    if (location.pathname === "/account" || location.pathname === "/security") {
+    if (currentPath === "/account" || currentPath === "/security") {
       setShowSecurity(true);
     } else {
       setShowSecurity(false);
     }
-  }, [location.pathname]);
+  }, [currentPath]);
 
   async function logout() {
     const response = await fetch("http://localhost:4000/logout", {
