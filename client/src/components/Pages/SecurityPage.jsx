@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { toast } from "react-toastify";
 
 import { UserContext } from "../UserContext";
@@ -30,36 +30,73 @@ import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 
 const SecurityPage = () => {
   const [loading, setLoading] = useState(true);
-  const [userInfo, setUserInfo] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [userName, setUserName] = useState("");
-  const [bio, setBio] = useState("");
-  const [userIcon, setUserIcon] = useState("");
+  // const [userInfo, setUserInfo] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const { setUserInfo, userInfo } = useContext(UserContext);
 
-  let initialUserInfo = GetLocalStorage();
+  console.log("Security Page userInfo:", userInfo);
 
-  const isChanged = () => {
-    return (
-      firstName !== initialUserInfo.firstName ||
-      lastName !== initialUserInfo.lastName ||
-      bio !== initialUserInfo.bio ||
-      userName !== initialUserInfo.email ||
-      userIcon !== initialUserInfo.userIcon
-      // password !== initialUserInfo.password
-    );
-  };
+  let initialUserInfo = FetchProfile(userInfo?.email);
 
-  useEffect(() => {
-    if (initialUserInfo) {
-      setFirstName(initialUserInfo.firstName);
-      setLastName(initialUserInfo.lastName);
-      setUserName(initialUserInfo.email);
-      setBio(initialUserInfo.bio);
-      setUserIcon(initialUserInfo.userIcon);
-      setLoading(false);
+  // const isChanged = () => {
+  //   return (
+  //     userName !== initialUserInfo.email ||
+  //     password !== initialUserInfo.password
+  //   );
+  // };
+
+  // useEffect(() => {
+  //   if (initialUserInfo) {
+  //     setPassword(initialUserInfo.password);
+  //     setUserName(initialUserInfo.email);
+  //     setLoading(false);
+  //   }
+  // }, [userInfo]);
+
+  const updatePassword = async () => {
+    if (newPassword !== confirmPassword) {
+      setPasswordError("Passwords do not match");
+      return;
     }
-  }, [userInfo]);
+
+    try {
+      const response = await fetch("http://localhost:4000/updatePassword", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          currentPassword: currentPassword,
+          newPassword: newPassword,
+        }),
+      });
+
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(
+          `HTTP error! status: ${response.status}, message: ${text}`
+        );
+      }
+
+      const updated = await response.json();
+      if (updated.success) {
+        // パスワードの更新に成功したら、適切なメッセージを表示
+        toast.success("Password updated successfully!");
+      } else {
+        // エラーメッセージを表示
+        toast.error("Failed to update password");
+      }
+    } catch (error) {
+      console.error(
+        "There was a problem with the password update operation:",
+        error.message
+      );
+    }
+  };
 
   return (
     <>
@@ -74,7 +111,7 @@ const SecurityPage = () => {
           position: "relative",
         }}
       >
-        {loading ? (
+        {!loading ? (
           <Box sx={{ mt: "150px", display: "flex", justifyContent: "center" }}>
             <CircularProgress />
             <Typography sx={{ ml: "20px", fontSize: "20px" }}>
@@ -130,7 +167,7 @@ const SecurityPage = () => {
                   justifyContent: "center",
                   alignItems: "center",
                   width: "100%",
-                  height: { sx: "400px", sm: "200px" },
+                  // height: { sx: "400px", sm: "200px" },
                 }}
               >
                 <Box
@@ -141,37 +178,76 @@ const SecurityPage = () => {
                     width: "90%",
                   }}
                 >
-                  <Typography sx={{ fontWeight: "500" }}>First Name</Typography>
-                  <TextField
-                    fullWidth
-                    // type="title"
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                    variant="outlined"
-                    placeholder="firstName"
-                  ></TextField>
-                  <Typography sx={{ fontWeight: "500" }}>Last Name</Typography>
-                  <TextField
-                    fullWidth
-                    // type="title"
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                    variant="outlined"
-                    placeholder="firstName"
-                    className={styles.customHeight}
-                  ></TextField>
+                  {/* //////////////////////////////////////////////////////////////////// */}
+                  <Box sx={{ width: "100%" }}>
+                    <Typography
+                      sx={{ fontWeight: "600", mt: 3, textAlign: "center" }}
+                    >
+                      Change Password
+                    </Typography>
+
+                    <Box sx={{ display: "flex", alignItems: "center", mt: 3 }}>
+                      <Box sx={{ width: "100px" }}>
+                        <Typography
+                          sx={{ fontWeight: "400", fontSize: "15px" }}
+                        >
+                          Current Password
+                        </Typography>
+                      </Box>
+                      <Box sx={{ flexGrow: 1 }}>
+                        <TextField
+                          fullWidth
+                          type="password"
+                          value={currentPassword}
+                          onChange={(e) => setCurrentPassword(e.target.value)}
+                          variant="outlined"
+                          placeholder="Current Password"
+                          sx={{ flexGrow: 1 }}
+                        />
+                      </Box>
+                    </Box>
+
+                    <Box sx={{ display: "flex", alignItems: "center", mt: 3 }}>
+                      <Box sx={{ width: "100px" }}>
+                        <Typography
+                          sx={{ fontWeight: "400", fontSize: "15px" }}
+                        >
+                          New Password
+                        </Typography>
+                      </Box>
+                      <Box sx={{ flexGrow: 1 }}>
+                        <TextField
+                          fullWidth
+                          type="password"
+                          value={newPassword}
+                          onChange={(e) => setNewPassword(e.target.value)}
+                          variant="outlined"
+                          placeholder="New Password"
+                        />
+
+                        <TextField
+                          fullWidth
+                          type="password"
+                          value={confirmPassword}
+                          onChange={(e) => setConfirmPassword(e.target.value)}
+                          variant="outlined"
+                          placeholder="Confirm New Password"
+                        />
+                        <Typography color="error">{passwordError}</Typography>
+                      </Box>
+                    </Box>
+                  </Box>
                 </Box>
               </Box>
 
               <Box sx={{ m: 2 }}>
                 <Button
-                  // onClick={updateUserData}
-                  disabled={!isChanged()}
+                  onClick={updatePassword}
                   variant="contained"
                   fullWidth
                   sx={{ height: "40px" }}
                 >
-                  UPDATE
+                  Change Password
                 </Button>
               </Box>
             </Box>

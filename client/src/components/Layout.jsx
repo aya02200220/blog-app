@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect, Suspense } from "react";
 import { UserContext } from "./UserContext";
+import { ToastContainer } from "react-toastify";
 
 import Box from "@mui/material/Box";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -94,6 +95,7 @@ const Layout = () => {
 
   return (
     <>
+      <ToastContainer />
       <MemoizedAppBar
         open={open}
         toggleDrawer={toggleDrawer}

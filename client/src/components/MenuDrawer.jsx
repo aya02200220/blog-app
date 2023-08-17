@@ -66,15 +66,6 @@ const Drawer = styled(MuiDrawer, {
   },
 }));
 
-// const ListItemButton = (props) => {
-//   const { to, children, ...rest } = props;
-//   return (
-//     <MuiListItemButton component={RouterLink} to={to} {...rest}>
-//       {children}
-//     </MuiListItemButton>
-//   );
-// };
-
 const ListItemButton = (props) => {
   const { to, children, ...rest } = props;
   const location = useLocation();
@@ -139,7 +130,16 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
 
       navigate("/temp");
       setTimeout(() => navigate("/"), 0);
-      toast.success("You are logged out!");
+      toast.success("You are Signed out!", {
+        position: "top-right",
+        autoClose: 900,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     } else {
       toast.error("Logout failed!");
     }
