@@ -3,6 +3,9 @@ import { toast, ToastContainer } from "react-toastify";
 import { UserContext } from "../UserContext";
 import { Link } from "react-router-dom";
 
+import { FetchProfile } from "../Functions/FetchProfile";
+import { LocalStorageRemove, LocalStorage } from "../Functions/LocalStorage";
+
 import {
   Box,
   Button,
@@ -100,6 +103,12 @@ const ChangeEmail = () => {
           setCurrentEmail("");
           setNewEmail("");
           setConfirmEmail("");
+
+          const newUserInfo = await FetchProfile(newEmail);
+          setUserInfo(newUserInfo);
+
+          LocalStorageRemove();
+          LocalStorage({ userInfo: newUserInfo });
         } else {
           errorMsg(`Failed to update               ${updated.message}`);
         }
@@ -223,7 +232,7 @@ const ChangeEmail = () => {
                       id="filled-required"
                       label="Current Email"
                       type={showEmail1 ? "text" : "Email"}
-                      value={currentEmail}
+                      value={userInfo ? userInfo.email : currentEmail}
                       onChange={(e) => setCurrentEmail(e.target.value)}
                       placeholder="Current Email"
                       // InputProps={{

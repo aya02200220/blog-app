@@ -22,15 +22,15 @@ import {
   TextField,
   Divider,
 } from "@mui/material";
-import { TextareaAutosize } from "@mui/base/TextareaAutosize";
-import Textarea from "@mui/joy/Textarea";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 
 const AccountPage = () => {
+  const { setUserInfo, userInfo } = useContext(UserContext);
+
   const [loading, setLoading] = useState(true);
-  const [userInfo, setUserInfo] = useState("");
+  // const [userInfo, setUserInfo] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [userName, setUserName] = useState("");
@@ -97,6 +97,7 @@ const AccountPage = () => {
               `HTTP error! status: ${response.status}, message: ${text}`
             );
           }
+          toast.success("Profile updated successfully!");
 
           const updatedInfo = await response.json();
           // ユーザー情報を再取得
@@ -111,13 +112,24 @@ const AccountPage = () => {
           LocalStorageRemove();
           LocalStorage({ userInfo: newUserInfo });
         } catch (error) {
-          console.error(
-            "There was a problem with the update operation:",
-            error.message
-          );
+          errorMsg(`There was a problem with the update operation:",
+          ${error.message}`);
         }
       }
     }
+  };
+
+  const errorMsg = (msg) => {
+    toast.error(msg, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
   };
 
   const handleFileUpload = async (event) => {
@@ -178,7 +190,7 @@ const AccountPage = () => {
             {/* ///////////////////////////////////////////////////////////////////// */}
             <Box
               sx={{
-                border: "solid 1px #8c8c8c",
+                border: "solid 1px #999",
                 width: { xs: "90%", sm: "100%" },
                 maxWidth: "550px",
                 borderRadius: "5px",
@@ -297,7 +309,7 @@ const AccountPage = () => {
                   style={{
                     width: "100%",
                     height: "100px",
-                    border: "1px solid black",
+                    border: "1px solid lightGray",
                     borderRadius: "5px",
                     padding: "10px",
                   }}
