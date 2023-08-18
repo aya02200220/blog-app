@@ -95,7 +95,7 @@ const CreatePost = () => {
       </Link>
       <Box
         sx={{
-          mt: 5,
+          mt: 6,
           ml: { xs: 0, sm: 2 },
           mr: { xs: 0, sm: 2 },
           display: "flex",
@@ -104,7 +104,16 @@ const CreatePost = () => {
           alignItems: "center",
         }}
       >
-        <Box sx={{ width: { xs: "90%", sm: "100%" }, maxWidth: "550px" }}>
+        <Box
+          sx={{
+            width: { xs: "90%", sm: "100%" },
+            maxWidth: "550px",
+            backgroundColor: "#fff",
+            border: "1px solid #bfbfbf",
+            p: 3,
+            borderRadius: 5,
+          }}
+        >
           <form onSubmit={createNewPost}>
             <TextField
               fullWidth
@@ -113,6 +122,7 @@ const CreatePost = () => {
               onChange={(e) => setTitle(e.target.value)}
               variant="outlined"
               placeholder="Title"
+              // sx={{ backgroundColor: "#fff" }}
             ></TextField>
             <Box mt={1}>
               <input type="file" onChange={(ev) => setFiles(ev.target.files)} />
