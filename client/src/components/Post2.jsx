@@ -78,41 +78,44 @@ export const Post = React.memo(function PostCard({
         <Link to={`/post/${_id}`}>
           <Box
             sx={{
-              width: { xs: "300px", sm: "500px", md: "600px" },
-              maxWidth: { xs: "300px", sm: "500px", md: "600px" },
+              height: { xs: "inherit", sm: "226px", md: "226px" },
+              width: { xs: "295px", sm: "500px", md: "600px" },
+              maxWidth: { xs: "295px", sm: "500px", md: "600px" },
               // border: "solid 1px black",
               borderBottom: "solid 1px #dedede",
-              mb: 1,
+              mb: 2,
               backgroundColor: "#fff",
               borderRadius: 2,
+              overflow: "hidden",
             }}
           >
             {/* ///////////////////////////// カード上部コンテンツ */}
             <Box
               sx={{
                 display: "flex",
+                justifyContent: "space-between",
                 flexDirection: {
                   xs: "column-reverse",
                   sm: "row",
                   med: "row",
                   lg: "row",
                 },
-                height: { xs: "100%", md: "172px" },
+                height: { xs: "100%", sm: "172px", md: "172px" },
               }}
             >
               {/* ///////////////////////////// カード左半分コンテンツ */}
               <Box
                 sx={{
                   width: { xs: "100%", sm: "100%", md: "52%" },
-                  pr: { xs: "inherit", md: 2 },
-                  ml: { xs: 1, sm: "0", md: "inherit" },
-                  mr: { xs: 2, sm: "10px", md: "inherit" },
+                  ml: { xs: 1, sm: 2, md: 2 },
+                  mr: { xs: 1, sm: 2, md: 2 },
+                  mt: { xs: 2, sm: 2, md: 2 },
                 }}
               >
                 <Typography
                   variant="h1"
                   sx={(theme) => ({
-                    pt: { xs: 1, md: "inherit" },
+                    pt: { xs: 0.5, md: "inherit" },
                     width: { xs: "90%", sm: "100%" },
                     fontSize: "22px",
                     fontWeight: "500",
@@ -127,13 +130,13 @@ export const Post = React.memo(function PostCard({
                     minHeight: {
                       xs:
                         title?.length > 63
-                          ? "76px"
+                          ? "72px"
                           : (title?.length <= 43) & (title?.length > 22)
                           ? "54px"
                           : "32px",
                       sm:
                         title?.length > 63
-                          ? "76px"
+                          ? "73px"
                           : (title?.length <= 42) & (title?.length > 21)
                           ? "54px"
                           : "32px",
@@ -171,8 +174,8 @@ export const Post = React.memo(function PostCard({
                     color: "#6b6b6b",
                     fontSize: { xs: "18px", md: "20px" },
                     fontWeight: "300",
-                    lineHeight: "21px",
-                    minHeight: "63.5px",
+                    lineHeight: { xs: "19px", md: "21px" },
+                    minHeight: { sm: "57px", md: "63.5px" },
                     maxHeight: "63.5px",
                     wordBreak: "break-word",
 
@@ -180,8 +183,9 @@ export const Post = React.memo(function PostCard({
                     WebkitBoxOrient: "vertical",
                     WebkitLineClamp: 3, // 行数指定
                     overflow: "hidden",
+                    width: "93%",
+                    textAlign: { sx: "center", md: "inherit" },
                   }}
-                  // dangerouslySetInnerHTML={{ __html: content }}
                 >
                   {contentWithoutImgsOrStyles}
                 </Typography>
@@ -193,10 +197,10 @@ export const Post = React.memo(function PostCard({
                   width: { xs: "100%", sm: "45%", md: "45%" },
                   minWidth: { xs: "100%", sm: "45%", md: "45%" },
                   maxWidth: { xs: "100%", sm: "45%", md: "45%" },
-                  height: "170px",
-                  minHeight: "170px",
-                  maxHeight: "170px",
-                  borderRadius: "10px",
+                  height: "226px",
+                  // minHeight: "230px",
+                  // maxHeight: "230px",
+                  borderRadius: { xs: "10px 10px 0 0", sm: "0 10px 0 0" },
                   objectFit: "cover",
                 }}
               ></Box>
@@ -212,15 +216,6 @@ export const Post = React.memo(function PostCard({
                 <Share />
               </IconButton>
 
-              {/* <IconButton
-                size="small"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleFavoriteClick(_id);
-                }}
-              >
-                {isFavorite ? <BookmarkIcon /> : <BookmarkBorderIcon />}
-              </IconButton> */}
               <IconButton size="small">
                 <Favorite
                   favorite={favorite}

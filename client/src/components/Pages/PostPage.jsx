@@ -69,7 +69,7 @@ const PostPage = () => {
       <Box>
         <Box
           sx={{
-            mt: "110px",
+            mt: 6,
             display: "flex",
             gap: { xs: 0, sm: 2, md: 3, lg: 5 },
             justifyContent: "center",
