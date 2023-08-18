@@ -68,7 +68,7 @@ const IndexPage = () => {
           throw new Error(`HTTP error! status: ${postsResponse.status}`);
         }
         const postsData = await postsResponse.json();
-        setPosts(postsData); 
+        setPosts(postsData);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -105,7 +105,7 @@ const IndexPage = () => {
               <Box
                 sx={{
                   // margin: "0 130px",
-                  marginTop: "100px",
+                  marginTop: "20px",
                   display: "flex",
                   flexDirection: "column",
                   // flexWrap: "wrap",

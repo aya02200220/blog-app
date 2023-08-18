@@ -83,6 +83,8 @@ export const Post = React.memo(function PostCard({
               // border: "solid 1px black",
               borderBottom: "solid 1px #dedede",
               mb: 1,
+              backgroundColor: "#fff",
+              borderRadius: 2,
             }}
           >
             {/* ///////////////////////////// カード上部コンテンツ */}

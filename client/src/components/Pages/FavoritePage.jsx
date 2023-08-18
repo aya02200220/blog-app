@@ -37,8 +37,9 @@ const FavoritePage = () => {
           position: "absolute",
         }}
       >
-        Your Bookmarks
+        Reading List
       </Typography>
+
       {loading ? (
         <Box sx={{ mt: "150px", display: "flex", justifyContent: "center" }}>
           <CircularProgress />
@@ -47,23 +48,25 @@ const FavoritePage = () => {
           </Typography>
         </Box>
       ) : (
-        <Box
-          sx={{
-            margin: "0 130px",
-            marginTop: "100px",
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "space-evenly",
-          }}
-        >
-          {favorites.length > 0 ? (
-            favorites.map((post) => <FavPost key={post._id} {...post} />)
-          ) : (
-            <Typography variant="body1" sx={{ mt: 4, ml: 4 }}>
-              No Bookmark posts found.
-            </Typography>
-          )}
-        </Box>
+        <>
+          <Box
+            sx={{
+              margin: "0 130px",
+              marginTop: 5,
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "space-evenly",
+            }}
+          >
+            {favorites.length > 0 ? (
+              favorites.map((post) => <FavPost key={post._id} {...post} />)
+            ) : (
+              <Typography variant="body1" sx={{ mt: 4, ml: 4 }}>
+                No Reading Lists found.
+              </Typography>
+            )}
+          </Box>
+        </>
       )}
     </>
   );

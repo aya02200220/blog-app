@@ -32,8 +32,8 @@ const YourPosts = () => {
   }, [userInfo]);
 
   return (
-    <>
-      <Typography
+    <Box sx={{ position: "relative" }}>
+      {/* <Typography
         sx={{
           ml: 5,
           color: "#4e575f",
@@ -42,27 +42,36 @@ const YourPosts = () => {
         }}
       >
         Your Posts
-      </Typography>
-      {!loading && (
-        <Box
-          sx={{
-            margin: "0 130px",
-            marginTop: "100px",
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "space-evenly",
-          }}
-        >
-          {userPosts.length > 0 ? (
-            userPosts.map((post) => <FavPost key={post._id} {...post} />)
-          ) : (
-            <Typography variant="body1" sx={{ mt: 4, ml: 4 }}>
-              No posts found.
-            </Typography>
-          )}
+      </Typography> */}
+      {loading ? (
+        <Box sx={{ mt: "150px", display: "flex", justifyContent: "center" }}>
+          <CircularProgress />
+          <Typography sx={{ ml: "20px", fontSize: "20px" }}>
+            Loading....
+          </Typography>
         </Box>
+      ) : (
+        <>
+          <Box
+            sx={{
+              margin: "0 130px",
+              marginTop: 5,
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "space-evenly",
+            }}
+          >
+            {userPosts.length > 0 ? (
+              userPosts.map((post) => <FavPost key={post._id} {...post} />)
+            ) : (
+              <Typography variant="body1" sx={{ mt: 4, ml: 4 }}>
+                No posts found.
+              </Typography>
+            )}
+          </Box>
+        </>
       )}
-    </>
+    </Box>
   );
 };
 

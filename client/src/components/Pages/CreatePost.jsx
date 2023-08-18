@@ -95,7 +95,7 @@ const CreatePost = () => {
       </Link>
       <Box
         sx={{
-          mt: 15,
+          mt: 5,
           ml: { xs: 0, sm: 2 },
           mr: { xs: 0, sm: 2 },
           display: "flex",

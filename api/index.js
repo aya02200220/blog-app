@@ -560,7 +560,7 @@ app.post("/updatePassword", authMiddleware, async (req, res) => {
   }
 });
 
-// トークンなしパシワード変更 ////////////////////////////////////////////////////
+// トークンなしパシワード変更 /////////////////////////////////////////////
 // app.post("/updatePassword", async (req, res) => {
 //   const { userId, currentPassword, newPassword } = req.body;
 //   console.log("newPassword:", newPassword);
@@ -606,4 +606,4 @@ app.post("/updatePassword", authMiddleware, async (req, res) => {
 //     });
 //   }
 // });
-////////////////////////////////////////////////////////////////////////////////
+//// トークンなしパシワード変更 ///////////////////////////////////////

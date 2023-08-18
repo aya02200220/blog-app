@@ -110,7 +110,7 @@ const SecurityPage = () => {
           setNewPassword("");
           setConfirmPassword("");
         } else {
-          errorMsg(`Failed to update　　　　　　${updated.message}`);
+          errorMsg(`Failed to update          ${updated.message}`);
         }
       } catch (error) {
         errorMsg(`There was a problem with the password update operation:
@@ -137,7 +137,7 @@ const SecurityPage = () => {
       <ToastContainer />
       <Box
         sx={{
-          mt: "110px",
+          mt: 6,
           display: "flex",
           gap: { xs: 0, sm: 2, md: 3, lg: 5 },
           justifyContent: "center",
@@ -218,7 +218,7 @@ const SecurityPage = () => {
                     <Typography
                       sx={{
                         fontWeight: "600",
-                        mt: 3,
+                        mt: 4,
                         textAlign: "center",
                       }}
                     >
@@ -226,7 +226,7 @@ const SecurityPage = () => {
                     </Typography>
 
                     <TextField
-                      sx={{ mt: 2 }}
+                      sx={{ mt: 3 }}
                       required
                       fullWidth
                       variant="outlined"
