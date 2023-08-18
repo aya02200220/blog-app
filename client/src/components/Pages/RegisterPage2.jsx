@@ -18,7 +18,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Navigate } from "react-router-dom";
 import { UserContext } from "../UserContext";
 
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 
 function Copyright(props) {
   return (

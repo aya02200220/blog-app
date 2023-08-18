@@ -5,8 +5,6 @@ import { format, differenceInDays, isToday } from "date-fns";
 
 import { Link } from "react-router-dom";
 import { Favorite } from "./Functions/Favorite";
-
-import toast from "react-hot-toast";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 import cx from "clsx";

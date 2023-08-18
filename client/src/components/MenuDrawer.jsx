@@ -32,6 +32,7 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import MailOutlineIcon from "@mui/icons-material/MailOutline";
 
 import { DRAWER_WIDTH } from "../constants";
 import {
@@ -110,7 +111,11 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
 
   useEffect(() => {
     console.log("showSecurity", showSecurity);
-    if (currentPath === "/account" || currentPath === "/security") {
+    if (
+      currentPath === "/account" ||
+      currentPath === "/security" ||
+      currentPath === "/change-email"
+    ) {
       setShowSecurity(true);
     } else {
       setShowSecurity(false);
@@ -198,7 +203,7 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
               <NavLink
                 to={userName ? "/create" : "/login"}
                 onClick={handleClick}
-                activeStyle={{ color: "blue" }} // ここでアクティブな場合のスタイルを指定
+                activeStyle={{ color: "#E588A3" }} // ここでアクティブな場合のスタイルを指定
               >
                 <ListItemText primary="Create Post" />
               </NavLink>
@@ -238,7 +243,19 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
                         sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
                       />
                     </ListItemIcon>
-                    <ListItemText primary="Security" />
+                    <ListItemText primary="Password" />
+                  </ListItemButton>
+
+                  <ListItemButton
+                    to="/change-email"
+                    sx={{ backgroundColor: "#DA8DEA" }}
+                  >
+                    <ListItemIcon>
+                      <MailOutlineIcon
+                        sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
+                      />
+                    </ListItemIcon>
+                    <ListItemText primary="Email" />
                   </ListItemButton>
                 </Collapse>
               </>

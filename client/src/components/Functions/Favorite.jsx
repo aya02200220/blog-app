@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
+
 import IconButton from "@material-ui/core/IconButton";
 import Box from "@mui/material/Box";
 

@@ -1,5 +1,4 @@
 import { lazy } from "react";
-// import toast, { Toaster } from "react-hot-toast";
 import { ToastContainer } from "react-toastify";
 
 import { Route, Routes } from "react-router-dom";
@@ -43,7 +42,10 @@ function App() {
 
   const LoginPage = lazy(() => import("./components/Pages/LoginPage2"));
   const AccountPage = lazy(() => import("./components/Pages/AccountPage"));
-  const SecurityPage = lazy(() => import("./components/Pages/SecurityPage"));
+  const ChangePassword = lazy(() =>
+    import("./components/Pages/ChangePassword")
+  );
+  const ChangeEmail = lazy(() => import("./components/Pages/ChangeEmail"));
   const RegisterPage = lazy(() => import("./components/Pages/RegisterPage2"));
   const CreatePost = lazy(() => import("./components/Pages/CreatePost"));
   const PostPage = lazy(() => import("./components/Pages/PostPage"));
@@ -68,7 +70,8 @@ function App() {
               <Route path="/favorites" element={<FavoritePage />} />
               <Route path="/yourposts" element={<YourPosts />} />
               <Route path="/account" element={<AccountPage />} />
-              <Route path="/security" element={<SecurityPage />} />
+              <Route path="/security" element={<ChangePassword />} />
+              <Route path="/change-email" element={<ChangeEmail />} />
             </Route>
           </Routes>
         </Box>

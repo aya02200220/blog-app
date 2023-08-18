@@ -26,7 +26,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 
-const SecurityPage = () => {
+const ChangeEmail = () => {
   const [loading, setLoading] = useState(true);
   // const [userInfo, setUserInfo] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
@@ -181,6 +181,7 @@ const SecurityPage = () => {
                 width: { xs: "90%", sm: "100%" },
                 maxWidth: "550px",
                 borderRadius: "5px",
+                backgroundColor: "#fff",
               }}
             >
               <Box
@@ -191,7 +192,7 @@ const SecurityPage = () => {
               >
                 <Typography sx={{ ml: 2, mt: 2, mb: 2, fontWeight: "600" }}>
                   {"Account >"} <LockIcon sx={{ fontSize: "15px", mb: 0.3 }} />{" "}
-                  Security
+                  Change Email Address
                 </Typography>
               </Box>
               <Divider />
@@ -211,20 +212,17 @@ const SecurityPage = () => {
                     ml: 3,
                     mr: 3,
                     width: "90%",
+                    justifyContent: "center",
+                    display: "flex",
                   }}
                 >
                   {/* //////////////////////////////////////////////////////////////////// */}
-                  <Box sx={{ width: "100%", position: "relative" }}>
-                    <Typography
-                      sx={{
-                        fontWeight: "600",
-                        mt: 4,
-                        textAlign: "center",
-                      }}
-                    >
-                      Change Password
-                    </Typography>
-
+                  <Box
+                    sx={{
+                      width: "85%",
+                      mt: 3,
+                    }}
+                  >
                     <TextField
                       sx={{ mt: 3 }}
                       required
@@ -310,25 +308,24 @@ const SecurityPage = () => {
                         }}
                       ></Box>
                     </Box>
-                    <Typography
-                      color="error"
-                      sx={{ textAlign: "right", mr: 1 }}
+                    <Box sx={{ height: 2 }}>
+                      <Typography
+                        color="error"
+                        sx={{ textAlign: "right", mr: 1 }}
+                      >
+                        {passwordError}
+                      </Typography>
+                    </Box>
+                    <Button
+                      onClick={updatePassword}
+                      variant="contained"
+                      fullWidth
+                      sx={{ height: "55px", mt: 5, mb: 4 }}
                     >
-                      {passwordError}
-                    </Typography>
+                      Change Password
+                    </Button>
                   </Box>
                 </Box>
-              </Box>
-
-              <Box sx={{ m: 3, mt: 4 }}>
-                <Button
-                  onClick={updatePassword}
-                  variant="contained"
-                  fullWidth
-                  sx={{ height: "50px" }}
-                >
-                  Change Password
-                </Button>
               </Box>
             </Box>
           </>
@@ -338,4 +335,4 @@ const SecurityPage = () => {
   );
 };
 
-export default SecurityPage;
+export default ChangeEmail;

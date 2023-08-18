@@ -182,6 +182,7 @@ const AccountPage = () => {
                 width: { xs: "90%", sm: "100%" },
                 maxWidth: "550px",
                 borderRadius: "5px",
+                backgroundColor: "#fff",
               }}
             >
               <Box>

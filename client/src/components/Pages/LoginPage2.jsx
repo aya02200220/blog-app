@@ -20,8 +20,6 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import { UserContext } from "../UserContext";
-import toast from "react-hot-toast";
-import { getLinearProgressUtilityClass } from "@mui/material";
 
 function Copyright(props) {
   return (
