@@ -150,7 +150,7 @@ export const AuthorInfo = ({
             flexDirection: "column",
 
             borderRadius: "20px",
-            backgroundColor: "#f5f5f5",
+            backgroundColor: "#fff",
           }}
         >
           <Box

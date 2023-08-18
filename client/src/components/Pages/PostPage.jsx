@@ -130,20 +130,6 @@ const PostPage = () => {
             />
           </Box>
 
-          {/* {postInfo ? (
-            <Box>
-              <AuthorInfo
-                postInfo={postInfo}
-                commentUpdated={commentUpdated}
-                favorite={favorite}
-                loginUser={userInfo}
-                onComplete={handleComplete}
-              />
-            </Box>
-          ) : (
-            <AuthorInfoFalse />
-          )} */}
-
           {/* ///////////////////////////////////////////////// */}
 
           {loading ? (
@@ -187,6 +173,9 @@ const PostPage = () => {
                   justifyContent: "center",
                   alignItems: "center",
                   position: "relative",
+                  backgroundColor: "#fff",
+                  borderRadius: 4,
+                  p: 3,
                 }}
               >
                 <Box
@@ -234,8 +223,9 @@ const PostPage = () => {
                   className={styles.contentBox}
                   dangerouslySetInnerHTML={{ __html: postInfo.content }}
                 />
+
                 <Box id="comments-section" sx={{ mb: 4 }}></Box>
-                <Box sx={{ mt: 5, width: "100%" }}>
+                <Box sx={{ mt: 5, mb: 3, width: "100%" }}>
                   <Comment
                     postInfo={postInfo}
                     onCommentAdded={() => setCommentUpdated(!commentUpdated)}

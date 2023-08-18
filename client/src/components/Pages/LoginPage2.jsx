@@ -4,6 +4,7 @@ import { Navigate } from "react-router-dom";
 
 import { LocalStorage, LocalStorageRemove } from "../Functions/LocalStorage";
 import { login } from "../Functions/Login";
+import ResetPassword from "./ResetPassword";
 
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -126,7 +127,11 @@ export default function SignIn() {
               </Grid>
             </Grid>
             <Grid container justifyContent="flex-end">
-              <Grid item></Grid>
+              <Grid item>
+                <Link href="/resetPassword/:resetTokens" variant="body2">
+                  Forgot password?
+                </Link>
+              </Grid>
             </Grid>
           </Box>
         </Box>

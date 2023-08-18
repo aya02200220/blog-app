@@ -59,6 +59,14 @@ mongoose
     console.error("Error connecting to MongoDB:", error);
   });
 
+//////////////////////////////////////////////////////
+// const passwordRoutes = require("./routes/password");
+// app.use(passwordRoutes);
+
+// const postsRoutes = require("./routes/posts");
+// app.use(postsRoutes);
+//////////////////////////////////////////////////////
+
 app.post("/register", async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
   try {
@@ -124,7 +132,7 @@ app.post("/login", async (req, res) => {
     const token = await signToken(payload, secret);
 
     res.cookie("token", token);
-    console.log("token", token);
+    // console.log("token", token);
 
     res.json({
       id: userInfo._id,
