@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { UserContext } from "./UserContext";
 import { LocalStorageRemove } from "./Functions/LocalStorage";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
+
 import { toast, ToastContainer } from "react-toastify";
 
 import { styled } from "@mui/material/styles";
@@ -84,7 +85,7 @@ const ListItemButton = (props) => {
           backgroundColor: "#E588A3",
         }),
         "&:hover": {
-          backgroundColor: "#D8A7B1", // 例: "rgba(255, 255, 255, 0.2)"
+          backgroundColor: "#D8A7B1",
         },
       }}
     >
@@ -194,7 +195,7 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
               <ListItemText primary="Home" />
             </ListItemButton>
 
-            <ListItemButton>
+            {/* <ListItemButton>
               <ListItemIcon>
                 <BorderColorIcon
                   sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
@@ -207,7 +208,17 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
               >
                 <ListItemText primary="Create Post" />
               </NavLink>
-            </ListItemButton>
+            </ListItemButton> */}
+            {userName && (
+              <ListItemButton to={"/create"}>
+                <ListItemIcon>
+                  <BorderColorIcon
+                    sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
+                  />
+                </ListItemIcon>
+                <ListItemText primary="Create Post" />
+              </ListItemButton>
+            )}
 
             <ListItemButton to="/favorites">
               <ListItemIcon>
@@ -284,7 +295,7 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
             )}
             {!userName && (
               <Box sx={{ mt: 3 }}>
-                <Box sx={{ backgroundColor: "#4d59a0", color: "#fff" }}>
+                <Box sx={{ backgroundColor: "#3d5676", color: "#fff" }}>
                   <ListItemButton to="/login">
                     <ListItemIcon>
                       <LoginIcon
@@ -295,7 +306,7 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
                   </ListItemButton>
                 </Box>
 
-                <Box sx={{ backgroundColor: "#468041", color: "#fff" }}>
+                <Box sx={{ backgroundColor: "#3d7176", color: "#fff" }}>
                   <ListItemButton to="/register">
                     <ListItemIcon>
                       <PersonAddIcon

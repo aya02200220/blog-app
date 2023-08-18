@@ -1,13 +1,7 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import { toast, ToastContainer } from "react-toastify";
-
 import { UserContext } from "../UserContext";
-import styles from "../../styles/main.module.scss";
 import { Link } from "react-router-dom";
-import { GetLocalStorage } from "../Functions/LocalStorage";
-
-import { LocalStorageRemove, LocalStorage } from "../Functions/LocalStorage";
-import { FetchProfile } from "../Functions/FetchProfile";
 
 import {
   Box,

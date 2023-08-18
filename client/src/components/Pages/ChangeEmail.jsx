@@ -1,13 +1,7 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import { toast, ToastContainer } from "react-toastify";
-
 import { UserContext } from "../UserContext";
-import styles from "../../styles/main.module.scss";
 import { Link } from "react-router-dom";
-import { GetLocalStorage } from "../Functions/LocalStorage";
-
-import { LocalStorageRemove, LocalStorage } from "../Functions/LocalStorage";
-import { FetchProfile } from "../Functions/FetchProfile";
 
 import {
   Box,
@@ -20,7 +14,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 
-import LockIcon from "@mui/icons-material/Lock";
+import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -29,28 +23,25 @@ import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 const ChangeEmail = () => {
   const [loading, setLoading] = useState(true);
   // const [userInfo, setUserInfo] = useState("");
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [passwordError, setPasswordError] = useState("");
+  const [currentEmail, setCurrentEmail] = useState("");
+  const [newEmail, setNewEmail] = useState("");
+  const [confirmEmail, setConfirmEmail] = useState("");
+  const [EmailError, setEmailError] = useState("");
   const { setUserInfo, userInfo } = useContext(UserContext);
 
-  const [showPassword1, setShowPassword1] = useState(false);
-  const [showPassword2, setShowPassword2] = useState(false);
+  const [showEmail1, setShowEmail1] = useState(false);
+  const [showEmail2, setShowEmail2] = useState(false);
 
-  const togglePasswordVisibility1 = () => {
-    setShowPassword1(!showPassword1);
-  };
-  const togglePasswordVisibility2 = () => {
-    setShowPassword2(!showPassword2);
-  };
+  // const toggleEmailVisibility1 = () => {
+  //   console.log("switch");
+  //   setShowEmail1(!showEmail1);
+  // };
+  // const toggleEmailVisibility2 = () => {
+  //   setShowEmail2(!showEmail2);
+  // };
 
-  console.log("Security Page userInfo:", userInfo);
-
-  // let initialUserInfo = FetchProfile(userInfo?.email);
-
-  const updatePassword = async () => {
-    if (!currentPassword || !newPassword || !confirmPassword) {
+  const updateEmail = async () => {
+    if (!currentEmail || !newEmail || !confirmEmail) {
       toast.error("Fill Required Form", {
         position: "top-right",
         autoClose: 2000,
@@ -62,34 +53,34 @@ const ChangeEmail = () => {
         theme: "dark",
       });
     } else {
-      if (newPassword !== confirmPassword) {
-        setPasswordError("Passwords do not match");
+      if (newEmail !== confirmEmail) {
+        setEmailError("Emails do not match");
         return;
       }
 
       try {
-        setPasswordError("");
+        setEmailError("");
 
-        const response = await fetch("http://localhost:4000/updatePassword", {
+        const response = await fetch("http://localhost:4000/updateEmail", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           credentials: "include",
           body: JSON.stringify({
-            currentPassword: currentPassword,
-            newPassword: newPassword,
+            currentEmail: currentEmail,
+            newEmail: newEmail,
           }),
         });
 
         // トークンなしパシワード変更///////////////////////////////////////////////////
-        // const response = await fetch("http://localhost:4000/updatePassword", {
+        // const response = await fetch("http://localhost:4000/updateEmail", {
         //   method: "POST",
         //   headers: { "Content-Type": "application/json" },
         //   body: JSON.stringify({
         //     userId: "64bc5d1fe0fec1f8eca46c07",
-        //     currentPassword: currentPassword,
-        //     newPassword: newPassword,
+        //     currentEmail: currentEmail,
+        //     newEmail: newEmail,
         //   }),
         // });
         //////////////////////////////////////////////////////////////////////////
@@ -97,7 +88,7 @@ const ChangeEmail = () => {
         if (!response.ok) {
           // const text = await response.text();
           // errorMsg(text);
-          // errorMsg("Incorrect current password");
+          // errorMsg("Incorrect current Email");
           // throw new Error(
           //   `HTTP error! status: ${response.status}, message: ${text}`
           // );
@@ -105,15 +96,15 @@ const ChangeEmail = () => {
 
         const updated = await response.json();
         if (updated.success) {
-          toast.success("Password updated successfully!");
-          setCurrentPassword("");
-          setNewPassword("");
-          setConfirmPassword("");
+          toast.success("Email updated successfully!");
+          setCurrentEmail("");
+          setNewEmail("");
+          setConfirmEmail("");
         } else {
-          errorMsg(`Failed to update          ${updated.message}`);
+          errorMsg(`Failed to update               ${updated.message}`);
         }
       } catch (error) {
-        errorMsg(`There was a problem with the password update operation:
+        errorMsg(`There was a problem with the Email update operation:
         ${error.message}`);
       }
     }
@@ -191,8 +182,9 @@ const ChangeEmail = () => {
                 }}
               >
                 <Typography sx={{ ml: 2, mt: 2, mb: 2, fontWeight: "600" }}>
-                  {"Account >"} <LockIcon sx={{ fontSize: "15px", mb: 0.3 }} />{" "}
-                  Change Email Address
+                  {"Account >"}{" "}
+                  <MailOutlineIcon sx={{ fontSize: "15px", mb: 0.3 }} /> Change
+                  Email Address
                 </Typography>
               </Box>
               <Divider />
@@ -229,24 +221,20 @@ const ChangeEmail = () => {
                       fullWidth
                       variant="outlined"
                       id="filled-required"
-                      label="Current Password"
-                      type={showPassword1 ? "text" : "password"}
-                      value={currentPassword}
-                      onChange={(e) => setCurrentPassword(e.target.value)}
-                      placeholder="Current Password"
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton onClick={togglePasswordVisibility1}>
-                              {showPassword1 ? (
-                                <VisibilityOff />
-                              ) : (
-                                <Visibility />
-                              )}
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
+                      label="Current Email"
+                      type={showEmail1 ? "text" : "Email"}
+                      value={currentEmail}
+                      onChange={(e) => setCurrentEmail(e.target.value)}
+                      placeholder="Current Email"
+                      // InputProps={{
+                      //   endAdornment: (
+                      //     <InputAdornment position="end">
+                      //       <IconButton onClick={toggleEmailVisibility1}>
+                      //         {showEmail1 ? <VisibilityOff /> : <Visibility />}
+                      //       </IconButton>
+                      //     </InputAdornment>
+                      //   ),
+                      // }}
                     />
                     <Divider sx={{ mt: 3 }} />
 
@@ -256,49 +244,41 @@ const ChangeEmail = () => {
                       fullWidth
                       variant="outlined"
                       id="filled-required"
-                      label="New Password"
-                      type={showPassword2 ? "text" : "password"}
-                      value={newPassword}
-                      onChange={(e) => setNewPassword(e.target.value)}
-                      placeholder="New Password"
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton onClick={togglePasswordVisibility2}>
-                              {showPassword2 ? (
-                                <VisibilityOff />
-                              ) : (
-                                <Visibility />
-                              )}
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
+                      label="New Email"
+                      type={showEmail2 ? "text" : "Email"}
+                      value={newEmail}
+                      onChange={(e) => setNewEmail(e.target.value)}
+                      placeholder="New Email"
+                      // InputProps={{
+                      //   endAdornment: (
+                      //     <InputAdornment position="end">
+                      //       <IconButton onClick={toggleEmailVisibility2}>
+                      //         {showEmail2 ? <VisibilityOff /> : <Visibility />}
+                      //       </IconButton>
+                      //     </InputAdornment>
+                      //   ),
+                      // }}
                     />
 
                     <TextField
                       required
                       fullWidth
-                      label="ConfirmPassword"
-                      type={showPassword2 ? "text" : "password"}
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      label="ConfirmEmail"
+                      type={showEmail2 ? "text" : "Email"}
+                      value={confirmEmail}
+                      onChange={(e) => setConfirmEmail(e.target.value)}
                       variant="outlined"
-                      placeholder="Confirm New Password"
+                      placeholder="Confirm New Email"
                       sx={{ mt: 2 }}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton onClick={togglePasswordVisibility2}>
-                              {showPassword2 ? (
-                                <VisibilityOff />
-                              ) : (
-                                <Visibility />
-                              )}
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
+                      // InputProps={{
+                      //   endAdornment: (
+                      //     <InputAdornment position="end">
+                      //       <IconButton onClick={toggleEmailVisibility2}>
+                      //         {showEmail2 ? <VisibilityOff /> : <Visibility />}
+                      //       </IconButton>
+                      //     </InputAdornment>
+                      //   ),
+                      // }}
                     />
 
                     <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -313,16 +293,16 @@ const ChangeEmail = () => {
                         color="error"
                         sx={{ textAlign: "right", mr: 1 }}
                       >
-                        {passwordError}
+                        {EmailError}
                       </Typography>
                     </Box>
                     <Button
-                      onClick={updatePassword}
+                      onClick={updateEmail}
                       variant="contained"
                       fullWidth
                       sx={{ height: "55px", mt: 5, mb: 4 }}
                     >
-                      Change Password
+                      Change Email
                     </Button>
                   </Box>
                 </Box>

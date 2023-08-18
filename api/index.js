@@ -539,7 +539,6 @@ app.post("/updatePassword", authMiddleware, async (req, res) => {
       });
     }
 
-    // 更新したい情報が提供されていれば、ユーザーオブジェクトの該当フィールドを更新
     if (newPassword) {
       const hashedPassword = await bcrypt.hash(newPassword, 10);
       user.password = hashedPassword;
@@ -554,7 +553,51 @@ app.post("/updatePassword", authMiddleware, async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      success: false, // 追加
+      success: false,
+      message: "Server Error",
+    });
+  }
+});
+
+///////////////////////////////////////////////////////
+app.post("/updateEmail", authMiddleware, async (req, res) => {
+  const { currentEmail, newEmail } = req.body; // リクエストから現在のパスワードと新しいパスワードを取得
+  // console.log("newEmail:", newEmail);
+  // console.log("currentEmail:", currentEmail);
+
+  try {
+    const user = await User.findById(req.userData.id); // ユーザーIDに基づいてユーザー情報を検索
+    console.log("user:", user);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        error: "User not found",
+      });
+    }
+    // 現在のEmailが正しいか確認
+    const isEmailCorrect = currentEmail === user.email;
+    if (!isEmailCorrect) {
+      return res.status(401).json({
+        success: false,
+        message: "Incorrect current Email",
+      });
+    }
+
+    if (newEmail) {
+      user.email = newEmail;
+    }
+
+    await user.save(); // 更新されたユーザー情報を保存
+    res.status(200).json({
+      success: true,
+      message: "Email is Updated",
+      user,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
       message: "Server Error",
     });
   }
