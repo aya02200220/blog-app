@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { UserContext } from "../UserContext";
 import { Link } from "react-router-dom";
@@ -39,9 +39,9 @@ const SecurityPage = () => {
     setShowPassword2(!showPassword2);
   };
 
-  console.log("Security Page userInfo:", userInfo);
-
-  // let initialUserInfo = FetchProfile(userInfo?.email);
+  useEffect(() => {
+    if (passwordError) setPasswordError("");
+  }, [newPassword, confirmPassword]);
 
   const updatePassword = async () => {
     if (!currentPassword || !newPassword || !confirmPassword) {

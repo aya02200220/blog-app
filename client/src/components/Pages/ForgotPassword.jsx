@@ -1,10 +1,7 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { UserContext } from "../UserContext";
 import { Link } from "react-router-dom";
-
-import { FetchProfile } from "../Functions/FetchProfile";
-import { LocalStorageRemove, LocalStorage } from "../Functions/LocalStorage";
 
 import {
   Box,
@@ -14,12 +11,8 @@ import {
   TextField,
   Divider,
   CircularProgress,
-  InputAdornment,
 } from "@mui/material";
 
-import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 
@@ -28,13 +21,6 @@ function ForgotPassword() {
   const [loading, setLoading] = useState(true);
   // const [userInfo, setUserInfo] = useState("");
   const [currentEmail, setCurrentEmail] = useState("");
-  const [newEmail, setNewEmail] = useState("");
-  const [confirmEmail, setConfirmEmail] = useState("");
-  const [EmailError, setEmailError] = useState("");
-  const { setUserInfo, userInfo } = useContext(UserContext);
-
-  const [showEmail1, setShowEmail1] = useState(false);
-  const [showEmail2, setShowEmail2] = useState(false);
 
   const handleForgotPassword = async () => {
     try {
@@ -60,17 +46,6 @@ function ForgotPassword() {
   };
 
   return (
-    // <div>
-    //   <h2>Forgot Password</h2>
-    //   <input
-    //     type="email"
-    //     placeholder="Email Address"
-    //     value={email}
-    //     onChange={(e) => setEmail(e.target.value)}
-    //   />
-    //   <button onClick={handleForgotPassword}>Submit</button>
-    //   <ToastContainer />
-    // </div>
     <>
       <ToastContainer />
       <Box
@@ -176,8 +151,8 @@ function ForgotPassword() {
                       variant="outlined"
                       id="filled-required"
                       label="Email"
-                      value={userInfo ? userInfo.email : currentEmail}
-                      onChange={(e) => setCurrentEmail(e.target.value)}
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       placeholder="Email"
                     />
 

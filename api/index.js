@@ -189,12 +189,12 @@ const authProfile = (req, res, next) => {
 
 app.post("/updateProfile", authProfile, async (req, res) => {
   const { firstName, lastName, userIcon, bio } = req.body;
-  console.log("req.userId:", req.userId);
+  // console.log("req.userId:", req.userId);
 
   try {
     const user = await User.findById(req.userId);
     // const user = await User.findById(info.id); // ユーザーIDに基づいてユーザー情報を検索
-    console.log("user", user);
+    // console.log("user", user);
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
@@ -522,7 +522,6 @@ app.delete("/posts/:postId/comments/:commentId", async (req, res) => {
 ///////////// Security //////////////////////////////////////
 app.post("/updatePassword", authMiddleware, async (req, res) => {
   const { currentPassword, newPassword } = req.body; // リクエストから現在のパスワードと新しいパスワードを取得
-  console.log("newPassword:", newPassword);
 
   try {
     const user = await User.findById(req.userData.id); // ユーザーIDに基づいてユーザー情報を検索
@@ -576,7 +575,7 @@ app.post("/updateEmail", authMiddleware, async (req, res) => {
 
   try {
     const user = await User.findById(req.userData.id); // ユーザーIDに基づいてユーザー情報を検索
-    console.log("user:", user);
+    // console.log("user:", user);
 
     if (!user) {
       return res.status(404).json({
@@ -668,7 +667,7 @@ const nodemailer = require("nodemailer");
 
 app.post("/forgotPassword", async (req, res) => {
   const { email } = req.body;
-  console.log("forgotPassword Email", email);
+  // console.log("forgotPassword Email", email);
   try {
     const user = await User.findOne({ email });
     if (!user) {
@@ -732,7 +731,7 @@ app.post("/password/reset/:token", async (req, res) => {
       passwordResetExpires: { $gt: Date.now() },
     });
 
-    console.log("User:", user);
+    // console.log("User:", user);
 
     if (!user) {
       console.log("User not found or token expired");
