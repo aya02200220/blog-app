@@ -1,68 +1,3 @@
-import React, { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-
-function ResetPassword() {
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const navigate = useNavigate();
-  const { resetToken } = useParams();
-
-  const handlePasswordReset = async () => {
-    if (newPassword !== confirmPassword) {
-      toast.error("Passwords do not match");
-      return;
-    }
-
-    try {
-      const response = await fetch(
-        `http://localhost:4000/password/reset/${resetToken}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            newPassword: newPassword,
-          }),
-        }
-      );
-
-      const data = await response.json();
-      if (data.success) {
-        toast.success("Password reset successfully!");
-        navigate("/login");
-      } else {
-        toast.error(data.message);
-      }
-    } catch (error) {
-      toast.error(`Error: ${error.message}`);
-    }
-  };
-
-  return (
-    <div>
-      <h2>Reset Password</h2>
-      <input
-        type="password"
-        placeholder="New Password"
-        value={newPassword}
-        onChange={(e) => setNewPassword(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Confirm Password"
-        value={confirmPassword}
-        onChange={(e) => setConfirmPassword(e.target.value)}
-      />
-      <button onClick={handlePasswordReset}>Reset Password</button>
-      <ToastContainer />
-    </div>
-  );
-}
-
-export default ResetPassword;
-
 import React, { useState, useContext } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { UserContext } from "../UserContext";
@@ -193,10 +128,18 @@ function ForgotPassword() {
                   alignItems: "center",
                 }}
               >
-                <Typography sx={{ ml: 2, mt: 2, mb: 2, fontWeight: "600" }}>
-                  {"Account >"}{" "}
-                  <MailOutlineIcon sx={{ fontSize: "15px", mb: 0.3 }} /> Change
-                  Email Address
+                <Typography
+                  sx={{
+                    ml: { xs: 1, sm: 2 },
+                    mt: { xs: 1, sm: 2 },
+                    mb: { xs: 1, sm: 2 },
+                    fontWeight: "600",
+                    fontSize: { xs: 20, sm: 30 },
+                    lineHeight: "24px",
+                    textAlign: "center",
+                  }}
+                >
+                  Forgot your password?
                 </Typography>
               </Box>
               <Divider />
@@ -207,7 +150,6 @@ function ForgotPassword() {
                   justifyContent: "center",
                   alignItems: "center",
                   width: "100%",
-                  // height: { sx: "400px", sm: "200px" },
                 }}
               >
                 <Box
@@ -224,7 +166,7 @@ function ForgotPassword() {
                   <Box
                     sx={{
                       width: "85%",
-                      mt: 3,
+                      mt: 1,
                     }}
                   >
                     <TextField
@@ -233,88 +175,28 @@ function ForgotPassword() {
                       fullWidth
                       variant="outlined"
                       id="filled-required"
-                      label="Current Email"
-                      type={showEmail1 ? "text" : "Email"}
+                      label="Email"
                       value={userInfo ? userInfo.email : currentEmail}
                       onChange={(e) => setCurrentEmail(e.target.value)}
-                      placeholder="Current Email"
-                      // InputProps={{
-                      //   endAdornment: (
-                      //     <InputAdornment position="end">
-                      //       <IconButton onClick={toggleEmailVisibility1}>
-                      //         {showEmail1 ? <VisibilityOff /> : <Visibility />}
-                      //       </IconButton>
-                      //     </InputAdornment>
-                      //   ),
-                      // }}
-                    />
-                    <Divider sx={{ mt: 3 }} />
-
-                    <TextField
-                      sx={{ mt: 3 }}
-                      required
-                      fullWidth
-                      variant="outlined"
-                      id="filled-required"
-                      label="New Email"
-                      type={showEmail2 ? "text" : "Email"}
-                      value={newEmail}
-                      onChange={(e) => setNewEmail(e.target.value)}
-                      placeholder="New Email"
-                      // InputProps={{
-                      //   endAdornment: (
-                      //     <InputAdornment position="end">
-                      //       <IconButton onClick={toggleEmailVisibility2}>
-                      //         {showEmail2 ? <VisibilityOff /> : <Visibility />}
-                      //       </IconButton>
-                      //     </InputAdornment>
-                      //   ),
-                      // }}
+                      placeholder="Email"
                     />
 
-                    <TextField
-                      required
-                      fullWidth
-                      label="ConfirmEmail"
-                      type={showEmail2 ? "text" : "Email"}
-                      value={confirmEmail}
-                      onChange={(e) => setConfirmEmail(e.target.value)}
-                      variant="outlined"
-                      placeholder="Confirm New Email"
-                      sx={{ mt: 2 }}
-                      // InputProps={{
-                      //   endAdornment: (
-                      //     <InputAdornment position="end">
-                      //       <IconButton onClick={toggleEmailVisibility2}>
-                      //         {showEmail2 ? <VisibilityOff /> : <Visibility />}
-                      //       </IconButton>
-                      //     </InputAdornment>
-                      //   ),
-                      // }}
-                    />
-
-                    <Box sx={{ display: "flex", alignItems: "center" }}>
-                      <Box
-                        sx={{
-                          width: "80px",
-                        }}
-                      ></Box>
-                    </Box>
-                    <Box sx={{ height: 2 }}>
-                      <Typography
-                        color="error"
-                        sx={{ textAlign: "right", mr: 1 }}
-                      >
-                        {EmailError}
-                      </Typography>
-                    </Box>
                     <Button
                       onClick={handleForgotPassword}
                       variant="contained"
                       fullWidth
-                      sx={{ height: "55px", mt: 5, mb: 4 }}
+                      sx={{ height: "55px", mt: 3, mb: 5 }}
                     >
-                      Change Email
+                      <Typography
+                        sx={{
+                          textTransform: "none",
+                          fontWeight: "500",
+                          fontSize: { xs: "15px", sm: "20px" },
+                          lineHeight: { xs: "13px", sm: "18px" },
+                        }}
+                      >
+                        Send me reset password instructions
+                      </Typography>
                     </Button>
                   </Box>
                 </Box>
@@ -326,3 +208,5 @@ function ForgotPassword() {
     </>
   );
 }
+
+export default ForgotPassword;

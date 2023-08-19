@@ -128,7 +128,7 @@ export default function SignIn() {
             </Grid>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/resetPassword/:resetTokens" variant="body2">
+                <Link href="/forgotPassword" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>

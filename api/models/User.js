@@ -8,9 +8,11 @@ const UserSchema = new Schema({
   password: { type: String, require: true },
   favorites: [{ type: Schema.Types.ObjectId, ref: "Post" }],
   followers: { type: Number, default: 0 },
-  userIcon: { type: String, default: "default-icon.jpg" },
+  userIcon: { type: String, default: "" },
   following: [{ type: Schema.Types.ObjectId, ref: "User" }],
   bio: { type: String, default: "" },
+  passwordResetToken: String,
+  passwordResetExpires: Date,
 });
 
 const UserModel = model("User", UserSchema);

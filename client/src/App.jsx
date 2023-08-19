@@ -52,6 +52,9 @@ function App() {
   const FavoritePage = lazy(() => import("./components/Pages/FavoritePage"));
   const YourPosts = lazy(() => import("./components/Pages/YourPosts"));
   const EditPost = lazy(() => import("./components/Pages/EditPost"));
+  const ForgotPassword = lazy(() =>
+    import("./components/Pages/ForgotPassword")
+  );
   const ResetPasswordPage = lazy(() =>
     import("./components/Pages/ResetPassword")
   );
@@ -75,8 +78,9 @@ function App() {
               <Route path="/account" element={<AccountPage />} />
               <Route path="/security" element={<ChangePassword />} />
               <Route path="/change-email" element={<ChangeEmail />} />
+              <Route path="/forgotPassword" element={<ForgotPassword />} />
               <Route
-                path="/resetPassword/:resetToken"
+                path="/password/reset/:resetToken"
                 element={<ResetPasswordPage />}
               />
             </Route>

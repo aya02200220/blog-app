@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const User = require("./models/User");
@@ -25,8 +26,8 @@ const authMiddleware = require("./middleware/auth.js");
 
 app.use("/uploads", express.static(__dirname + "/uploads"));
 
-const YOUR_CONNECTION_STRING =
-  "mongodb+srv://blog-app:blog-app123@cluster0.nv5qviq.mongodb.net/?retryWrites=true&w=majority";
+const YOUR_CONNECTION_STRING = process.env.YOUR_CONNECTION_STRING;
+// console.log("YOUR_CONNECTION_STRING", YOUR_CONNECTION_STRING);
 
 const PORT = 4000;
 
@@ -658,3 +659,104 @@ app.post("/updateEmail", authMiddleware, async (req, res) => {
 //   }
 // });
 //// トークンなしパシワード変更 ///////////////////////////////////////
+
+/////////// Reset password /////////////////////
+const crypto = require("crypto");
+const nodemailer = require("nodemailer");
+
+// ...
+
+app.post("/forgotPassword", async (req, res) => {
+  const { email } = req.body;
+  console.log("forgotPassword Email", email);
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        error: "No user found with this email address",
+      });
+    }
+
+    const resetToken = crypto.randomBytes(20).toString("hex");
+    user.passwordResetToken = resetToken;
+    user.passwordResetExpires = Date.now() + 3600000; // 1 hour
+    await user.save();
+
+    const mailOptions = {
+      to: user.email,
+      from: "your_email@gmail.com",
+      subject: "Password Reset",
+      text: `You are receiving this email because you (or someone else) have requested the reset of the password for your account of MERN-Blog.\n\nPlease click on the following link, or paste it into your browser to complete the process:\n\nhttp://localhost:5173/password/reset/${resetToken}\n\nThis link will be experd in 1 hour.\n\nIf you did not request this, please ignore this email and your password will remain unchanged.\n`,
+      // text: `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\nPlease click on the following link, or paste it into your browser to complete the process:\n\nhttp://${req.headers.host}/password/reset/${resetToken}\n\nIf you did not request this, please ignore this email and your password will remain unchanged.\n`,
+    };
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({
+          success: false,
+          message: "Failed to send email",
+        });
+      }
+      res.status(200).json({
+        success: true,
+        message: "Reset token sent to email",
+      });
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+    });
+  }
+});
+
+///////////////
+app.post("/password/reset/:token", async (req, res) => {
+  const { token } = req.params;
+  const { newPassword } = req.body;
+
+  try {
+    const user = await User.findOne({
+      passwordResetToken: token,
+      passwordResetExpires: { $gt: Date.now() },
+    });
+
+    console.log("User:", user);
+
+    if (!user) {
+      console.log("User not found or token expired");
+      return res.status(400).json({
+        success: false,
+        message: "Password reset token is invalid or has expired",
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Password has been reset",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+    });
+  }
+});
