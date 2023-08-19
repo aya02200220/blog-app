@@ -13,7 +13,8 @@ function App() {
   const theme = createTheme({
     palette: {
       grey: {
-        100: "#F5F5F5", // grey[100] のデフォルト色を白に変更
+        100: "#f7f7f7",
+        // 100: "#fff", // grey[100] のデフォルト色を白に変更
       },
     },
     components: {
