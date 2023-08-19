@@ -5,19 +5,41 @@ import { Navigate } from "react-router-dom";
 import { login } from "../Functions/Login";
 import FetchBackgroungImage from "../Functions/FetchBackgroundImage";
 
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
+import { Button, InputAdornment, IconButton } from "@mui/material/";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { createTheme, styled, alpha } from "@mui/material/styles";
+import { styled, alpha } from "@mui/material/styles";
+import { toast } from "react-toastify";
 
 import { UserContext } from "../UserContext";
+
+const inputPropsSx = {
+  borderRadius: 100,
+  "& .MuiOutlinedInput-notchedOutline": {
+    borderRadius: 10,
+  },
+  "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+    borderColor: "#fff",
+  },
+  backgroundColor: alpha("#fff", 0.3),
+  "& .MuiInputBase-input": {
+    color: "#454545", //入力文字の色
+  },
+};
+
+const inputLabelPropsSx = {
+  color: "#fff",
+  "&.Mui-focused": {
+    color: "#fff",
+  },
+};
 
 function Copyright(props) {
   return (
@@ -53,13 +75,13 @@ const Background = styled("div")(({ backgroundImageUrl }) => ({
   },
 }));
 
-const defaultTheme = createTheme();
-
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
   const { setUserInfo } = useContext(UserContext);
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const [backgroundImageUrl, setBackgroundImageUrl] = useState(null);
   const fetchBackgroundImage = FetchBackgroungImage();
@@ -67,14 +89,32 @@ export default function SignIn() {
   useEffect(() => {
     async function updateBackgroundImage() {
       const img = await fetchBackgroundImage();
-      console.log("img:", img);
+      // console.log("img:", img);
       setBackgroundImageUrl(img);
     }
     updateBackgroundImage();
   }, []);
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   const callLogin = async (e) => {
     e.preventDefault();
+
+    if (!password || !email) {
+      toast.error("Fill Required Form", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      return;
+    }
 
     const userInfo = await login(email, password);
     console.log("Call Login");
@@ -95,19 +135,26 @@ export default function SignIn() {
         <Background backgroundImageUrl={backgroundImageUrl} />
       )}
 
-      <Container component="main" maxWidth="xs" sx={{ mt: 15, zIndex: 2 }}>
+      <Container
+        component="main"
+        maxWidth="xs"
+        sx={{
+          mt: 10,
+          zIndex: 2,
+          position: "relative",
+          backgroundColor: alpha("#fff", 0.1),
+          p: 3,
+          borderRadius: 3,
+        }}
+      >
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
           }}
         >
-          {/* <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar> */}
           <Typography
             component="h1"
             sx={{ color: "#fff", zIndex: 1, fontSize: "30px" }}
@@ -126,37 +173,36 @@ export default function SignIn() {
                   autoComplete="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  InputProps={{
-                    sx: {
-                      borderRadius: 100,
-                      "& .MuiOutlinedInput-notchedOutline": {
-                        borderRadius: 10,
-                      },
-                      backgroundColor: alpha("#fff", 0.3),
-                    },
-                  }}
+                  InputProps={{ sx: inputPropsSx }}
+                  InputLabelProps={{ sx: inputLabelPropsSx }}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   label="Password"
-                  type="password"
                   id="password"
                   autoComplete="new-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   InputProps={{
-                    sx: {
-                      borderRadius: 100,
-                      "& .MuiOutlinedInput-notchedOutline": {
-                        borderRadius: 10,
-                      },
-                      backgroundColor: alpha("#fff", 0.3),
-                    },
+                    sx: inputPropsSx,
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton onClick={togglePasswordVisibility}>
+                          {showPassword ? (
+                            <VisibilityOff sx={{ color: "#fff" }} />
+                          ) : (
+                            <Visibility sx={{ color: "#fff" }} />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
                   }}
+                  InputLabelProps={{ sx: inputLabelPropsSx }}
                 />
               </Grid>
             </Grid>
@@ -170,6 +216,9 @@ export default function SignIn() {
                 height: "50px",
                 borderRadius: 10,
                 backgroundColor: "#E2808A",
+                "&:hover": {
+                  backgroundColor: "#C75D6A",
+                },
               }}
             >
               Sign In
@@ -180,9 +229,9 @@ export default function SignIn() {
                 <Grid item>
                   <Link
                     href="/register"
-                    sx={{ color: "#fff", fontWeight: "400" }}
+                    sx={{ color: "#fff", fontWeight: "300" }}
                   >
-                    Create a new account? Register
+                    Create a new account?
                   </Link>
                 </Grid>
               </Grid>
@@ -190,7 +239,7 @@ export default function SignIn() {
                 <Grid item>
                   <Link
                     href="/forgotPassword"
-                    sx={{ color: "#fff", fontWeight: "400" }}
+                    sx={{ color: "#fff", fontWeight: "300" }}
                   >
                     Forgot password?
                   </Link>

@@ -109,7 +109,7 @@ function ForgotPassword() {
                     mt: { xs: 1, sm: 2 },
                     mb: { xs: 1, sm: 2 },
                     fontWeight: "600",
-                    fontSize: { xs: 20, sm: 30 },
+                    fontSize: { xs: 20, sm: 25 },
                     lineHeight: "24px",
                     textAlign: "center",
                   }}
@@ -166,7 +166,7 @@ function ForgotPassword() {
                         sx={{
                           textTransform: "none",
                           fontWeight: "500",
-                          fontSize: { xs: "15px", sm: "20px" },
+                          fontSize: { xs: "15px", sm: "18px" },
                           lineHeight: { xs: "13px", sm: "18px" },
                         }}
                       >

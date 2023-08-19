@@ -1,33 +1,48 @@
 import * as React from "react";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { login } from "../Functions/Login";
+import FetchBackgroungImage from "../Functions/FetchBackgroundImage";
 
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
+import { Button, InputAdornment, IconButton, Divider } from "@mui/material/";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { styled, alpha } from "@mui/material/styles";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Navigate } from "react-router-dom";
 import { UserContext } from "../UserContext";
 
 import { toast } from "react-toastify";
 
+const inputPropsSx = {
+  borderRadius: 100,
+  "& .MuiOutlinedInput-notchedOutline": {
+    borderRadius: 10,
+  },
+  "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+    borderColor: "#fff",
+  },
+  backgroundColor: alpha("#fff", 0.3),
+  "& .MuiInputBase-input": {
+    color: "#454545", //入力文字の色
+  },
+};
+
+const inputLabelPropsSx = {
+  color: "#fff",
+  "&.Mui-focused": {
+    color: "#fff",
+  },
+};
+
 function Copyright(props) {
   return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
+    <Typography align="center" zIndex={1} {...props}>
       {"Copyright © "}
       <Link color="inherit" href="/">
         MERN-Blog
@@ -38,18 +53,81 @@ function Copyright(props) {
   );
 }
 
-const defaultTheme = createTheme();
+const Background = styled("div")(({ backgroundImageUrl }) => ({
+  position: "fixed",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  backgroundImage: `url(${backgroundImageUrl})`,
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+  zIndex: 0,
+  "&::after": {
+    content: '""',
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+}));
 
 export default function SignUp() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
   const { setUserInfo } = useContext(UserContext);
 
+  const [showPassword, setShowPassword] = useState(false);
+  const [passwordError, setPasswordError] = useState("");
+
+  const [backgroundImageUrl, setBackgroundImageUrl] = useState(null);
+  const fetchBackgroundImage = FetchBackgroungImage();
+
+  useEffect(() => {
+    async function updateBackgroundImage() {
+      const img = await fetchBackgroundImage();
+      // console.log("img:", img);
+      setBackgroundImageUrl(img);
+    }
+    updateBackgroundImage();
+  }, []);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  useEffect(() => {
+    if (passwordError) setPasswordError("");
+  }, [password, confirmPassword]);
+
   const register = async (e) => {
     e.preventDefault();
+
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match");
+      setPasswordError("Passwords do not match");
+      return;
+    }
+
+    if (!password || !confirmPassword || !firstName || !lastName || !email) {
+      toast.error("Fill Required Form", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      return;
+    }
 
     const data = await fetch("http://localhost:4000/register", {
       method: "POST",
@@ -60,8 +138,8 @@ export default function SignUp() {
       callLogin();
       toast.success("You are successfully registered!");
     } else {
-      // toast.error("Registration failed");
-      alert("Registration failed");
+      toast.error("Registration failed");
+      // alert("Registration failed");
     }
   };
 
@@ -82,21 +160,34 @@ export default function SignUp() {
   }
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs" sx={{ mt: 15 }}>
+    <>
+      {backgroundImageUrl && (
+        <Background backgroundImageUrl={backgroundImageUrl} />
+      )}
+      <Container
+        component="main"
+        maxWidth="xs"
+        sx={{
+          mt: 10,
+          zIndex: 2,
+          position: "relative",
+          backgroundColor: alpha("#fff", 0.1),
+          p: 3,
+          borderRadius: 3,
+        }}
+      >
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography
+            component="h1"
+            sx={{ color: "#fff", zIndex: 1, fontSize: "30px" }}
+          >
             Sign up
           </Typography>
           <Box component="form" noValidate onSubmit={register} sx={{ mt: 3 }}>
@@ -112,6 +203,8 @@ export default function SignUp() {
                   autoFocus
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
+                  InputProps={{ sx: inputPropsSx }}
+                  InputLabelProps={{ sx: inputLabelPropsSx }}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -124,6 +217,8 @@ export default function SignUp() {
                   autoComplete="family-name"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
+                  InputProps={{ sx: inputPropsSx }}
+                  InputLabelProps={{ sx: inputLabelPropsSx }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -136,21 +231,73 @@ export default function SignUp() {
                   autoComplete="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  InputProps={{ sx: inputPropsSx }}
+                  InputLabelProps={{ sx: inputLabelPropsSx }}
+                />
+              </Grid>
+
+              <Grid item xs={12} mt={3}>
+                <TextField
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  autoComplete="new-password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  InputProps={{
+                    sx: inputPropsSx,
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton onClick={togglePasswordVisibility}>
+                          {showPassword ? (
+                            <VisibilityOff sx={{ color: "#fff" }} />
+                          ) : (
+                            <Visibility sx={{ color: "#fff" }} />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  InputLabelProps={{ sx: inputLabelPropsSx }}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
+                  name="Confirm password"
+                  label="Confirm Password"
+                  type={showPassword ? "text" : "password"}
                   id="password"
                   autoComplete="new-password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  InputProps={{
+                    sx: inputPropsSx,
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton onClick={togglePasswordVisibility}>
+                          {showPassword ? (
+                            <VisibilityOff sx={{ color: "#fff" }} />
+                          ) : (
+                            <Visibility sx={{ color: "#fff" }} />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  InputLabelProps={{ sx: inputLabelPropsSx }}
                 />
+                <Box sx={{ height: 2, zIndex: 2, position: "relative" }}>
+                  <Typography color="error" sx={{ textAlign: "right", mr: 1 }}>
+                    {passwordError}
+                  </Typography>
+                </Box>
               </Grid>
+
               {/* <Grid item xs={12}>
                 <FormControlLabel
                   control={
@@ -164,21 +311,32 @@ export default function SignUp() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{
+                mt: 4,
+                mb: 2,
+                height: "50px",
+                borderRadius: 10,
+                backgroundColor: "#E2808A",
+                "&:hover": {
+                  backgroundColor: "#C75D6A",
+                },
+              }}
             >
               Sign Up
             </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="/login" variant="body2">
-                  Already have an account? Sign in
-                </Link>
+            <Box sx={{ zIndex: 2, position: "relative" }}>
+              <Grid container justifyContent="flex-end">
+                <Grid item>
+                  <Link href="/login" sx={{ color: "#fff", fontWeight: "300" }}>
+                    Already have an account?
+                  </Link>
+                </Grid>
               </Grid>
-            </Grid>
+            </Box>
           </Box>
+          <Copyright sx={{ mt: 5, color: "#fff" }} />
         </Box>
-        <Copyright sx={{ mt: 5 }} />
       </Container>
-    </ThemeProvider>
+    </>
   );
 }
