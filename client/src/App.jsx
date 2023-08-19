@@ -40,13 +40,13 @@ function App() {
     },
   });
 
-  const LoginPage = lazy(() => import("./components/Pages/LoginPage2"));
+  const LoginPage = lazy(() => import("./components/Pages/LoginPage"));
   const AccountPage = lazy(() => import("./components/Pages/AccountPage"));
   const ChangePassword = lazy(() =>
     import("./components/Pages/ChangePassword")
   );
   const ChangeEmail = lazy(() => import("./components/Pages/ChangeEmail"));
-  const RegisterPage = lazy(() => import("./components/Pages/RegisterPage2"));
+  const RegisterPage = lazy(() => import("./components/Pages/RegisterPage"));
   const CreatePost = lazy(() => import("./components/Pages/CreatePost"));
   const PostPage = lazy(() => import("./components/Pages/PostPage"));
   const FavoritePage = lazy(() => import("./components/Pages/FavoritePage"));

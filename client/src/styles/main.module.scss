@@ -1,6 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+* {
+  font-family: "REM", sans-serif;
+}
 
 .postTitle {
   font-family: "REM", sans-serif;

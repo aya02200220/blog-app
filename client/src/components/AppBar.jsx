@@ -11,14 +11,16 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Typography from "@mui/material/Typography";
 import { DRAWER_WIDTH } from "../constants";
 import { LoginIcon } from "./LoginIcon";
+import Logo from "../assets/Logo1.PNG";
 
 import { Box } from "@mui/material";
 
 const MyAppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
-  boxShadow: "none",
-  borderBottom: "solid 1px #333",
+  // boxShadow: "none",
+  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+  // borderBottom: "solid 1px #333",
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
@@ -78,7 +80,14 @@ export const AppBar = (props, { userData }) => {
           // sx={{ flexGrow: 1, color: "#717070" }}
           sx={{ flexGrow: 1, color: "#333" }}
         >
-          <Link to={`/`}>{title}</Link>
+          <Link to={`/`}>
+            <img
+              src={Logo}
+              alt="Logo"
+              style={{ height: "40px", verticalAlign: "middle" }}
+            />
+            {/* {title} */}
+          </Link>
         </Typography>
 
         {userName && (

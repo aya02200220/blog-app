@@ -82,10 +82,12 @@ const ListItemButton = (props) => {
         ...(to === location.pathname && {
           // backgroundColor: "#E2808A",
           // backgroundColor: "#D8A7B1",
-          backgroundColor: "#E588A3",
+          // backgroundColor: "#E588A3",
+          backgroundColor: "#D8A7B1",
         }),
         "&:hover": {
-          backgroundColor: "#D8A7B1",
+          // backgroundColor: "#D8A7B1",
+          backgroundColor: "#E2808A",
         },
       }}
     >
@@ -295,7 +297,7 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
             )}
             {!userName && (
               <Box sx={{ mt: 3 }}>
-                <Box sx={{ backgroundColor: "#3d5676", color: "#fff" }}>
+                <Box sx={{ backgroundColor: "#7090BC", color: "#fff" }}>
                   <ListItemButton to="/login">
                     <ListItemIcon>
                       <LoginIcon
@@ -306,7 +308,7 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
                   </ListItemButton>
                 </Box>
 
-                <Box sx={{ backgroundColor: "#3d7176", color: "#fff" }}>
+                <Box sx={{ backgroundColor: "#749AA3", color: "#fff" }}>
                   <ListItemButton to="/register">
                     <ListItemIcon>
                       <PersonAddIcon
