@@ -139,7 +139,7 @@ export default function SignIn() {
         component="main"
         maxWidth="xs"
         sx={{
-          mt: 10,
+          mt: { xs: 0, sm: 10 },
           zIndex: 2,
           position: "relative",
           backgroundColor: alpha("#fff", 0.1),

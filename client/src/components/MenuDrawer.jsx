@@ -1,27 +1,21 @@
-import React, { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import { UserContext } from "./UserContext";
 import { LocalStorageRemove } from "./Functions/LocalStorage";
-import { NavLink, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import { toast, ToastContainer } from "react-toastify";
 
 import { styled } from "@mui/material/styles";
 
-import {
-  Toolbar,
-  IconButton,
-  Divider,
-  Box,
-  Button,
-  Collapse,
-} from "@mui/material/";
+import { Toolbar, IconButton, Divider, Box, Collapse } from "@mui/material/";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import List from "@mui/material/List";
 import MuiListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import MuiDrawer from "@mui/material/Drawer";
-// import Collapse from "@mui/material/Collapse";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 import HomeIcon from "@mui/icons-material/Home";
 import LockIcon from "@mui/icons-material/Lock";
@@ -71,6 +65,9 @@ const ListItemButton = (props) => {
   const { to, children, ...rest } = props;
   const location = useLocation();
 
+  const theme = useTheme();
+  const isXs = useMediaQuery(theme.breakpoints.down("xs"));
+
   return (
     <MuiListItemButton
       component={RouterLink}
@@ -92,11 +89,7 @@ const ListItemButton = (props) => {
       }}
     >
       {children}
-      {to === location.pathname && (
-        <ListItemIcon sx={{ position: "absolute", right: -30 }}>
-          <ArrowRightIcon /> {/* 三角形のアイコン */}
-        </ListItemIcon>
-      )}
+      {to === location.pathname}
     </MuiListItemButton>
   );
 };

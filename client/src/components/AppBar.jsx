@@ -98,11 +98,13 @@ export const AppBar = (props, { userData }) => {
             aria-haspopup="true"
             color="4e575f"
           >
-            <LoginIcon
-              firstLetter={firstName.charAt(0)}
-              lastLetter={lastName.charAt(0)}
-              userIcon={userIcon}
-            />
+            <Link to={`/account`}>
+              <LoginIcon
+                firstLetter={firstName.charAt(0)}
+                lastLetter={lastName.charAt(0)}
+                userIcon={userIcon}
+              />
+            </Link>
           </IconButton>
         )}
       </Toolbar>

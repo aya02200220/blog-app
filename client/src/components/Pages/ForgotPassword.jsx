@@ -44,6 +44,7 @@ function ForgotPassword() {
           isLoading: false,
           autoClose: 3000,
         });
+        setEmail("");
       } else {
         toast.update(id, {
           render: `User ${data.message}`,
