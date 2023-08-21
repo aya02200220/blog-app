@@ -2,6 +2,7 @@ import * as React from "react";
 import { useState, useContext, useEffect } from "react";
 import { login } from "../Functions/Login";
 import FetchBackgroungImage from "../Functions/FetchBackgroundImage";
+import { VerifyPassword, VerifyEmailAddress } from "../Functions/Verifications";
 
 import { Button, InputAdornment, IconButton, Divider } from "@mui/material/";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -31,6 +32,29 @@ const inputPropsSx = {
   "& .MuiInputBase-input": {
     color: "#454545", //入力文字の色
   },
+};
+const inputPropsSxError = {
+  borderRadius: 100,
+  "& .MuiOutlinedInput-notchedOutline": {
+    borderRadius: 10,
+  },
+  "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+    borderColor: "#D23944",
+  },
+  backgroundColor: alpha("#D23944", 0.8),
+  "& .MuiInputBase-input": {
+    color: "#454545", //入力文字の色
+  },
+};
+
+const inputPropsSxAutofill = {
+  "&&:-webkit-autofill, &:-webkit-autofill:hover, &:-webkit-autofill:focus, &:-webkit-autofill:active":
+    {
+      backgroundColor: "transparent", //オートフィルの背景色を透明に設定
+      borderColor: "transparent", //オートフィルの境界線の色を透明に設定
+      boxShadow: "0 0 0 1000px transparent inset", //背景の境界線を透明に設定
+      color: "#454545", //オートフィルされたテキストの色を指定
+    },
 };
 
 const inputLabelPropsSx = {
@@ -85,9 +109,14 @@ export default function SignUp() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [passwordError, setPasswordError] = useState("");
+  const [emailError, setEmailError] = useState("");
 
   const [backgroundImageUrl, setBackgroundImageUrl] = useState(null);
   const fetchBackgroundImage = FetchBackgroungImage();
+
+  const mergedPropsSx = emailError
+    ? { ...inputPropsSxError, ...inputPropsSxAutofill }
+    : { ...inputPropsSx, ...inputPropsSxAutofill };
 
   useEffect(() => {
     async function updateBackgroundImage() {
@@ -106,6 +135,10 @@ export default function SignUp() {
     if (passwordError) setPasswordError("");
   }, [password, confirmPassword]);
 
+  useEffect(() => {
+    if (emailError) setEmailError("");
+  }, [email]);
+
   const register = async (e) => {
     e.preventDefault();
 
@@ -114,6 +147,22 @@ export default function SignUp() {
       setPasswordError("Passwords do not match");
       return;
     }
+
+    const resultPW = VerifyPassword(password);
+    const resultEmail = VerifyEmailAddress(email);
+    if (!resultPW || !resultEmail) {
+      if (!resultPW) {
+        const msg = `The password must be more than 8 characters long.`;
+        setPasswordError(msg);
+      }
+      if (!resultEmail) {
+        const msg = `Invalid email address`;
+        setEmailError(msg);
+      }
+      return;
+    }
+
+    if (passwordError || emailError) return;
 
     if (!password || !confirmPassword || !firstName || !lastName || !email) {
       toast.error("Fill Required Form", {
@@ -231,9 +280,25 @@ export default function SignUp() {
                   autoComplete="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  InputProps={{ sx: inputPropsSx }}
+                  InputProps={{
+                    sx: mergedPropsSx,
+                  }}
                   InputLabelProps={{ sx: inputLabelPropsSx }}
                 />
+                <Box sx={{ height: 2, zIndex: 2, position: "relative" }}>
+                  <Typography
+                    color="error"
+                    sx={{
+                      textAlign: "right",
+                      mr: 1,
+                      fontWeight: "600",
+                      lineHeight: "15px",
+                      mt: "2px",
+                    }}
+                  >
+                    {emailError}
+                  </Typography>
+                </Box>
               </Grid>
 
               <Grid item xs={12} mt={3}>
@@ -248,7 +313,9 @@ export default function SignUp() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   InputProps={{
-                    sx: inputPropsSx,
+                    ...(passwordError
+                      ? { sx: inputPropsSxError }
+                      : { sx: inputPropsSx }),
                     endAdornment: (
                       <InputAdornment position="end">
                         <IconButton onClick={togglePasswordVisibility}>
@@ -276,7 +343,9 @@ export default function SignUp() {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   InputProps={{
-                    sx: inputPropsSx,
+                    ...(passwordError
+                      ? { sx: inputPropsSxError }
+                      : { sx: inputPropsSx }),
                     endAdornment: (
                       <InputAdornment position="end">
                         <IconButton onClick={togglePasswordVisibility}>
@@ -292,7 +361,16 @@ export default function SignUp() {
                   InputLabelProps={{ sx: inputLabelPropsSx }}
                 />
                 <Box sx={{ height: 2, zIndex: 2, position: "relative" }}>
-                  <Typography color="error" sx={{ textAlign: "right", mr: 1 }}>
+                  <Typography
+                    color="error"
+                    sx={{
+                      textAlign: "right",
+                      mr: 1,
+                      fontWeight: "600",
+                      lineHeight: "15px",
+                      mt: "2px",
+                    }}
+                  >
                     {passwordError}
                   </Typography>
                 </Box>

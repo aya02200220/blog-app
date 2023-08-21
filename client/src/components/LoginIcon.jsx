@@ -22,7 +22,7 @@ export const LoginIcon = (props) => {
           fontSize: props.size ? "55px" : "15px",
           font: "#fff",
           // marginRight: "5px",
-
+          border: "solid 1px #B8AA93",
           backgroundColor: "#da8dea",
           color: "#fff",
           display: "flex",

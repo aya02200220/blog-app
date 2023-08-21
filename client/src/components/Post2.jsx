@@ -209,7 +209,7 @@ export const Post = React.memo(function PostCard({
                             : "32px",
                         sm:
                           title?.length > 63
-                            ? "72.4px"
+                            ? "71.6px"
                             : (title?.length <= 42) & (title?.length > 21)
                             ? "54px"
                             : "32px",
@@ -232,7 +232,7 @@ export const Post = React.memo(function PostCard({
                       fontSize: { xs: "18px", md: "20px" },
                       fontWeight: "300",
                       lineHeight: { xs: "19px", md: "21px" },
-                      minHeight: { sm: "60px", md: "65px" },
+                      minHeight: { sm: "58px", md: "65px" },
                       maxHeight: "63.5px",
                       wordBreak: "break-word",
 

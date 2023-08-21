@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { VerifyPassword } from "../Functions/Verifications";
 
 import {
   Box,
@@ -41,6 +42,15 @@ function ResetPassword() {
     if (newPassword !== confirmPassword) {
       toast.error("Passwords do not match");
       setPasswordError("Passwords do not match");
+      return;
+    }
+
+    const resultPW = VerifyPassword(newPassword);
+    if (!resultPW) {
+      if (!resultPW) {
+        const msg = `The password must be more than 8 characters long.`;
+        setPasswordError(msg);
+      }
       return;
     }
 

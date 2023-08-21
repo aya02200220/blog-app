@@ -146,11 +146,8 @@ const IndexPage = () => {
                       Array.isArray(favorites) &&
                       favorites.some((favorite) => favorite._id === post._id);
 
-                    console.log("Index Page ID:", post.author._id);
-
                     // ここでユーザーのIDを使ってプロフィールデータを取得
                     const authorProfile = userProfiles[post.author._id];
-                    console.log("Index Page authorProfile:", authorProfile);
 
                     return (
                       <Post

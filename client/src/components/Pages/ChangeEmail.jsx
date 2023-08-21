@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 import { FetchProfile } from "../Functions/FetchProfile";
 import { LocalStorageRemove, LocalStorage } from "../Functions/LocalStorage";
+import { VerifyEmailAddress } from "../Functions/Verifications";
 
 import {
   Box,
@@ -58,6 +59,13 @@ const ChangeEmail = () => {
     } else {
       if (newEmail !== confirmEmail) {
         setEmailError("Emails do not match");
+        return;
+      }
+
+      const resultEmail = VerifyEmailAddress(newEmail);
+      if (!resultEmail) {
+        const msg = `Invalid email address`;
+        setEmailError(msg);
         return;
       }
 
