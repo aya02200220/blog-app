@@ -21,7 +21,7 @@ export const LoginIcon = (props) => {
           },
           fontSize: props.size ? "55px" : "15px",
           font: "#fff",
-          marginRight: "5px",
+          // marginRight: "5px",
 
           backgroundColor: "#da8dea",
           color: "#fff",
@@ -30,7 +30,7 @@ export const LoginIcon = (props) => {
           justifyContent: "center",
           textAlign: "center",
           fontWeight: "600",
-          paddingBottom: "2px",
+          // paddingBottom: "2px",
         }}
       >
         {props.firstLetter}

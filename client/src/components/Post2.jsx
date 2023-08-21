@@ -10,6 +10,7 @@ import { LoginIcon } from "./LoginIcon";
 
 import cx from "clsx";
 import { Box, IconButton, Button, Typography } from "@mui/material";
+import { alpha } from "@mui/material/styles";
 
 import Share from "@material-ui/icons/Share";
 
@@ -76,7 +77,7 @@ export const Post = React.memo(function PostCard({
         <Link to={`/post/${_id}`}>
           <Box
             sx={{
-              height: { xs: "inherit", sm: "226px", md: "226px" },
+              height: { xs: "inherit", sm: "260px", md: "260px" },
               width: { xs: "295px", sm: "500px", md: "600px" },
               maxWidth: { xs: "295px", sm: "500px", md: "600px" },
               // border: "solid 1px black",
@@ -98,112 +99,156 @@ export const Post = React.memo(function PostCard({
                   med: "row",
                   lg: "row",
                 },
-                height: { xs: "100%", sm: "172px", md: "172px" },
+                height: { xs: "100%", sm: "205px", md: "205px" },
+                position: "relative",
               }}
             >
               {/* ///////////////////////////// カード左半分コンテンツ */}
-              <Box
+              {/* <Box
                 sx={{
                   width: { xs: "100%", sm: "100%", md: "52%" },
                   ml: { xs: 1, sm: 2, md: 2 },
                   mr: { xs: 1, sm: 2, md: 2 },
                   mt: { xs: 2, sm: 2, md: 2 },
+
+                }}
+              > */}
+              {/* /////////// Author info /////////////// */}
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: "10px",
+                  color: "#8f8f8f",
+                  mb: 1,
+                  justifyContent: { xs: "center", sm: "inherit" },
+                  position: "absolute",
+                  top: 12,
+                  left: 10,
                 }}
               >
-                <Box
-                  sx={{
-                    display: "flex",
-                    gap: "10px",
-                    color: "#8f8f8f",
-                    mt: "5px",
-                    justifyContent: { xs: "center", sm: "inherit" },
-                  }}
-                >
-                  <Link to={`/account`}>
-                    <IconButton
-                      size="large"
-                      edge="end"
-                      aria-label="account of current user"
-                      aria-haspopup="true"
-                      color="4e575f"
+                <Link to={`/account`}>
+                  <IconButton
+                    size="large"
+                    edge="end"
+                    color="4e575f"
+                    sx={{
+                      p: 0,
+                      borderRadius: "50px 5px 5px 50px",
+                      m: 0,
+                      pr: 2,
+                      backgroundColor: alpha("#fff", 0.4),
+                    }}
+                  >
+                    <LoginIcon
+                      firstLetter={author?.firstName.charAt(0)}
+                      lastLetter={author?.lastName.charAt(0)}
+                      userIcon={authorProfile?.user.userIcon}
+                      sx={{ padding: 0 }}
+                    />
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        ml: 1.5,
+                        justifyContent: "left",
+                      }}
                     >
-                      <LoginIcon
-                        firstLetter={author?.firstName.charAt(0)}
-                        lastLetter={author?.lastName.charAt(0)}
-                        userIcon={authorProfile?.user.userIcon}
-                      />
-                      <Typography sx={{ fontSize: "14px", fontWeight: "600" }}>
+                      <Typography
+                        sx={{
+                          fontSize: "16px",
+                          fontWeight: "600",
+                          lineHeight: "16px",
+                        }}
+                      >
                         {author?.firstName} {author?.lastName}
                       </Typography>
-                      <Typography sx={{ fontSize: "14px", fontWeight: "400" }}>
+                      <Typography
+                        sx={{
+                          fontSize: "14px",
+                          fontWeight: "400",
+                          textAlign: "left",
+                          lineHeight: "15px",
+                        }}
+                      >
                         {createdAt && formatDate(createdAt)}
                       </Typography>
-                    </IconButton>
-                  </Link>
-                </Box>
-
-                <Typography
-                  variant="h1"
-                  sx={(theme) => ({
-                    pt: { xs: 0.5, md: "inherit" },
-                    width: { xs: "90%", sm: "100%" },
-                    fontSize: "22px",
-                    fontWeight: "500",
-                    lineHeight: "22px",
-                    // minHeight: "30px",
-                    wordBreak: "break-word",
-                    display: "-webkit-box",
-                    WebkitBoxOrient: "vertical",
-                    WebkitLineClamp: 3, // 行数指定
-                    overflow: "hidden",
-                    textAlign: { xs: "center", sm: "inherit" },
-                    minHeight: {
-                      xs:
-                        title?.length > 63
-                          ? "72px"
-                          : (title?.length <= 43) & (title?.length > 22)
-                          ? "54px"
-                          : "32px",
-                      sm:
-                        title?.length > 63
-                          ? "73px"
-                          : (title?.length <= 42) & (title?.length > 21)
-                          ? "54px"
-                          : "32px",
-                      md:
-                        title?.length > 48
-                          ? "67.3px"
-                          : (title?.length <= 48) & (title?.length > 24)
-                          ? "45px"
-                          : "25px",
-                    },
-                  })}
-                >
-                  {title}
-                </Typography>
-
-                <Typography
-                  sx={{
-                    mt: "5px",
-                    color: "#6b6b6b",
-                    fontSize: { xs: "18px", md: "20px" },
-                    fontWeight: "300",
-                    lineHeight: { xs: "19px", md: "21px" },
-                    minHeight: { sm: "57px", md: "63.5px" },
-                    maxHeight: "63.5px",
-                    wordBreak: "break-word",
-
-                    display: "-webkit-box",
-                    WebkitBoxOrient: "vertical",
-                    WebkitLineClamp: 3, // 行数指定
-                    overflow: "hidden",
-                    width: "93%",
-                    textAlign: { sx: "center", md: "inherit" },
-                  }}
-                >
-                  {contentWithoutImgsOrStyles}
-                </Typography>
+                    </Box>
+                  </IconButton>
+                </Link>
               </Box>
+              <Box
+                sx={{
+                  width: { xs: "100%", sm: "100%", md: "52%" },
+                  ml: { xs: 1, sm: 3, md: 3 },
+                  mr: { xs: 1, sm: 2, md: 2 },
+                  mt: { xs: 2, sm: 2, md: 2 },
+                }}
+              >
+                <Box sx={{ mt: { xs: 0, sm: 6 } }}>
+                  <Typography
+                    variant="h1"
+                    sx={(theme) => ({
+                      pt: { xs: 0.5, md: "inherit" },
+                      width: { xs: "90%", sm: "100%" },
+                      fontSize: "22px",
+                      fontWeight: "500",
+                      lineHeight: "22px",
+                      // minHeight: "30px",
+                      wordBreak: "break-word",
+                      display: "-webkit-box",
+                      WebkitBoxOrient: "vertical",
+                      WebkitLineClamp: 3, // 行数指定
+                      overflow: "hidden",
+                      textAlign: { xs: "center", sm: "inherit" },
+                      minHeight: {
+                        xs:
+                          title?.length > 63
+                            ? "72px"
+                            : (title?.length <= 43) & (title?.length > 22)
+                            ? "54px"
+                            : "32px",
+                        sm:
+                          title?.length > 63
+                            ? "72.4px"
+                            : (title?.length <= 42) & (title?.length > 21)
+                            ? "54px"
+                            : "32px",
+                        md:
+                          title?.length > 48
+                            ? "68px"
+                            : (title?.length <= 48) & (title?.length > 24)
+                            ? "46px"
+                            : "25px",
+                      },
+                    })}
+                  >
+                    {title}
+                  </Typography>
+
+                  <Typography
+                    sx={{
+                      mt: 1,
+                      color: "#6b6b6b",
+                      fontSize: { xs: "18px", md: "20px" },
+                      fontWeight: "300",
+                      lineHeight: { xs: "19px", md: "21px" },
+                      minHeight: { sm: "60px", md: "65px" },
+                      maxHeight: "63.5px",
+                      wordBreak: "break-word",
+
+                      display: "-webkit-box",
+                      WebkitBoxOrient: "vertical",
+                      WebkitLineClamp: 3, // 行数指定
+                      overflow: "hidden",
+                      width: "93%",
+                      textAlign: { sx: "center", md: "inherit" },
+                    }}
+                  >
+                    {contentWithoutImgsOrStyles}
+                  </Typography>
+                </Box>
+              </Box>
+
               <Box
                 component="img"
                 src={`http://localhost:4000/${cover}`}
@@ -211,7 +256,7 @@ export const Post = React.memo(function PostCard({
                   width: { xs: "100%", sm: "45%", md: "45%" },
                   minWidth: { xs: "100%", sm: "45%", md: "45%" },
                   maxWidth: { xs: "100%", sm: "45%", md: "45%" },
-                  height: "226px",
+                  height: "260px",
                   // minHeight: "230px",
                   // maxHeight: "230px",
                   borderRadius: { xs: "10px 10px 0 0", sm: "0 10px 0 0" },
