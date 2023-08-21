@@ -6,6 +6,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import { GetLocalStorage } from "../Functions/LocalStorage";
 import { fetchFavorites } from "../Functions/Favorites";
+import { FetchUser } from "../Functions/FetchUser";
 
 import Post from "../Post2";
 
@@ -13,6 +14,7 @@ const IndexPage = () => {
   const [favorites, setFavorites] = useState([]);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [userProfiles, setUserProfiles] = useState({});
 
   const { setUserInfo, userInfo } = useContext(UserContext);
   const [firstName, setFirstName] = useState(null);
@@ -78,6 +80,29 @@ const IndexPage = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      const newProfiles = {};
+      const promises = [];
+
+      for (const post of posts) {
+        if (post.author && post.author._id) {
+          promises.push(
+            FetchUser(post.author._id).then((profile) => {
+              newProfiles[post.author._id] = profile;
+            })
+          );
+        }
+      }
+
+      await Promise.all(promises);
+
+      setUserProfiles(newProfiles);
+    };
+
+    fetchUser();
+  }, [posts]);
+
   return (
     <>
       {loading ? (
@@ -116,13 +141,24 @@ const IndexPage = () => {
                   <Typography variant="body1">No Post yet</Typography>
                 ) : (
                   posts.map((post) => {
-                    // console.log("post", post);
                     const isFavorite =
                       favorites &&
                       Array.isArray(favorites) &&
                       favorites.some((favorite) => favorite._id === post._id);
+
+                    console.log("Index Page ID:", post.author._id);
+
+                    // ここでユーザーのIDを使ってプロフィールデータを取得
+                    const authorProfile = userProfiles[post.author._id];
+                    console.log("Index Page authorProfile:", authorProfile);
+
                     return (
-                      <Post key={post._id} {...post} favorite={isFavorite} />
+                      <Post
+                        key={post._id}
+                        {...post}
+                        favorite={isFavorite}
+                        authorProfile={authorProfile}
+                      />
                     );
                   })
                 )}

@@ -1,17 +1,16 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
-import { format, differenceInDays, isToday } from "date-fns";
+import { format, differenceInDays } from "date-fns";
+import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 import { Link } from "react-router-dom";
 import { Favorite } from "./Functions/Favorite";
-import formatDistanceToNow from "date-fns/formatDistanceToNow";
+import { LoginIcon } from "./LoginIcon";
 
 import cx from "clsx";
 import { Box, IconButton, Button, Typography } from "@mui/material";
 
-import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
 import Share from "@material-ui/icons/Share";
 
 import { UserContext } from "./UserContext";
@@ -24,6 +23,7 @@ export const Post = React.memo(function PostCard({
   createdAt,
   author = "No author",
   favorite = false,
+  authorProfile,
 }) {
   const [isFavorite, setIsFavorite] = useState(favorite);
 
@@ -110,6 +110,38 @@ export const Post = React.memo(function PostCard({
                   mt: { xs: 2, sm: 2, md: 2 },
                 }}
               >
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: "10px",
+                    color: "#8f8f8f",
+                    mt: "5px",
+                    justifyContent: { xs: "center", sm: "inherit" },
+                  }}
+                >
+                  <Link to={`/account`}>
+                    <IconButton
+                      size="large"
+                      edge="end"
+                      aria-label="account of current user"
+                      aria-haspopup="true"
+                      color="4e575f"
+                    >
+                      <LoginIcon
+                        firstLetter={author?.firstName.charAt(0)}
+                        lastLetter={author?.lastName.charAt(0)}
+                        userIcon={authorProfile?.user.userIcon}
+                      />
+                      <Typography sx={{ fontSize: "14px", fontWeight: "600" }}>
+                        {author?.firstName} {author?.lastName}
+                      </Typography>
+                      <Typography sx={{ fontSize: "14px", fontWeight: "400" }}>
+                        {createdAt && formatDate(createdAt)}
+                      </Typography>
+                    </IconButton>
+                  </Link>
+                </Box>
+
                 <Typography
                   variant="h1"
                   sx={(theme) => ({
@@ -149,23 +181,7 @@ export const Post = React.memo(function PostCard({
                 >
                   {title}
                 </Typography>
-                <Box
-                  sx={{
-                    display: "flex",
-                    gap: "10px",
-                    color: "#8f8f8f",
-                    mt: "5px",
-                    justifyContent: { xs: "center", sm: "inherit" },
-                  }}
-                >
-                  <Typography sx={{ fontSize: "14px", fontWeight: "600" }}>
-                    {/* {author?.firstName} {author?.lastName} */}
-                    {author?.firstName} {author?.lastName}
-                  </Typography>
-                  <Typography sx={{ fontSize: "14px", fontWeight: "400" }}>
-                    {createdAt && formatDate(createdAt)}
-                  </Typography>
-                </Box>
+
                 <Typography
                   sx={{
                     mt: "5px",

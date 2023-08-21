@@ -1,10 +1,8 @@
-// useFetchProfile.js
-
-export const FetchProfile = async (userName) => {
-  console.log("FetchProfile----------------------");
-  if (userName) {
+export const FetchUser = async (userId) => {
+  console.log("Fetch User ----------------------");
+  if (userId) {
     try {
-      const response = await fetch("http://localhost:4000/profile", {
+      const response = await fetch(`http://localhost:4000/profile/${userId}`, {
         credentials: "include",
       });
 
