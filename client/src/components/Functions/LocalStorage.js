@@ -1,5 +1,3 @@
-import React from "react";
-
 /////////////////////////////////////////////////////////////////////
 export const LocalStorage = (props) => {
   console.log("Set Local Storage");

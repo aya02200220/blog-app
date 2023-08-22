@@ -14,11 +14,11 @@ import {
   Skeleton,
   Stack,
 } from "@mui/material";
-import CircularProgress from "@mui/material/CircularProgress";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Typography from "@mui/material/Typography";
 
-import { AuthorInfo, AuthorInfoFalse } from "./AuthorInfo";
+import { AuthorInfo } from "./AuthorInfo";
+import { GetLocalStorage } from "../Functions/LocalStorage";
 import Comment from "../Comment";
 
 const PostPage = () => {
@@ -26,10 +26,19 @@ const PostPage = () => {
   const [isAllRendered, setIsAllRendered] = useState(false);
   const [postInfo, setPostInfo] = useState(null);
   const [favorite, setFavorite] = useState(null);
+  const [userInfo, setUserInfo] = useState(null);
   const [commentUpdated, setCommentUpdated] = useState(false);
-
-  const { userInfo } = useContext(UserContext);
   const { id } = useParams();
+
+  useEffect(() => {
+    const localStorageUserInfo = GetLocalStorage();
+    if (localStorageUserInfo) {
+      // setStorageFirstName(userInfo.firstName);
+      // setStorageLastName(userInfo.lastName);
+      // setStorageUserName(userInfo.email);
+      setUserInfo(localStorageUserInfo);
+    }
+  }, []);
 
   // console.log("Post page userInfo:", userInfo);
 

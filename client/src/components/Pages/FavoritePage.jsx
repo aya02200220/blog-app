@@ -1,14 +1,17 @@
-import React, { useContext, useEffect, useState } from "react";
-import { UserContext } from "../UserContext";
+import { useEffect, useState } from "react";
+// import { UserContext } from "../UserContext";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import { FavPost } from "./FavPost";
+import { Container } from "@mui/material";
+import { FetchUser } from "../Functions/FetchUser";
 
 const FavoritePage = () => {
-  const { userInfo } = useContext(UserContext);
+  // const { userInfo } = useContext(UserContext);
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [userProfiles, setUserProfiles] = useState({});
 
   useEffect(() => {
     setLoading(true);
@@ -27,47 +30,89 @@ const FavoritePage = () => {
       });
   }, []);
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      const newProfiles = {};
+      const promises = [];
+
+      for (const post of favorites) {
+        if (post.author && post.author._id) {
+          promises.push(
+            FetchUser(post.author._id).then((profile) => {
+              newProfiles[post.author._id] = profile;
+            })
+          );
+        }
+      }
+
+      await Promise.all(promises);
+
+      setUserProfiles(newProfiles);
+    };
+
+    fetchUser();
+  }, [favorites]);
+
   return (
     <>
-      <Typography
+      <Box sx={{ display: "flex" }}>
+        <Typography
+          sx={{
+            ml: 5,
+            color: "#4e575f",
+            fontWeight: "500",
+            position: "absolute",
+          }}
+        >
+          Reading List
+        </Typography>
+      </Box>
+      <Container
         sx={{
-          ml: 5,
-          color: "#4e575f",
-          fontWeight: "500",
-          position: "absolute",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
-        Reading List
-      </Typography>
-
-      {loading ? (
-        <Box sx={{ mt: "150px", display: "flex", justifyContent: "center" }}>
-          <CircularProgress />
-          <Typography sx={{ ml: "20px", fontSize: "20px" }}>
-            Loading....
-          </Typography>
-        </Box>
-      ) : (
-        <>
+        {loading ? (
+          <Box sx={{ mt: "150px", display: "flex", justifyContent: "center" }}>
+            <CircularProgress />
+            <Typography sx={{ ml: "20px", fontSize: "20px" }}>
+              Loading....
+            </Typography>
+          </Box>
+        ) : (
           <Box
             sx={{
-              margin: "0 130px",
+              // border: "solid 1px #111",
               marginTop: 5,
               display: "flex",
-              flexWrap: "wrap",
-              justifyContent: "space-evenly",
+              flexDirection: "column",
+              justifyContent: "center",
+              maxWidth: "700px",
             }}
           >
             {favorites.length > 0 ? (
-              favorites.map((post) => <FavPost key={post._id} {...post} />)
+              favorites.map((post) => {
+                // ここでユーザーのIDを使ってプロフィールデータを取得
+                const authorProfile = userProfiles[post.author._id];
+                return (
+                  <FavPost
+                    key={post._id}
+                    {...post}
+                    authorProfile={authorProfile}
+                  />
+                );
+              })
             ) : (
               <Typography variant="body1" sx={{ mt: 4, ml: 4 }}>
                 No Reading Lists found.
               </Typography>
             )}
           </Box>
-        </>
-      )}
+        )}
+      </Container>
     </>
   );
 };

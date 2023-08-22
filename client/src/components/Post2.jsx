@@ -112,15 +112,6 @@ export const Post = React.memo(function PostCard({
               }}
             >
               {/* ///////////////////////////// カード左半分コンテンツ */}
-              {/* <Box
-                sx={{
-                  width: { xs: "100%", sm: "100%", md: "52%" },
-                  ml: { xs: 1, sm: 2, md: 2 },
-                  mr: { xs: 1, sm: 2, md: 2 },
-                  mt: { xs: 2, sm: 2, md: 2 },
-
-                }}
-              > */}
               {/* /////////// Author info /////////////// */}
               <Box
                 sx={{
