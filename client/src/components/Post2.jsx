@@ -7,6 +7,7 @@ import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { Link } from "react-router-dom";
 import { Favorite } from "./Functions/Favorite";
 import { LoginIcon } from "./LoginIcon";
+import { GetLocalStorage } from "./Functions/LocalStorage";
 
 import cx from "clsx";
 import { Box, IconButton, Button, Typography } from "@mui/material";
@@ -14,7 +15,7 @@ import { alpha } from "@mui/material/styles";
 
 import Share from "@material-ui/icons/Share";
 
-import { UserContext } from "./UserContext";
+// import { UserContext } from "./UserContext";
 
 export const Post = React.memo(function PostCard({
   _id = "1",
@@ -27,10 +28,17 @@ export const Post = React.memo(function PostCard({
   authorProfile,
 }) {
   const [isFavorite, setIsFavorite] = useState(favorite);
+  const [userName, setUserName] = useState("");
+  const [userId, setUserId] = useState(favorite);
 
-  const { setUserInfo, userInfo } = useContext(UserContext);
-  const userName = userInfo?.email;
-  const userId = userInfo?.id;
+  useEffect(() => {
+    const userInfo = GetLocalStorage();
+    if (userInfo) {
+      setUserName(userInfo.email);
+      setUserId(userInfo.id);
+    }
+  }, []);
+  // const { setUserInfo, userInfo } = useContext(UserContext);
 
   // 文字列として表現されるHTMLをDOMツリーに変換 //////////////////////////////
   const parser = new DOMParser();
