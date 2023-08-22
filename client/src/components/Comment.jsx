@@ -21,6 +21,7 @@ const Comment = ({ postInfo, onCommentAdded }) => {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const [storageID, setStorageID] = useState(null);
+  const [storageIcon, setStorageIcon] = useState(null);
 
   const { userInfo } = useContext(UserContext);
 
@@ -39,7 +40,7 @@ const Comment = ({ postInfo, onCommentAdded }) => {
     if (userInfo) {
       // setStorageFirstName(userInfo.firstName);
       // setStorageLastName(userInfo.lastName);
-      // setStorageUserName(userInfo.email);
+      setStorageIcon(userInfo.userIcon);
       setStorageID(userInfo.id);
     }
   }, []);
@@ -132,6 +133,7 @@ const Comment = ({ postInfo, onCommentAdded }) => {
             <LoginIcon
               firstLetter={userInfo.firstName.charAt(0)}
               lastLetter={userInfo.lastName.charAt(0)}
+              userIcon={storageIcon}
             />
           </Box>
           <TextField
@@ -143,7 +145,7 @@ const Comment = ({ postInfo, onCommentAdded }) => {
             onChange={(e) => setComment(e.target.value)}
             multiline
             // rowsMax={4}
-            sx={{ height: "100%" }}
+            sx={{ height: "100%", ml: 1 }}
           />
           <Button
             variant="contained"

@@ -39,7 +39,10 @@ export const FavPost = ({
     }
   };
   return (
-    <Link to={`/post/${_id}`}>
+    // <Link to={{ pathname: `/post/${_id}`, state: { from: "/favorites" } }}>
+
+    <Link to={`/post/${_id}`} state={"/favorites"}>
+      {/* <Link to={`/post/${_id}`}> */}
       <Box
         sx={{
           maxWidth: "100%",

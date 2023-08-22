@@ -1,19 +1,11 @@
 import styles from "../../styles/main.module.scss";
-import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { format } from "date-fns";
-import { UserContext } from "../UserContext";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
-import {
-  Box,
-  IconButton,
-  Button,
-  Tooltip,
-  Skeleton,
-  Stack,
-} from "@mui/material";
+import { Box, IconButton, Tooltip, Skeleton, Stack } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Typography from "@mui/material/Typography";
 
@@ -29,6 +21,17 @@ const PostPage = () => {
   const [userInfo, setUserInfo] = useState(null);
   const [commentUpdated, setCommentUpdated] = useState(false);
   const { id } = useParams();
+
+  const navigate = useNavigate(); // 2. useNavigateを使ってnavigate関数を取得
+  const location = useLocation(); // 現在のlocationオブジェクトを取得
+
+  const handleBackClick = () => {
+    if (location.state) {
+      navigate(location.state); // 前のページに戻る
+    } else {
+      navigate("/"); // デフォルトのページに戻る
+    }
+  };
 
   useEffect(() => {
     const localStorageUserInfo = GetLocalStorage();
@@ -88,8 +91,7 @@ const PostPage = () => {
           }}
         >
           <IconButton
-            component={Link}
-            to="/"
+            onClick={handleBackClick}
             variant="outlined"
             sx={{
               fontSize: "14px",
