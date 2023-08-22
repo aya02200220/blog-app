@@ -26,7 +26,7 @@ function ForgotPassword() {
 
     setLoading(true); // Set loading state to true when the button is clicked
     try {
-      const response = await fetch("http://localhost:4000/forgotPassword", {
+      const response = await fetch("http://localhost:4000/password/forgot", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -181,7 +181,7 @@ function ForgotPassword() {
                     variant="contained"
                     fullWidth
                     sx={{ height: "55px", mt: 3, mb: 5 }}
-                    disabled={loading} // Disable the button while loading
+                    disabled={loading || !email} // Disable the button while loading
                   >
                     <Typography
                       sx={{

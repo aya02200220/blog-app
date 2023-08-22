@@ -238,7 +238,7 @@ export default function SignIn() {
               <Grid container justifyContent="flex-end">
                 <Grid item>
                   <Link
-                    href="/forgotPassword"
+                    href="/password/forgot"
                     sx={{ color: "#fff", fontWeight: "300" }}
                   >
                     Forgot password?

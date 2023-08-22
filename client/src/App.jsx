@@ -79,7 +79,7 @@ function App() {
               <Route path="/account" element={<AccountPage />} />
               <Route path="/security" element={<ChangePassword />} />
               <Route path="/change-email" element={<ChangeEmail />} />
-              <Route path="/forgotPassword" element={<ForgotPassword />} />
+              <Route path="/password/forgot" element={<ForgotPassword />} />
               <Route
                 path="/password/reset/:resetToken"
                 element={<ResetPasswordPage />}

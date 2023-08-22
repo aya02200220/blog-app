@@ -120,19 +120,18 @@ app.post("/login", async (req, res) => {
     }
 
     const payload = {
-      firstName: userInfo.firstName,
-      lastName: userInfo.lastName,
-      email,
       id: userInfo._id,
-      followers: userInfo.followers,
-      userIcon: userInfo.userIcon,
-      following: userInfo.following,
-      bio: userInfo.bio,
+      email,
     };
 
     const token = await signToken(payload, secret);
 
-    res.cookie("token", token);
+    // res.cookie("token", token);
+    res.cookie("token", token, {
+      httpOnly: true, // JavaScriptからのアクセスを制限
+      secure: process.env.NODE_ENV === "production", // 本番環境ではHTTPS接続でのみクッキーを送信
+      sameSite: "lax", // サードパーティのサイトからのクッキー送信を制限
+    });
     // console.log("token", token);
 
     res.json({
@@ -181,7 +180,6 @@ app.get("/profile/:_id", async (req, res) => {
   const { _id } = req.params;
   try {
     const user = await User.findById(_id);
-    console.log("user", user);
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
@@ -683,7 +681,7 @@ const nodemailer = require("nodemailer");
 
 // ...
 
-app.post("/forgotPassword", async (req, res) => {
+app.post("/password/forgot", async (req, res) => {
   const { email } = req.body;
   // console.log("forgotPassword Email", email);
   try {
