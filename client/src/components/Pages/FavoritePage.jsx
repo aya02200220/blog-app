@@ -45,14 +45,19 @@ const FavoritePage = () => {
           );
         }
       }
-
       await Promise.all(promises);
-
       setUserProfiles(newProfiles);
     };
-
     fetchUser();
   }, [favorites]);
+
+  const removePostFromFavorites = (postId) => {
+    console.log("確認");
+    setFavorites((prevFavorites) =>
+      prevFavorites.filter((post) => post._id !== postId)
+    );
+  };
+
   return (
     <>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
@@ -108,9 +113,7 @@ const FavoritePage = () => {
                       key={post._id}
                       {...post}
                       authorProfile={authorProfile}
-                      onFavoriteRemoved={() =>
-                        setFavoritesUpdated(!favoritesUpdated)
-                      }
+                      onRemovePost={removePostFromFavorites}
                     />
                   );
                 })

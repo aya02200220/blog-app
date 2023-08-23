@@ -1,7 +1,20 @@
-import * as React from "react";
-import { Button, Box, Typography, IconButton } from "@mui/material";
+import { useState } from "react";
+import {
+  Button,
+  Box,
+  Typography,
+  IconButton,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+} from "@mui/material";
 import { alpha } from "@mui/material/styles";
-import CancelIcon from "@mui/icons-material/Cancel";
 import CloseIcon from "@mui/icons-material/Close";
 
 import { format, differenceInDays, formatDistanceToNow } from "date-fns";
@@ -17,7 +30,7 @@ export const FavPost = ({
   createdAt,
   author = "No author",
   authorProfile,
-  onFavoriteRemoved,
+  onRemovePost,
 }) => {
   // Create at date format ////////////////////////////////////
   const formatDate = (createdAt) => {
@@ -34,12 +47,26 @@ export const FavPost = ({
     }
   };
 
+  const [openDialog, setOpenDialog] = useState(false);
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  const handleConfirmRemove = () => {
+    handleCloseDialog();
+    // ここで削除処理を実行します
+    handleRemoveFromFavorites();
+    handleRemoveClick();
+  };
+
   const handleRemoveFromFavorites = async () => {
     try {
       await removeFromFavorites(_id);
-      if (onFavoriteRemoved) {
-        onFavoriteRemoved(); // お気に入りが削除されたときに親コンポーネントの関数を呼び出す
-      }
+      onRemovePost(_id);
     } catch (error) {
       console.error("Error removing favorite:", error);
     }
@@ -47,6 +74,12 @@ export const FavPost = ({
 
   return (
     <>
+      {/* <ConfirmDeleteDialog /> */}
+      <ConfirmDeleteDialog
+        handleCloseDialog={handleCloseDialog}
+        openDialog={openDialog}
+        handleConfirmRemove={handleConfirmRemove}
+      />
       <Box
         sx={{
           position: "relative",
@@ -64,7 +97,7 @@ export const FavPost = ({
             width: "25px",
             zIndex: 1,
           }}
-          onClick={handleRemoveFromFavorites}
+          onClick={handleOpenDialog}
         >
           <CloseIcon />
         </IconButton>
@@ -175,5 +208,39 @@ export const FavPost = ({
         </Link>
       </Box>
     </>
+  );
+};
+
+export const ConfirmDeleteDialog = (props) => {
+  return (
+    <Dialog
+      open={props.openDialog}
+      onClose={props.handleCloseDialog}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+      sx={{
+        "& .MuiDialog-paper": {
+          width: "30%",
+          maxWidth: "unset",
+          minWidth: "200px", // ここにminWidthを追加
+        },
+      }}
+    >
+      <DialogTitle sx={{ lineHeight: "20px", textAlign: "center" }}>
+        Are you sure you want to remove this post from favorites?
+      </DialogTitle>
+      <Box sx={{ display: "flex" }}>
+        <Button
+          onClick={props.handleCloseDialog}
+          sx={{ flexGrow: 1, color: "#9b3636" }}
+        >
+          <ListItemText primary={"NO"} />
+        </Button>
+
+        <Button onClick={props.handleConfirmRemove} sx={{ flexGrow: 1 }}>
+          <ListItemText primary={"YES"} />
+        </Button>
+      </Box>
+    </Dialog>
   );
 };
