@@ -23,7 +23,7 @@ import { Link } from "react-router-dom";
 import { LoginIcon } from "./LoginIcon";
 import { removeFromFavorites } from "./Functions/Favorites";
 
-export const AuthorPage = ({
+export const DisplayAuthorPage = ({
   _id = "1",
   title = "No title",
   cover = "No cover",
@@ -85,6 +85,7 @@ export const AuthorPage = ({
         openDialog={openDialog}
         handleConfirmRemove={handleConfirmRemove}
       />
+
       <Collapse in={showPost}>
         <Box
           sx={{

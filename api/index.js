@@ -143,6 +143,7 @@ app.post("/login", async (req, res) => {
       userIcon: userInfo.userIcon,
       following: userInfo.following,
       bio: userInfo.bio,
+      createdAt: userInfo.createdAt || new Date("2023-07-31").toISOString(),
     });
   } catch (error) {
     console.error("Error during login:", error.message);

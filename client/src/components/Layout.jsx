@@ -27,7 +27,7 @@ const Layout = () => {
   };
 
   const { setUserInfo, userInfo } = useContext(UserContext);
-  const [userInfoString, setUserInfoString] = useState(null);
+  // const [userInfoString, setUserInfoString] = useState(null);
 
   const [userData, setUserData] = useState({
     firstName: null,

@@ -51,7 +51,7 @@ function App() {
   const CreatePost = lazy(() => import("./components/Pages/CreatePost"));
   const PostPage = lazy(() => import("./components/Pages/PostPage"));
   const FavoritePage = lazy(() => import("./components/Pages/FavoritePage"));
-  const YourPosts = lazy(() => import("./components/Pages/AuthorPage"));
+  const AuthorPage = lazy(() => import("./components/Pages/AuthorPage"));
   const EditPost = lazy(() => import("./components/Pages/EditPost"));
   const ForgotPassword = lazy(() =>
     import("./components/Pages/ForgotPassword")
@@ -75,8 +75,8 @@ function App() {
               <Route path="/post/:id" element={<PostPage />} />
               <Route path="/edit/:id" element={<EditPost />} />
               <Route path="/favorites" element={<FavoritePage />} />
-              <Route path="/yourposts" element={<YourPosts />} />
-              <Route path="/account" element={<YourPosts />} />
+              {/* <Route path="/yourposts" element={<YourPosts />} /> */}
+              <Route path="/account" element={<AuthorPage />} />
               <Route path="/profile" element={<AccountPage />} />
               <Route path="/security" element={<ChangePassword />} />
               <Route path="/change-email" element={<ChangeEmail />} />
