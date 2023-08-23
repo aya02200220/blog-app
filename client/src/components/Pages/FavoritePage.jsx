@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
-import { FavPost } from "./FavPost";
+import { FavPost } from "../FavPost";
 import { Container } from "@mui/material";
 import { FetchUser } from "../Functions/FetchUser";
 

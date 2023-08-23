@@ -110,6 +110,7 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
     if (
       currentPath === "/account" ||
       currentPath === "/security" ||
+      currentPath === "/profile" ||
       currentPath === "/change-email"
     ) {
       setShowSecurity(true);
@@ -239,7 +240,17 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
                   </ListItemIcon>
                   <ListItemText primary="Account" />
                 </ListItemButton>
+
                 <Collapse in={showSecurity} timeout="auto" unmountOnExit>
+                  <ListItemButton to="/profile">
+                    <ListItemIcon>
+                      <PersonOutlineIcon
+                        sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
+                      />
+                    </ListItemIcon>
+                    <ListItemText primary="Profile" />
+                  </ListItemButton>
+
                   <ListItemButton
                     to="/security"
                     sx={{ backgroundColor: "#DA8DEA" }}
