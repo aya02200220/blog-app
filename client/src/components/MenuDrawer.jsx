@@ -89,7 +89,7 @@ const ListItemButton = (props) => {
       }}
     >
       {children}
-      {to === location.pathname}
+      {/* {to === location.pathname} */}
     </MuiListItemButton>
   );
 };
@@ -106,7 +106,6 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
   const userName = userData?.userName;
 
   useEffect(() => {
-    console.log("showSecurity", showSecurity);
     if (
       currentPath === "/account" ||
       currentPath === "/security" ||

@@ -36,7 +36,7 @@ const Layout = () => {
     userIcon: null,
   });
 
-  console.log("Layout:", userData.userName);
+  // console.log("Layout:", userData.userName);
 
   useEffect(() => {
     const userInfoString = localStorage.getItem("userInfo");
@@ -62,7 +62,7 @@ const Layout = () => {
     }
   }, [userInfo]);
 
-  console.log("userData.userName:", userData.userName);
+  // console.log("userData.userName:", userData.userName);
 
   useEffect(() => {
     if (userData.userName) {

@@ -35,7 +35,7 @@ const IndexPage = () => {
 
   useEffect(() => {
     const userInfoString = GetLocalStorage();
-    console.log("userInfoString:", userInfoString);
+    // console.log("userInfoString:", userInfoString);
     if (userInfoString) {
       // const userInfoObj = JSON.parse(userInfoString);
       // setUserInfo(userInfoObj);
@@ -51,7 +51,7 @@ const IndexPage = () => {
       try {
         const userInfo = GetLocalStorage();
         if (userInfo) {
-          console.log("userInfo:", userInfo);
+          // console.log("userInfo:", userInfo);
           setUserName(userInfo.email);
           setUserId(userInfo.id);
 

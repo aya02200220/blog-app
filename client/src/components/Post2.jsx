@@ -81,7 +81,72 @@ export const Post = React.memo(function PostCard({
 
   return (
     <>
-      <Box>
+      <Box sx={{ position: "relative" }}>
+        {/* /////////// Author info /////////////// */}
+        <Box
+          sx={{
+            display: "flex",
+            gap: "10px",
+            color: "#8f8f8f",
+            mb: 1,
+            justifyContent: { xs: "center", sm: "inherit" },
+            position: "absolute",
+            top: 12,
+            left: 10,
+            zIndex: 1,
+          }}
+        >
+          <Link to={`/account`}>
+            <IconButton
+              size="large"
+              edge="end"
+              color="4e575f"
+              sx={{
+                p: 0,
+                borderRadius: "50px 5px 5px 50px",
+                m: 0,
+                pr: 2,
+                backgroundColor: alpha("#fff", 0.4),
+              }}
+            >
+              <LoginIcon
+                firstLetter={author?.firstName.charAt(0)}
+                lastLetter={author?.lastName.charAt(0)}
+                userIcon={authorProfile?.user.userIcon}
+                sx={{ padding: 0 }}
+              />
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  ml: 1.5,
+                  justifyContent: "left",
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontSize: "16px",
+                    fontWeight: "600",
+                    lineHeight: "16px",
+                  }}
+                >
+                  {author?.firstName} {author?.lastName}
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: "14px",
+                    fontWeight: "400",
+                    textAlign: "left",
+                    lineHeight: "15px",
+                    pt: "3px",
+                  }}
+                >
+                  {createdAt && formatDate(createdAt)}
+                </Typography>
+              </Box>
+            </IconButton>
+          </Link>
+        </Box>
         <Link to={`/post/${_id}`}>
           <Box
             sx={{
@@ -112,69 +177,7 @@ export const Post = React.memo(function PostCard({
               }}
             >
               {/* ///////////////////////////// カード左半分コンテンツ */}
-              {/* /////////// Author info /////////////// */}
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: "10px",
-                  color: "#8f8f8f",
-                  mb: 1,
-                  justifyContent: { xs: "center", sm: "inherit" },
-                  position: "absolute",
-                  top: 12,
-                  left: 10,
-                }}
-              >
-                <Link to={`/account`}>
-                  <IconButton
-                    size="large"
-                    edge="end"
-                    color="4e575f"
-                    sx={{
-                      p: 0,
-                      borderRadius: "50px 5px 5px 50px",
-                      m: 0,
-                      pr: 2,
-                      backgroundColor: alpha("#fff", 0.4),
-                    }}
-                  >
-                    <LoginIcon
-                      firstLetter={author?.firstName.charAt(0)}
-                      lastLetter={author?.lastName.charAt(0)}
-                      userIcon={authorProfile?.user.userIcon}
-                      sx={{ padding: 0 }}
-                    />
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        ml: 1.5,
-                        justifyContent: "left",
-                      }}
-                    >
-                      <Typography
-                        sx={{
-                          fontSize: "16px",
-                          fontWeight: "600",
-                          lineHeight: "16px",
-                        }}
-                      >
-                        {author?.firstName} {author?.lastName}
-                      </Typography>
-                      <Typography
-                        sx={{
-                          fontSize: "14px",
-                          fontWeight: "400",
-                          textAlign: "left",
-                          lineHeight: "15px",
-                        }}
-                      >
-                        {createdAt && formatDate(createdAt)}
-                      </Typography>
-                    </Box>
-                  </IconButton>
-                </Link>
-              </Box>
+
               <Box
                 sx={{
                   width: { xs: "100%", sm: "100%", md: "52%" },
