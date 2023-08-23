@@ -12,6 +12,7 @@ const FavoritePage = () => {
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
   const [userProfiles, setUserProfiles] = useState({});
+  const [favoritesUpdated, setFavoritesUpdated] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -28,7 +29,7 @@ const FavoritePage = () => {
         console.error("Error fetching favorites:", error);
         setLoading(false);
       });
-  }, []);
+  }, [favoritesUpdated]);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -52,67 +53,76 @@ const FavoritePage = () => {
 
     fetchUser();
   }, [favorites]);
-
   return (
     <>
-      <Box sx={{ display: "flex" }}>
+      <Box sx={{ display: "flex", flexDirection: "column" }}>
         <Typography
           sx={{
             ml: 5,
             color: "#4e575f",
             fontWeight: "500",
-            position: "absolute",
+            marginTop: 0,
+            fontSize: "25px",
+            lineHeight: "20px",
+            textTransform: "uppercase",
           }}
         >
-          Reading List
+          Reading List ({favorites.length})
         </Typography>
-      </Box>
-      <Container
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        {loading ? (
-          <Box sx={{ mt: "150px", display: "flex", justifyContent: "center" }}>
-            <CircularProgress />
-            <Typography sx={{ ml: "20px", fontSize: "20px" }}>
-              Loading....
-            </Typography>
-          </Box>
-        ) : (
-          <Box
-            sx={{
-              // border: "solid 1px #111",
-              marginTop: 5,
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              maxWidth: "700px",
-            }}
-          >
-            {favorites.length > 0 ? (
-              favorites.map((post) => {
-                // ここでユーザーのIDを使ってプロフィールデータを取得
-                const authorProfile = userProfiles[post.author._id];
-                return (
-                  <FavPost
-                    key={post._id}
-                    {...post}
-                    authorProfile={authorProfile}
-                  />
-                );
-              })
-            ) : (
-              <Typography variant="body1" sx={{ mt: 4, ml: 4 }}>
-                No Reading Lists found.
+
+        <Container
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            mt: 2,
+          }}
+        >
+          {loading ? (
+            <Box
+              sx={{ mt: "150px", display: "flex", justifyContent: "center" }}
+            >
+              <CircularProgress />
+              <Typography sx={{ ml: "20px", fontSize: "20px" }}>
+                Loading....
               </Typography>
-            )}
-          </Box>
-        )}
-      </Container>
+            </Box>
+          ) : (
+            <Box
+              sx={{
+                marginTop: 0,
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                maxWidth: "700px",
+                width: "100%",
+                // overflowY: "auto",
+              }}
+            >
+              {favorites.length > 0 ? (
+                favorites.map((post) => {
+                  const authorProfile = userProfiles[post.author._id];
+                  return (
+                    <FavPost
+                      key={post._id}
+                      {...post}
+                      authorProfile={authorProfile}
+                      onFavoriteRemoved={() =>
+                        setFavoritesUpdated(!favoritesUpdated)
+                      }
+                    />
+                  );
+                })
+              ) : (
+                <Typography variant="body1" sx={{ mt: 4, ml: 4 }}>
+                  No Reading Lists found.
+                </Typography>
+              )}
+            </Box>
+          )}
+        </Container>
+      </Box>
     </>
   );
 };
