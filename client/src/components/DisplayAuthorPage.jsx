@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Button,
   Box,
@@ -17,13 +17,14 @@ import {
 import { alpha } from "@mui/material/styles";
 import CloseIcon from "@mui/icons-material/Close";
 import Collapse from "@mui/material/Collapse";
+import NewReleasesIcon from "@mui/icons-material/NewReleases";
 
 import { format, differenceInDays, formatDistanceToNow } from "date-fns";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { LoginIcon } from "./LoginIcon";
-import { removeFromFavorites } from "./Functions/Favorites";
+import { deletePost } from "./Functions/HandlePost";
 
-export const AuthorPage = ({
+export const DisplayAuthorPage = ({
   _id = "1",
   title = "No title",
   cover = "No cover",
@@ -32,7 +33,13 @@ export const AuthorPage = ({
   author = "No author",
   authorProfile,
   onRemovePost,
+  loginUserId,
 }) => {
+  const location = useLocation();
+  const currentPage = location.pathname.split("/").pop();
+
+  // console.log("loginUserId:", loginUserId);
+
   // Create at date format ////////////////////////////////////
   const formatDate = (createdAt) => {
     const currentDate = new Date();
@@ -70,7 +77,7 @@ export const AuthorPage = ({
 
   const handleRemoveFromFavorites = async () => {
     try {
-      await removeFromFavorites(_id);
+      await deletePost(_id);
       onRemovePost(_id);
     } catch (error) {
       console.error("Error removing favorite:", error);
@@ -85,29 +92,32 @@ export const AuthorPage = ({
         openDialog={openDialog}
         handleConfirmRemove={handleConfirmRemove}
       />
+
       <Collapse in={showPost}>
         <Box
           sx={{
             position: "relative",
           }}
         >
-          <IconButton
-            // size="small"
-            sx={{
-              position: "absolute",
-              right: 3,
-              top: 5,
-              color: "#c9c9c9",
-              backgroundColor: alpha("#fff", 0.3),
-              height: "25px",
-              width: "25px",
-              zIndex: 1,
-            }}
-            onClick={handleOpenDialog}
-          >
-            <CloseIcon />
-          </IconButton>
-          <Link to={`/post/${_id}`} state={"/favorites"}>
+          {loginUserId && loginUserId === author._id && (
+            <IconButton
+              // size="small"
+              sx={{
+                position: "absolute",
+                right: 3,
+                top: 5,
+                color: "#c9c9c9",
+                backgroundColor: alpha("#fff", 0.3),
+                height: "25px",
+                width: "25px",
+                zIndex: 1,
+              }}
+              onClick={handleOpenDialog}
+            >
+              <CloseIcon />
+            </IconButton>
+          )}
+          <Link to={`/post/${_id}`} state={`/${currentPage}`}>
             <Box
               sx={{
                 maxWidth: "100%",
@@ -132,56 +142,72 @@ export const AuthorPage = ({
                 src={"http://localhost:4000/" + cover}
               ></Box>
               <Box sx={{ display: "flex", flexDirection: "column" }}>
-                <Link to={`/viewall`}>
-                  <IconButton
-                    size="large"
-                    edge="end"
-                    color="4e575f"
-                    sx={{
-                      p: 0,
-                      ml: 2,
-                      mt: 1,
-                      pr: 2,
-                      borderRadius: "50px 5px 5px 50px",
-                      backgroundColor: alpha("#fff", 0.4),
-                    }}
-                  >
-                    <LoginIcon
-                      firstLetter={author?.firstName.charAt(0)}
-                      lastLetter={author?.lastName.charAt(0)}
-                      userIcon={authorProfile?.user.userIcon}
-                      sx={{ padding: 0 }}
-                    />
-                    <Box
+                {loginUserId && loginUserId !== author._id && (
+                  <Link to={`/viewall`}>
+                    <IconButton
+                      size="large"
+                      edge="end"
+                      color="4e575f"
                       sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        ml: 1.5,
-                        justifyContent: "left",
+                        p: 0,
+                        ml: 2,
+                        mt: 1,
+                        pr: 2,
+                        borderRadius: "50px 5px 5px 50px",
+                        backgroundColor: alpha("#fff", 0.4),
                       }}
                     >
-                      <Typography
+                      <LoginIcon
+                        firstLetter={author?.firstName.charAt(0)}
+                        lastLetter={author?.lastName.charAt(0)}
+                        userIcon={authorProfile?.user.userIcon}
+                        sx={{ padding: 0 }}
+                      />
+                      <Box
                         sx={{
-                          fontSize: "16px",
-                          fontWeight: "600",
-                          lineHeight: "16px",
+                          display: "flex",
+                          flexDirection: "column",
+                          ml: 1.5,
+                          justifyContent: "left",
                         }}
                       >
-                        {author?.firstName} {author?.lastName}
-                      </Typography>
-                      <Typography
-                        sx={{
-                          fontSize: "14px",
-                          fontWeight: "400",
-                          textAlign: "left",
-                          lineHeight: "15px",
-                        }}
-                      >
-                        {createdAt && formatDate(createdAt)}
-                      </Typography>
-                    </Box>
-                  </IconButton>
-                </Link>
+                        <Typography
+                          sx={{
+                            fontSize: "16px",
+                            fontWeight: "600",
+                            lineHeight: "16px",
+                          }}
+                        >
+                          {author?.firstName} {author?.lastName}
+                        </Typography>
+                        <Typography
+                          sx={{
+                            fontSize: "14px",
+                            fontWeight: "400",
+                            textAlign: "left",
+                            lineHeight: "15px",
+                          }}
+                        >
+                          {createdAt && formatDate(createdAt)}
+                        </Typography>
+                      </Box>
+                    </IconButton>
+                  </Link>
+                )}
+
+                {loginUserId && loginUserId === author._id && (
+                  <Typography
+                    sx={{
+                      m: 2,
+                      fontSize: { xs: "14px", sm: "17px" },
+                      fontWeight: "400",
+                      textAlign: "left",
+                      lineHeight: "15px",
+                    }}
+                  >
+                    Posted on {createdAt && formatDate(createdAt)}
+                  </Typography>
+                )}
 
                 <Box
                   sx={{
@@ -189,7 +215,7 @@ export const AuthorPage = ({
                     // border: "solid 1px black",
                     width: "100%",
                     p: 2,
-                    pt: 1,
+                    pt: loginUserId && loginUserId === author._id ? 0 : 1,
                   }}
                 >
                   <Typography
@@ -200,6 +226,7 @@ export const AuthorPage = ({
                       lineHeight: { xs: "16px", sm: "20px" },
                       minHeight: { xs: "34px", sm: "41px" },
                       wordBreak: "break-word",
+                      width: "95%",
 
                       display: "-webkit-box",
                       WebkitBoxOrient: "vertical",
@@ -220,6 +247,8 @@ export const AuthorPage = ({
 };
 
 export const ConfirmDeleteDialog = (props) => {
+  const location = useLocation();
+  const currentPage = location.pathname.split("/").pop();
   return (
     <Dialog
       open={props.openDialog}
@@ -234,8 +263,25 @@ export const ConfirmDeleteDialog = (props) => {
         },
       }}
     >
-      <DialogTitle sx={{ lineHeight: "20px", textAlign: "center" }}>
-        Are you sure you want to remove this post from favorites?
+      <DialogTitle sx={{ textAlign: "center" }}>
+        {currentPage !== "account" ? (
+          <Typography sx={{ fontSize: "20px", lineHeight: "21px" }}>
+            Are you sure you want to remove this post from favorites?
+          </Typography>
+        ) : (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <NewReleasesIcon sx={{ fontSize: "40px", color: "#a31919" }} />
+            <Typography sx={{ fontSize: "20px", lineHeight: "21px", ml: 1 }}>
+              Are you sure you want to delete this post?
+            </Typography>
+          </Box>
+        )}
       </DialogTitle>
       <Box sx={{ display: "flex" }}>
         <Button

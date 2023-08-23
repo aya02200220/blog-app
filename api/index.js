@@ -64,8 +64,8 @@ mongoose
 // const passwordRoutes = require("./routes/password");
 // app.use(passwordRoutes);
 
-// const postsRoutes = require("./routes/posts");
-// app.use(postsRoutes);
+const postsRoutes = require("./routes/posts");
+app.use(postsRoutes);
 //////////////////////////////////////////////////////
 
 app.post("/register", async (req, res) => {
@@ -143,6 +143,7 @@ app.post("/login", async (req, res) => {
       userIcon: userInfo.userIcon,
       following: userInfo.following,
       bio: userInfo.bio,
+      createdAt: userInfo.createdAt || new Date("2023-07-31").toISOString(),
     });
   } catch (error) {
     console.error("Error during login:", error.message);

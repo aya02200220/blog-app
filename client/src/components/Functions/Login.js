@@ -16,6 +16,7 @@ export const login = async (email, password) => {
     );
     if (response.status === 200) {
       const userInfo = response.data;
+
       clearLocalStorage();
       saveToLocalStorage({ userInfo });
       toast.success("You are logged in!", {

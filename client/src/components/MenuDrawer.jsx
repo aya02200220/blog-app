@@ -223,12 +223,12 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
               <ListItemText primary="Reading list" />
             </ListItemButton>
 
-            <ListItemButton to="/yourposts">
+            {/* <ListItemButton to="/yourposts">
               <ListItemIcon>
                 <ArticleIcon sx={{ color: "#fff", pl: 1, fontSize: "31px" }} />
               </ListItemIcon>
               <ListItemText primary="Your Posts" />
-            </ListItemButton>
+            </ListItemButton> */}
 
             {userName && (
               <>

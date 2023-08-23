@@ -1,14 +1,20 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../UserContext";
-import Box from "@mui/material/Box";
-import { CircularProgress, Container } from "@mui/material";
+import { CircularProgress, Container, Box } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import { AuthorPage } from "../AuthorPage";
+import { DisplayAuthorPage } from "../DisplayAuthorPage";
+import { AuthorPageTop } from "../AuthorPageTop";
+import { GetLocalStorage } from "../Functions/LocalStorage";
 
-const YourPosts = () => {
+const AuthorPage = () => {
   const { userInfo } = useContext(UserContext);
   const [userPosts, setUserPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const [userId, setUserId] = useState(() => {
+    const localUserInfo = GetLocalStorage();
+    return localUserInfo ? localUserInfo._id : null;
+  });
 
   useEffect(() => {
     setLoading(true);
@@ -34,6 +40,7 @@ const YourPosts = () => {
   return (
     <>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
+        <AuthorPageTop />
         <Typography
           sx={{
             ml: 5,
@@ -54,7 +61,7 @@ const YourPosts = () => {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            mt: 2,
+            mt: 5,
           }}
         >
           {loading ? (
@@ -86,7 +93,13 @@ const YourPosts = () => {
             >
               {userPosts.length > 0 ? (
                 userPosts.map((post) => {
-                  return <AuthorPage key={post._id} {...post} />;
+                  return (
+                    <DisplayAuthorPage
+                      key={post._id}
+                      {...post}
+                      loginUserId={userId}
+                    />
+                  );
                 })
               ) : (
                 <Typography variant="body1" sx={{ mt: 4, ml: 4 }}>
@@ -101,4 +114,4 @@ const YourPosts = () => {
   );
 };
 
-export default YourPosts;
+export default AuthorPage;
