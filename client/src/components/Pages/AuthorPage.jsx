@@ -4,11 +4,17 @@ import { CircularProgress, Container, Box } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { DisplayAuthorPage } from "../DisplayAuthorPage";
 import { AuthorPageTop } from "../AuthorPageTop";
+import { GetLocalStorage } from "../Functions/LocalStorage";
 
 const AuthorPage = () => {
   const { userInfo } = useContext(UserContext);
   const [userPosts, setUserPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const [userId, setUserId] = useState(() => {
+    const localUserInfo = GetLocalStorage();
+    return localUserInfo ? localUserInfo._id : null;
+  });
 
   useEffect(() => {
     setLoading(true);
@@ -87,7 +93,13 @@ const AuthorPage = () => {
             >
               {userPosts.length > 0 ? (
                 userPosts.map((post) => {
-                  return <DisplayAuthorPage key={post._id} {...post} />;
+                  return (
+                    <DisplayAuthorPage
+                      key={post._id}
+                      {...post}
+                      loginUserId={userId}
+                    />
+                  );
                 })
               ) : (
                 <Typography variant="body1" sx={{ mt: 4, ml: 4 }}>

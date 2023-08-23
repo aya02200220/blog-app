@@ -64,8 +64,8 @@ mongoose
 // const passwordRoutes = require("./routes/password");
 // app.use(passwordRoutes);
 
-// const postsRoutes = require("./routes/posts");
-// app.use(postsRoutes);
+const postsRoutes = require("./routes/posts");
+app.use(postsRoutes);
 //////////////////////////////////////////////////////
 
 app.post("/register", async (req, res) => {

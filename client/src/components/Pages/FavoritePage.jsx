@@ -51,12 +51,12 @@ const FavoritePage = () => {
     fetchUser();
   }, [favorites]);
 
-  const removePostFromFavorites = (postId) => {
-    console.log("確認");
-    setFavorites((prevFavorites) =>
-      prevFavorites.filter((post) => post._id !== postId)
-    );
-  };
+  // const removePostFromFavorites = (postId) => {
+  //   console.log("確認");
+  //   setFavorites((prevFavorites) =>
+  //     prevFavorites.filter((post) => post._id !== postId)
+  //   );
+  // };
 
   return (
     <>
@@ -113,7 +113,7 @@ const FavoritePage = () => {
                       key={post._id}
                       {...post}
                       authorProfile={authorProfile}
-                      onRemovePost={removePostFromFavorites}
+                      // onRemovePost={removePostFromFavorites}
                     />
                   );
                 })

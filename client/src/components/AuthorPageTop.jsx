@@ -20,7 +20,7 @@ export const AuthorPageTop = () => {
       setFirstName(userInfo.firstName);
       setLastName(userInfo.lastName);
       setUserIcon(userInfo.userIcon);
-      setUserId(userInfo.id);
+      setUserId(userInfo._id);
       setUserBio(userInfo.bio);
       setCreatedAt(userInfo.createdAt);
     }
@@ -83,7 +83,7 @@ export const AuthorPageTop = () => {
       >
         <Box
           sx={{
-            mt: 8,
+            mt: { xs: 10, sm: 9 },
             display: "flex",
             flexDirection: "column",
             // justifyContent: "center",
@@ -91,14 +91,18 @@ export const AuthorPageTop = () => {
           }}
         >
           <Typography
-            sx={{ fontSize: "30px", fontWeight: "600", color: "#333" }}
+            sx={{
+              fontSize: { xs: "25px", sm: "30px" },
+              fontWeight: "600",
+              color: "#333",
+            }}
           >
             {firstName} {lastName}
           </Typography>
           <Typography
             sx={{
               mt: 1,
-              fontSize: "17px",
+              fontSize: { xs: "15px", sm: "17px" },
               lineHeight: "20px",
               fontWeight: "300",
               color: "#545454",
@@ -133,7 +137,7 @@ export const AuthorPageTop = () => {
           >
             {" "}
             <CakeIcon />
-            <Typography sx={{ ml: 1 }}>
+            <Typography sx={{ ml: 1, fontSize: { xs: "14px", sm: "inherit" } }}>
               Joined on{" "}
               {format(new Date(createdAt || "2023-02-20"), "MMM d, yyyy")}
             </Typography>
