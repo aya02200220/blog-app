@@ -20,8 +20,8 @@ import Collapse from "@mui/material/Collapse";
 
 import { format, differenceInDays, formatDistanceToNow } from "date-fns";
 import { Link } from "react-router-dom";
-import { LoginIcon } from "../LoginIcon";
-import { removeFromFavorites } from "../Functions/Favorites";
+import { LoginIcon } from "./LoginIcon";
+import { removeFromFavorites } from "./Functions/Favorites";
 
 export const FavPost = ({
   _id = "1",
@@ -112,6 +112,7 @@ export const FavPost = ({
               sx={{
                 maxWidth: "100%",
                 height: { xs: "290px", sm: "400px", md: "110px" },
+                minHeight: { xs: "290px", sm: "400px", md: "110px" },
                 display: "flex",
                 flexDirection: { xs: "column", md: "row" },
                 backgroundColor: "#fff",
