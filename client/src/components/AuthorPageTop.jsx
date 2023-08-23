@@ -45,7 +45,8 @@ export const AuthorPageTop = ({ accountId }) => {
       <Container
         sx={{
           // border: "solid 1px black",
-          width: "100%",
+          width: "790px",
+          maxWidth: "790px",
           height: "220px",
           display: "flex",
           justifyContent: "center",
@@ -79,7 +80,9 @@ export const AuthorPageTop = ({ accountId }) => {
       <Box
         sx={{
           border: "solid 1px #e0e0e0",
-          width: "90%",
+          // width: "60%",
+          minWidth: "700px",
+          maxWidth: "700px",
           height: "250px",
           display: "flex",
           backgroundColor: "#fff",
@@ -96,6 +99,7 @@ export const AuthorPageTop = ({ accountId }) => {
             flexDirection: "column",
             // justifyContent: "center",
             alignItems: "center",
+            width: "700px",
           }}
         >
           <Typography

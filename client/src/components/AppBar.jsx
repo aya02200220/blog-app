@@ -40,10 +40,13 @@ export const AppBar = (props, { userData }) => {
   const open = props.open;
   const toggleDrawer = props.toggleDrawer;
 
+  console.log("userData toggle:", props.userData);
+
   const firstName = props.userData?.firstName;
   const lastName = props.userData?.lastName;
   const userName = props.userData?.userName;
   const userIcon = props.userData?.userIcon;
+  const userId = props.userData?.userId;
 
   return (
     <MyAppBar position="absolute" open={open}>
@@ -97,7 +100,7 @@ export const AppBar = (props, { userData }) => {
             aria-haspopup="true"
             color="4e575f"
           >
-            <Link to={`/account`}>
+            <Link to={`/post/account/${userId}`}>
               <LoginIcon
                 firstLetter={firstName.charAt(0)}
                 lastLetter={lastName.charAt(0)}
