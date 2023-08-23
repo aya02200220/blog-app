@@ -41,7 +41,7 @@ const Comment = ({ postInfo, onCommentAdded }) => {
       // setStorageFirstName(userInfo.firstName);
       // setStorageLastName(userInfo.lastName);
       setStorageIcon(userInfo.userIcon);
-      setStorageID(userInfo.id);
+      setStorageID(userInfo._id);
     }
   }, []);
 

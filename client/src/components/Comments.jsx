@@ -45,6 +45,8 @@ export const Comments = ({
     ? format(new Date(createdAt), "MMM d , yyyy")
     : "";
 
+  console.log(authorId, storageID);
+
   const isAuthor = authorId === storageID;
 
   const handleEdit = () => {
@@ -74,31 +76,6 @@ export const Comments = ({
     }
   };
 
-  // const handleDelete = async () => {
-  //   try {
-  //     const response = await fetch(
-  //       `http://localhost:4000/posts/${postId}/comments/${commentId}`,
-  //       {
-  //         method: "DELETE",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         credentials: "include",
-  //       }
-  //     );
-
-  //     if (response.ok) {
-  //       const data = await response.json();
-  //       console.log(data.message);
-  //       fetchComments();
-  //     } else {
-  //       console.error(`Failed to delete the comment: ${response.status}`);
-  //     }
-  //   } catch (error) {
-  //     console.error("Failed to delete the comment:", error);
-  //   }
-  // };
-
   return (
     <>
       <Box
@@ -122,8 +99,8 @@ export const Comments = ({
             sx={{
               p: "8px 15px",
               borderRadius: "4px",
-              backgroundColor: isAuthor ? "#faf1bf" : "#c9e9ff",
-              border: isAuthor ? "solid 3px #c4bd98" : "solid 3px #c0dbed",
+              backgroundColor: isAuthor ? "#faf4f9" : "#fff",
+              border: isAuthor ? "solid 1px #f1dfec" : "solid 0.8px #c0dbed",
             }}
           >
             <Box
@@ -194,7 +171,7 @@ export const Comments = ({
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && !e.shiftKey) {
                     handleSave();
-                    e.preventDefault(); // Prevents the addition of a new line in the input on pressing Enter
+                    e.preventDefault();
                   }
                 }}
               />
