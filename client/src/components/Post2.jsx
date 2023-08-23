@@ -38,6 +38,7 @@ export const Post = React.memo(function PostCard({
       setUserId(userInfo.id);
     }
   }, []);
+
   // const { setUserInfo, userInfo } = useContext(UserContext);
 
   // 文字列として表現されるHTMLをDOMツリーに変換 //////////////////////////////
@@ -96,7 +97,7 @@ export const Post = React.memo(function PostCard({
             zIndex: 1,
           }}
         >
-          <Link to={`/account`}>
+          <Link to={`/post/account/${author?._id}`}>
             <IconButton
               size="large"
               edge="end"

@@ -3,10 +3,10 @@ import { format } from "date-fns";
 
 import { LoginIcon } from "./LoginIcon";
 import { Box, Container, Typography } from "@mui/material";
-import { GetLocalStorage } from "./Functions/LocalStorage";
+import { FetchUser } from "./Functions/FetchUser";
 import CakeIcon from "@mui/icons-material/Cake";
 
-export const AuthorPageTop = () => {
+export const AuthorPageTop = ({ accountId }) => {
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
   const [userIcon, setUserIcon] = useState(null);
@@ -15,16 +15,24 @@ export const AuthorPageTop = () => {
   const [createdAt, setCreatedAt] = useState(null);
 
   useEffect(() => {
-    const userInfo = GetLocalStorage();
-    if (userInfo) {
-      setFirstName(userInfo.firstName);
-      setLastName(userInfo.lastName);
-      setUserIcon(userInfo.userIcon);
-      setUserId(userInfo._id);
-      setUserBio(userInfo.bio);
-      setCreatedAt(userInfo.createdAt);
-    }
-  }, []);
+    const fetchUserData = async () => {
+      try {
+        const userInfo = await FetchUser(accountId);
+        if (userInfo) {
+          setFirstName(userInfo.user.firstName);
+          setLastName(userInfo.user.lastName);
+          setUserIcon(userInfo.user.userIcon);
+          setUserId(userInfo.user._id);
+          setUserBio(userInfo.user.bio || "This user hasn't added a bio yet");
+          setCreatedAt(userInfo.user.createdAt);
+        }
+      } catch (error) {
+        console.error("Failed to fetch user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, [accountId]);
 
   return (
     <Box
@@ -102,14 +110,17 @@ export const AuthorPageTop = () => {
           <Typography
             sx={{
               mt: 1,
+              ml: 2,
+              mr: 2,
+              textAlign: "center",
               fontSize: { xs: "15px", sm: "17px" },
               lineHeight: "20px",
               fontWeight: "300",
               color: "#545454",
-              maxWidth: "70%",
+              maxWidth: "480px",
               wordBreak: "break-word",
-              maxHeight: "80px",
-              minHeight: "80px",
+              maxHeight: "75px",
+              minHeight: "75px",
               overflow: "hidden",
               overflowY: "auto",
               "&::-webkit-scrollbar": {
@@ -137,7 +148,7 @@ export const AuthorPageTop = () => {
           >
             {" "}
             <CakeIcon />
-            <Typography sx={{ ml: 1, fontSize: { xs: "14px", sm: "inherit" } }}>
+            <Typography sx={{ ml: 1, fontSize: { xs: "14px", sm: "16px" } }}>
               Joined on{" "}
               {format(new Date(createdAt || "2023-02-20"), "MMM d, yyyy")}
             </Typography>

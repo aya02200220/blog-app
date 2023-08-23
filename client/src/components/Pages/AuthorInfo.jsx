@@ -3,6 +3,7 @@ import { UserContext } from "../UserContext";
 import { Favorite } from "../Functions/Favorite";
 import { fetchFavorites } from "../Functions/Favorites";
 
+import { toast } from "react-toastify";
 import { Box, Avatar, Typography, IconButton, Skeleton } from "@mui/material";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import FileDownloadDoneIcon from "@mui/icons-material/FileDownloadDone";
@@ -58,6 +59,18 @@ export const AuthorInfo = ({
     };
   }
 
+  const displayMsg = () => {
+    toast.info("Following feature is coming soon :)", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      // theme: "dark",
+    });
+  };
   // ポスト投稿者の情報を取得---------------------------------------
   const fetchAuthorInfo = async () => {
     // console.log("AuthorInfo------ポスト投稿者の情報を取得");
@@ -165,7 +178,7 @@ export const AuthorInfo = ({
               alignItems: "center",
             }}
           >
-            <Link to={`/`}>
+            <Link to={`/post/account/${postInfo.author._id}`}>
               {firstName && lastName && userIcon ? (
                 <Avatar
                   {...stringAvatar(`${firstName} ${lastName}`)}
@@ -195,7 +208,7 @@ export const AuthorInfo = ({
               color: "#757e9f",
             }}
           >
-            <Link to={`/`}>
+            <Link to={`/post/account/${postInfo.author._id}`}>
               <Box
                 sx={{
                   display: "flex",
@@ -236,7 +249,11 @@ export const AuthorInfo = ({
               </Typography>
             </Box>
 
-            <IconButton size="small" sx={{ mt: 1, borderRadius: 1.5 }}>
+            <IconButton
+              size="small"
+              sx={{ mt: 1, borderRadius: 1.5 }}
+              onClick={displayMsg}
+            >
               {!isFollowing ? (
                 <Box
                   sx={{

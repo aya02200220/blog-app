@@ -74,9 +74,9 @@ function App() {
               <Route path="/create" element={<CreatePost />} />
               <Route path="/post/:id" element={<PostPage />} />
               <Route path="/edit/:id" element={<EditPost />} />
-              <Route path="/favorites" element={<FavoritePage />} />
+              <Route path="/reading-list" element={<FavoritePage />} />
               {/* <Route path="/yourposts" element={<YourPosts />} /> */}
-              <Route path="/account" element={<AuthorPage />} />
+              <Route path="/post/account/:accountId" element={<AuthorPage />} />
               <Route path="/profile" element={<AccountPage />} />
               <Route path="/security" element={<ChangePassword />} />
               <Route path="/change-email" element={<ChangeEmail />} />

@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../UserContext";
+import { useParams } from "react-router-dom";
+
 import { CircularProgress, Container, Box } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { DisplayAuthorPage } from "../DisplayAuthorPage";
@@ -16,44 +18,44 @@ const AuthorPage = () => {
     return localUserInfo ? localUserInfo._id : null;
   });
 
+  const { accountId } = useParams();
+
   useEffect(() => {
     setLoading(true);
 
-    fetch("http://localhost:4000/posts", {
+    fetch(`http://localhost:4000/post/account/${accountId}`, {
       credentials: "include",
     })
       .then((res) => res.json())
       .then((posts) => {
-        // ログインしているユーザーの投稿を絞り込む
-        const userPosts = posts.filter(
-          (post) => post.author.email === userInfo.email
-        );
-        setUserPosts(userPosts);
+        setUserPosts(posts);
         setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching posts:", error);
         setLoading(false);
       });
-  }, [userInfo]);
+  }, [accountId]);
 
   return (
     <>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
-        <AuthorPageTop />
-        <Typography
-          sx={{
-            ml: 5,
-            color: "#4e575f",
-            fontWeight: "500",
-            marginTop: 0,
-            fontSize: "25px",
-            lineHeight: "20px",
-            textTransform: "uppercase",
-          }}
-        >
-          Your Post ({userPosts.length})
-        </Typography>
+        <AuthorPageTop accountId={accountId} />
+        <Box sx={{ mt: 8 }}>
+          <Typography
+            sx={{
+              ml: 5,
+              color: "#4e575f",
+              fontWeight: "500",
+              marginTop: 0,
+              fontSize: "25px",
+              lineHeight: "20px",
+              textTransform: "uppercase",
+            }}
+          >
+            View Posts ({userPosts.length})
+          </Typography>
+        </Box>
 
         <Container
           sx={{
@@ -61,7 +63,7 @@ const AuthorPage = () => {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            mt: 5,
+            mt: 1,
           }}
         >
           {loading ? (

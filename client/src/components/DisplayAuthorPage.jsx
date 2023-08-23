@@ -1,17 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Button,
   Box,
   Typography,
   IconButton,
   Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
   DialogTitle,
-  List,
-  ListItem,
-  ListItemButton,
   ListItemText,
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
@@ -142,7 +136,7 @@ export const DisplayAuthorPage = ({
                 src={"http://localhost:4000/" + cover}
               ></Box>
               <Box sx={{ display: "flex", flexDirection: "column" }}>
-                {loginUserId && loginUserId !== author._id && (
+                {/* {loginUserId && loginUserId !== author._id && (
                   <Link to={`/viewall`}>
                     <IconButton
                       size="large"
@@ -193,21 +187,19 @@ export const DisplayAuthorPage = ({
                       </Box>
                     </IconButton>
                   </Link>
-                )}
+                )} */}
 
-                {loginUserId && loginUserId === author._id && (
-                  <Typography
-                    sx={{
-                      m: 2,
-                      fontSize: { xs: "14px", sm: "17px" },
-                      fontWeight: "400",
-                      textAlign: "left",
-                      lineHeight: "15px",
-                    }}
-                  >
-                    Posted on {createdAt && formatDate(createdAt)}
-                  </Typography>
-                )}
+                <Typography
+                  sx={{
+                    m: 2,
+                    fontSize: { xs: "14px", sm: "17px" },
+                    fontWeight: "400",
+                    textAlign: "left",
+                    lineHeight: "15px",
+                  }}
+                >
+                  Posted on {createdAt && formatDate(createdAt)}
+                </Typography>
 
                 <Box
                   sx={{

@@ -104,6 +104,7 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
   const firstName = userData?.firstName;
   const lastName = userData?.lastName;
   const userName = userData?.userName;
+  const userId = userData?.userId;
 
   useEffect(() => {
     if (
@@ -204,18 +205,8 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
                 <ListItemText primary="Create Post" />
               </NavLink>
             </ListItemButton> */}
-            {userName && (
-              <ListItemButton to={"/create"}>
-                <ListItemIcon>
-                  <BorderColorIcon
-                    sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
-                  />
-                </ListItemIcon>
-                <ListItemText primary="Create Post" />
-              </ListItemButton>
-            )}
 
-            <ListItemButton to="/favorites">
+            <ListItemButton to="/reading-list">
               <ListItemIcon>
                 <BookmarkIcon sx={{ color: "#fff", pl: 1, fontSize: "31px" }} />
               </ListItemIcon>
@@ -231,7 +222,7 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
 
             {userName && (
               <>
-                <ListItemButton to="/account">
+                <ListItemButton to={`/post/account/${userId}`}>
                   <ListItemIcon>
                     <PersonOutlineIcon
                       sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
@@ -274,6 +265,16 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
                     <ListItemText primary="Email" />
                   </ListItemButton>
                 </Collapse>
+                {userName && (
+                  <ListItemButton to={"/create"}>
+                    <ListItemIcon>
+                      <BorderColorIcon
+                        sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
+                      />
+                    </ListItemIcon>
+                    <ListItemText primary="Create Post" />
+                  </ListItemButton>
+                )}
               </>
             )}
             {/* ///////////////////////////////////////////////////////////////// */}
