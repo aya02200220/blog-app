@@ -13,50 +13,52 @@ const FavoritePage = () => {
   const [loading, setLoading] = useState(true);
   const [userProfiles, setUserProfiles] = useState({});
   const [favoritesUpdated, setFavoritesUpdated] = useState(false);
+  const [isLogin, setIsLogin] = useState(localStorage.getItem("userInfo"));
+
+  // console.log("isLogin:", isLogin);
 
   useEffect(() => {
     setLoading(true);
 
-    fetch("http://localhost:4000/favorites", {
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then((favorites) => {
-        setFavorites(favorites);
-        setLoading(false);
+    if (isLogin) {
+      fetch("http://localhost:4000/favorites", {
+        credentials: "include",
       })
-      .catch((error) => {
-        console.error("Error fetching favorites:", error);
-        setLoading(false);
-      });
+        .then((res) => res.json())
+        .then((favorites) => {
+          setFavorites(favorites);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching favorites:", error);
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
+    }
   }, [favoritesUpdated]);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const newProfiles = {};
-      const promises = [];
+    if (isLogin) {
+      const fetchUser = async () => {
+        const newProfiles = {};
+        const promises = [];
 
-      for (const post of favorites) {
-        if (post.author && post.author._id) {
-          promises.push(
-            FetchUser(post.author._id).then((profile) => {
-              newProfiles[post.author._id] = profile;
-            })
-          );
+        for (const post of favorites) {
+          if (post.author && post.author._id) {
+            promises.push(
+              FetchUser(post.author._id).then((profile) => {
+                newProfiles[post.author._id] = profile;
+              })
+            );
+          }
         }
-      }
-      await Promise.all(promises);
-      setUserProfiles(newProfiles);
-    };
-    fetchUser();
+        await Promise.all(promises);
+        setUserProfiles(newProfiles);
+      };
+      fetchUser();
+    }
   }, [favorites]);
-
-  // const removePostFromFavorites = (postId) => {
-  //   console.log("確認");
-  //   setFavorites((prevFavorites) =>
-  //     prevFavorites.filter((post) => post._id !== postId)
-  //   );
-  // };
 
   return (
     <>

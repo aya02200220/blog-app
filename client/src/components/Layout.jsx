@@ -43,6 +43,7 @@ const Layout = () => {
     const userInfoString = localStorage.getItem("userInfo");
     if (userInfoString) {
       const userInfoObj = JSON.parse(userInfoString);
+      // console.log("userInfoObj:", userInfoObj);
       // setUserInfo(userInfoObj);
       setUserData((prevState) => ({
         ...prevState,
@@ -62,7 +63,7 @@ const Layout = () => {
       }));
       setUserData((prevState) => ({
         ...prevState,
-        userId: userInfoObj._id,
+        userId: userInfoObj.id,
       }));
     }
   }, [userInfo]);

@@ -40,7 +40,7 @@ export const AppBar = (props, { userData }) => {
   const open = props.open;
   const toggleDrawer = props.toggleDrawer;
 
-  console.log("userData toggle:", props.userData);
+  // console.log("userData toggle:", props.userData);
 
   const firstName = props.userData?.firstName;
   const lastName = props.userData?.lastName;

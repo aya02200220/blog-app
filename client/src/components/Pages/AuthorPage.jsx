@@ -15,10 +15,17 @@ const AuthorPage = () => {
 
   const [userId, setUserId] = useState(() => {
     const localUserInfo = GetLocalStorage();
-    return localUserInfo ? localUserInfo._id : null;
+    return localUserInfo
+      ? localUserInfo.id
+        ? localUserInfo.id
+        : localUserInfo._id
+        ? localUserInfo._id
+        : null
+      : null;
   });
 
   const { accountId } = useParams();
+  // console.log("accountId", accountId);
 
   useEffect(() => {
     setLoading(true);
@@ -40,30 +47,22 @@ const AuthorPage = () => {
   return (
     <>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
-        <AuthorPageTop accountId={accountId} />
-        <Box sx={{ mt: 8 }}>
-          <Typography
-            sx={{
-              ml: 5,
-              color: "#4e575f",
-              fontWeight: "500",
-              marginTop: 0,
-              fontSize: "25px",
-              lineHeight: "20px",
-              textTransform: "uppercase",
-            }}
-          >
-            View Posts ({userPosts.length})
-          </Typography>
-        </Box>
+        <AuthorPageTop accountId={accountId} loginUserId={userId} />
 
         <Container
+          maxWidth={false} // この行を追加
           sx={{
             display: "flex",
             flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            mt: 1,
+            alignItems: "stretch",
+            mt: 11,
+            position: "relative",
+            maxWidth: "700px",
+            width: "100%",
+            "@media (min-width: 600px)": {
+              paddingLeft: 0,
+              paddingRight: 0,
+            },
           }}
         >
           {loading ? (
@@ -80,35 +79,59 @@ const AuthorPage = () => {
               </Typography>
             </Box>
           ) : (
-            <Box
-              sx={{
-                marginTop: 0,
-                display: "flex",
-                flexDirection: "column",
-                // justifyContent: "center",
-                maxWidth: "700px",
-                width: "100%",
-                // height: "80vh",
-                // overflowY: "auto",
-                // border: "solid 1px black",
-              }}
-            >
-              {userPosts.length > 0 ? (
-                userPosts.map((post) => {
-                  return (
-                    <DisplayAuthorPage
-                      key={post._id}
-                      {...post}
-                      loginUserId={userId}
-                    />
-                  );
-                })
-              ) : (
-                <Typography variant="body1" sx={{ mt: 4, ml: 4 }}>
-                  No Post found.
+            <>
+              <Box
+                sx={{
+                  alignSelf: "flex-start",
+                  color: "#4e575f",
+                  fontWeight: "500",
+                  fontSize: "25px",
+                  lineHeight: "20px",
+                  textTransform: "uppercase",
+                  mb: 1,
+                }}
+              >
+                <Typography
+                  sx={{
+                    // ml: 5,
+                    color: "#4e575f",
+                    fontWeight: "500",
+                    marginTop: 0,
+                    fontSize: "25px",
+                    lineHeight: "20px",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {userId && accountId === userId ? "Your " : "View "}
+                  Posts ({userPosts.length})
                 </Typography>
-              )}
-            </Box>
+              </Box>
+              <Box
+                sx={{
+                  marginTop: 0,
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "100%",
+                  position: "relative",
+                }}
+              >
+                {userPosts.length > 0 ? (
+                  userPosts.map((post) => {
+                    return (
+                      <DisplayAuthorPage
+                        key={post._id}
+                        {...post}
+                        loginUserId={userId}
+                      />
+                    );
+                  })
+                ) : (
+                  <Typography variant="body1" sx={{ mt: 4, ml: 4 }}>
+                    No Post found.
+                  </Typography>
+                )}
+              </Box>
+            </>
           )}
         </Container>
       </Box>

@@ -19,7 +19,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import Collapse from "@mui/material/Collapse";
 
 import { format, differenceInDays, formatDistanceToNow } from "date-fns";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { LoginIcon } from "./LoginIcon";
 import { removeFromFavorites } from "./Functions/Favorites";
 
@@ -33,12 +33,14 @@ export const FavPost = ({
   authorProfile,
   onRemovePost,
 }) => {
+  const location = useLocation();
+  const currentPage = location.pathname.split("/").pop();
+
   // Create at date format ////////////////////////////////////
   const formatDate = (createdAt) => {
     const currentDate = new Date();
     const createdDate = new Date(createdAt);
     const daysDifference = differenceInDays(currentDate, createdDate);
-
     if (daysDifference < 7) {
       // Less than a week ago
       return formatDistanceToNow(createdDate) + " ago";
@@ -107,22 +109,73 @@ export const FavPost = ({
           >
             <CloseIcon />
           </IconButton>
-          <Link to={`/post/${_id}`} state={"/favorites"}>
+          <Link to={`/post/account/${author?._id}`}>
+            <IconButton
+              size="large"
+              edge="end"
+              color="4e575f"
+              sx={{
+                p: 0,
+                ml: 2,
+                mt: 1,
+                pr: 2,
+                borderRadius: "50px 5px 5px 50px",
+                backgroundColor: alpha("#fff", 0.4),
+                position: "absolute",
+                left: { xs: "inherit", md: "30%" },
+              }}
+            >
+              <LoginIcon
+                firstLetter={author?.firstName.charAt(0)}
+                lastLetter={author?.lastName.charAt(0)}
+                userIcon={authorProfile?.user.userIcon}
+                sx={{ padding: 0 }}
+              />
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  ml: 1.5,
+                  justifyContent: "left",
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontSize: "16px",
+                    fontWeight: "600",
+                    lineHeight: "16px",
+                  }}
+                >
+                  {author?.firstName} {author?.lastName}
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: "14px",
+                    fontWeight: "400",
+                    textAlign: "left",
+                    lineHeight: "15px",
+                  }}
+                >
+                  {createdAt && formatDate(createdAt)}
+                </Typography>
+              </Box>
+            </IconButton>
+          </Link>
+          <Link to={`/post/${_id}`} state={`/${currentPage}`}>
             <Box
               sx={{
                 maxWidth: "100%",
-                height: { xs: "290px", sm: "400px", md: "110px" },
-                minHeight: { xs: "290px", sm: "400px", md: "110px" },
+                height: { xs: "200px", sm: "250px", md: "110px" },
+                minHeight: { xs: "200px", sm: "250px", md: "110px" },
                 display: "flex",
                 flexDirection: { xs: "column", md: "row" },
                 backgroundColor: "#fff",
                 borderBottom: "solid 0.2px #c2c2c2",
-                position: "relative",
               }}
             >
               <Box
                 sx={{
-                  height: { xs: "62%", sm: "70%", md: "100%" },
+                  height: { xs: "70%", sm: "70%", md: "100%" },
                   width: { xs: "100%", md: "30%" },
                   maxWidth: { xs: "100%", md: "30%" },
                   minWidth: { xs: "100%", md: "30%" },
@@ -132,57 +185,6 @@ export const FavPost = ({
                 src={"http://localhost:4000/" + cover}
               ></Box>
               <Box sx={{ display: "flex", flexDirection: "column" }}>
-                <Link to={`/viewall`}>
-                  <IconButton
-                    size="large"
-                    edge="end"
-                    color="4e575f"
-                    sx={{
-                      p: 0,
-                      ml: 2,
-                      mt: 1,
-                      pr: 2,
-                      borderRadius: "50px 5px 5px 50px",
-                      backgroundColor: alpha("#fff", 0.4),
-                    }}
-                  >
-                    <LoginIcon
-                      firstLetter={author?.firstName.charAt(0)}
-                      lastLetter={author?.lastName.charAt(0)}
-                      userIcon={authorProfile?.user.userIcon}
-                      sx={{ padding: 0 }}
-                    />
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        ml: 1.5,
-                        justifyContent: "left",
-                      }}
-                    >
-                      <Typography
-                        sx={{
-                          fontSize: "16px",
-                          fontWeight: "600",
-                          lineHeight: "16px",
-                        }}
-                      >
-                        {author?.firstName} {author?.lastName}
-                      </Typography>
-                      <Typography
-                        sx={{
-                          fontSize: "14px",
-                          fontWeight: "400",
-                          textAlign: "left",
-                          lineHeight: "15px",
-                        }}
-                      >
-                        {createdAt && formatDate(createdAt)}
-                      </Typography>
-                    </Box>
-                  </IconButton>
-                </Link>
-
                 <Box
                   sx={{
                     flexGrow: 1,
@@ -205,6 +207,7 @@ export const FavPost = ({
                       WebkitBoxOrient: "vertical",
                       WebkitLineClamp: 2, // 行数指定
                       overflow: "hidden",
+                      mt: { xs: "inherit", md: 6 },
                     }}
                   >
                     {title}

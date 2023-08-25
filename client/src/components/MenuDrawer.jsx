@@ -77,15 +77,17 @@ const ListItemButton = (props) => {
         position: "relative",
         transition: "background-color 0.4s",
         ...(to === location.pathname && {
-          // backgroundColor: "#E2808A",
-          // backgroundColor: "#D8A7B1",
-          // backgroundColor: "#E588A3",
           backgroundColor: "#D8A7B1",
+
+          "& *": {
+            color: "#333",
+            fontWeight: "700",
+          },
         }),
         "&:hover": {
-          // backgroundColor: "#D8A7B1",
           backgroundColor: "#E2808A",
         },
+        ...rest.sx,
       }}
     >
       {children}
@@ -106,12 +108,16 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
   const userName = userData?.userName;
   const userId = userData?.userId;
 
+  // console.log("userId::::::**********", userId);
+  // console.log(showSecurity);
+
   useEffect(() => {
+    // console.log("currentPath", currentPath, userId);
     if (
-      currentPath === "/account" ||
-      currentPath === "/security" ||
-      currentPath === "/profile" ||
-      currentPath === "/change-email"
+      currentPath === `/post/account/${userId}` ||
+      currentPath === `/security` ||
+      currentPath === `/profile` ||
+      currentPath === `/change-email`
     ) {
       setShowSecurity(true);
     } else {
@@ -205,34 +211,44 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
                 <ListItemText primary="Create Post" />
               </NavLink>
             </ListItemButton> */}
-
-            <ListItemButton to="/reading-list">
-              <ListItemIcon>
-                <BookmarkIcon sx={{ color: "#fff", pl: 1, fontSize: "31px" }} />
-              </ListItemIcon>
-              <ListItemText primary="Reading list" />
-            </ListItemButton>
-
-            {/* <ListItemButton to="/yourposts">
-              <ListItemIcon>
-                <ArticleIcon sx={{ color: "#fff", pl: 1, fontSize: "31px" }} />
-              </ListItemIcon>
-              <ListItemText primary="Your Posts" />
-            </ListItemButton> */}
-
             {userName && (
               <>
-                <ListItemButton to={`/post/account/${userId}`}>
+                <ListItemButton to="/reading-list">
+                  <ListItemIcon>
+                    <BookmarkIcon
+                      sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
+                    />
+                  </ListItemIcon>
+                  <ListItemText primary="Reading list" />
+                </ListItemButton>
+
+                <ListItemButton
+                  to={`/post/account/${userId}`}
+                  sx={
+                    currentPath === "/profile" ||
+                    currentPath === "/security" ||
+                    currentPath === "/change-email"
+                      ? { backgroundColor: "#ac7a84" }
+                      : {}
+                  }
+                >
                   <ListItemIcon>
                     <PersonOutlineIcon
                       sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
                     />
                   </ListItemIcon>
-                  <ListItemText primary="Account" />
+                  <ListItemText primary="My Account" />
                 </ListItemButton>
 
                 <Collapse in={showSecurity} timeout="auto" unmountOnExit>
-                  <ListItemButton to="/profile">
+                  <ListItemButton
+                    to="/profile"
+                    sx={
+                      currentPath === "/profile"
+                        ? { backgroundColor: "#D8A7B1" }
+                        : { backgroundColor: "#ac7a84" }
+                    }
+                  >
                     <ListItemIcon>
                       <PersonOutlineIcon
                         sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
@@ -243,7 +259,11 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
 
                   <ListItemButton
                     to="/security"
-                    sx={{ backgroundColor: "#DA8DEA" }}
+                    sx={
+                      currentPath === "/security"
+                        ? { backgroundColor: "#D8A7B1" }
+                        : { backgroundColor: "#ac7a84" }
+                    }
                   >
                     <ListItemIcon>
                       <LockIcon
@@ -255,7 +275,11 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
 
                   <ListItemButton
                     to="/change-email"
-                    sx={{ backgroundColor: "#DA8DEA" }}
+                    sx={
+                      currentPath === "/change-email"
+                        ? { backgroundColor: "#D8A7B1" }
+                        : { backgroundColor: "#ac7a84" }
+                    }
                   >
                     <ListItemIcon>
                       <MailOutlineIcon

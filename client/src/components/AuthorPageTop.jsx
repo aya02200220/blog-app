@@ -6,12 +6,13 @@ import { Box, Container, Typography } from "@mui/material";
 import { FetchUser } from "./Functions/FetchUser";
 import CakeIcon from "@mui/icons-material/Cake";
 
-export const AuthorPageTop = ({ accountId }) => {
+export const AuthorPageTop = ({ accountId, loginUserId }) => {
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
   const [userIcon, setUserIcon] = useState(null);
   const [userId, setUserId] = useState(null);
   const [userBio, setUserBio] = useState(null);
+  const [userBioAuthor, setUserBioAuthor] = useState(null);
   const [createdAt, setCreatedAt] = useState(null);
 
   useEffect(() => {
@@ -23,8 +24,22 @@ export const AuthorPageTop = ({ accountId }) => {
           setLastName(userInfo.user.lastName);
           setUserIcon(userInfo.user.userIcon);
           setUserId(userInfo.user._id);
-          setUserBio(userInfo.user.bio || "This user hasn't added a bio yet");
           setCreatedAt(userInfo.user.createdAt);
+
+          // if (userInfo.user.bio) {
+          //   setUserBio(userInfo.user.bio);
+          // } else if (
+          //   loginUserId &&
+          //   userId &&
+          //   !userBio &&
+          //   userId === loginUserId
+          // ) {
+          //   setUserBio("You Haven't added a bio yet!");
+          // } else {
+          //   setUserBio("This user hasn't added a bio yet");
+          // }
+
+          setUserBio(userInfo.user.bio);
         }
       } catch (error) {
         console.error("Failed to fetch user data:", error);
@@ -33,6 +48,22 @@ export const AuthorPageTop = ({ accountId }) => {
 
     fetchUserData();
   }, [accountId]);
+
+  useEffect(() => {
+    if (userBio) {
+      setUserBioAuthor(userBio);
+    } else if (loginUserId && userId && !userBio && userId === loginUserId) {
+      setUserBioAuthor("You Haven't added a bio yet!");
+    } else {
+      setUserBioAuthor("This user hasn't added a bio yet");
+    }
+  }, [userBio]);
+
+  // const userBioContext =
+  //   loginUserId && userId && !userBio && userId === loginUserId
+  //     ? "You Haven't added a bio yet!"
+  //     : { userBio.userBio };
+  // console.log("userBioContext", userBioContext.userBio);
 
   return (
     <Box
@@ -43,6 +74,7 @@ export const AuthorPageTop = ({ accountId }) => {
       }}
     >
       <Container
+        maxWidth={false}
         sx={{
           // border: "solid 1px black",
           width: "790px",
@@ -139,8 +171,9 @@ export const AuthorPageTop = ({ accountId }) => {
               },
             }}
           >
-            {userBio}
+            {userBioAuthor}
           </Typography>
+          {/* {userBioContext} */}
           <Box
             sx={{
               display: "flex",

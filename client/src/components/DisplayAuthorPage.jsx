@@ -15,7 +15,7 @@ import NewReleasesIcon from "@mui/icons-material/NewReleases";
 
 import { format, differenceInDays, formatDistanceToNow } from "date-fns";
 import { Link, useLocation } from "react-router-dom";
-import { LoginIcon } from "./LoginIcon";
+// import { LoginIcon } from "./LoginIcon";
 import { deletePost } from "./Functions/HandlePost";
 
 export const DisplayAuthorPage = ({
@@ -31,6 +31,7 @@ export const DisplayAuthorPage = ({
 }) => {
   const location = useLocation();
   const currentPage = location.pathname.split("/").pop();
+  // console.log("location", location, currentPage);
 
   // console.log("loginUserId:", loginUserId);
 
@@ -85,6 +86,7 @@ export const DisplayAuthorPage = ({
         handleCloseDialog={handleCloseDialog}
         openDialog={openDialog}
         handleConfirmRemove={handleConfirmRemove}
+        loginUserId={loginUserId}
       />
 
       <Collapse in={showPost}>
@@ -111,7 +113,7 @@ export const DisplayAuthorPage = ({
               <CloseIcon />
             </IconButton>
           )}
-          <Link to={`/post/${_id}`} state={`/${currentPage}`}>
+          <Link to={`/post/${_id}`} state={`/post/account/${currentPage}`}>
             <Box
               sx={{
                 maxWidth: "100%",
@@ -136,59 +138,6 @@ export const DisplayAuthorPage = ({
                 src={"http://localhost:4000/" + cover}
               ></Box>
               <Box sx={{ display: "flex", flexDirection: "column" }}>
-                {/* {loginUserId && loginUserId !== author._id && (
-                  <Link to={`/viewall`}>
-                    <IconButton
-                      size="large"
-                      edge="end"
-                      color="4e575f"
-                      sx={{
-                        p: 0,
-                        ml: 2,
-                        mt: 1,
-                        pr: 2,
-                        borderRadius: "50px 5px 5px 50px",
-                        backgroundColor: alpha("#fff", 0.4),
-                      }}
-                    >
-                      <LoginIcon
-                        firstLetter={author?.firstName.charAt(0)}
-                        lastLetter={author?.lastName.charAt(0)}
-                        userIcon={authorProfile?.user.userIcon}
-                        sx={{ padding: 0 }}
-                      />
-                      <Box
-                        sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                          ml: 1.5,
-                          justifyContent: "left",
-                        }}
-                      >
-                        <Typography
-                          sx={{
-                            fontSize: "16px",
-                            fontWeight: "600",
-                            lineHeight: "16px",
-                          }}
-                        >
-                          {author?.firstName} {author?.lastName}
-                        </Typography>
-                        <Typography
-                          sx={{
-                            fontSize: "14px",
-                            fontWeight: "400",
-                            textAlign: "left",
-                            lineHeight: "15px",
-                          }}
-                        >
-                          {createdAt && formatDate(createdAt)}
-                        </Typography>
-                      </Box>
-                    </IconButton>
-                  </Link>
-                )} */}
-
                 <Typography
                   sx={{
                     m: 2,
@@ -241,6 +190,8 @@ export const DisplayAuthorPage = ({
 export const ConfirmDeleteDialog = (props) => {
   const location = useLocation();
   const currentPage = location.pathname.split("/").pop();
+  const isAuthor = currentPage !== props.loginUserId;
+
   return (
     <Dialog
       open={props.openDialog}
@@ -252,11 +203,12 @@ export const ConfirmDeleteDialog = (props) => {
           width: "30%",
           maxWidth: "unset",
           minWidth: "200px",
+          backgroundColor: isAuthor ? "#fff" : "#f9c8bd",
         },
       }}
     >
       <DialogTitle sx={{ textAlign: "center" }}>
-        {currentPage !== "account" ? (
+        {isAuthor ? (
           <Typography sx={{ fontSize: "20px", lineHeight: "21px" }}>
             Are you sure you want to remove this post from favorites?
           </Typography>
