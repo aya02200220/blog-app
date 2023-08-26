@@ -2,7 +2,7 @@ import { useState, useContext, useEffect } from "react";
 import { UserContext } from "./UserContext";
 import { LocalStorageRemove } from "./Functions/LocalStorage";
 import { useNavigate, useLocation } from "react-router-dom";
-import { SERVER_URL } from "../constants";
+import { SERVER_URL } from "../Constants";
 
 import { toast, ToastContainer } from "react-toastify";
 
