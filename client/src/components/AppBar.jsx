@@ -9,7 +9,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Typography from "@mui/material/Typography";
 import { LoginIcon } from "./LoginIcon";
 // import Logo from "../assets/Logo-icon.PNG";
-import Logo from "../assets/Logo-2.PNG";
+import Logo from "../assets/Logo-2.png";
 import { Box } from "@mui/material";
 
 const DRAWER_WIDTH = 210;
