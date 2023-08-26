@@ -1,5 +1,3 @@
-import.meta.env;
-
 export default function FetchBackgroungImage() {
   const unsplashAccessKey = import.meta.env.VITE_UNSPLASH_ACCESS_KEY;
 
