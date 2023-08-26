@@ -13,9 +13,7 @@ import cx from "clsx";
 import { Box, IconButton, Button, Typography } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 
-import Share from "@material-ui/icons/Share";
-
-// import { UserContext } from "./UserContext";
+import ShareIcon from "@mui/icons-material/Share";
 
 export const Post = React.memo(function PostCard({
   _id = "1",
@@ -275,7 +273,7 @@ export const Post = React.memo(function PostCard({
               }}
             >
               <IconButton size="small">
-                <Share />
+                <ShareIcon />
               </IconButton>
 
               <IconButton size="small">
