@@ -16,10 +16,26 @@ const cors = require("cors");
 const { log } = require("console");
 const app = express();
 
-// app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
+const allowedOrigins = [
+  "https://blog-app-du13.vercel.app",
+  "https://noir-rose.vercel.app",
+  "http://localhost:5173",
+];
+
 app.use(
-  cors({ credentials: true, origin: "https://blog-app-du13.vercel.app" })
+  cors({
+    credentials: true,
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const msg = `The CORS policy for this site does not allow access from the specified origin: ${origin}`;
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
+  })
 );
+
 app.use(express.json());
 app.use(cookieParser());
 const salt = bcrypt.genSaltSync(10);
