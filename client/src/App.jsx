@@ -4,7 +4,7 @@ import { ToastContainer } from "react-toastify";
 import { Route, Routes } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { UserContextProvider } from "./components/UserContext";
-import Box from "@material-ui/core/Box";
+import { Box } from "@mui/material";
 
 import Layout from "./components/Layout";
 import IndexPage from "./components/Pages/IndexPage";

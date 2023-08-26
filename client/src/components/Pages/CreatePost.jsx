@@ -8,9 +8,7 @@ import { UserContext } from "../UserContext";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 
-import { Button, IconButton } from "@mui/material/";
-
-import Box from "@material-ui/core/Box";
+import { Button, IconButton, Box } from "@mui/material/";
 
 import { Navigate } from "react-router-dom";
 

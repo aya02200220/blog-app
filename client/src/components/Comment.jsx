@@ -14,7 +14,6 @@ import {
   CircularProgress,
   TextField,
 } from "@mui/material";
-import { FormLabel } from "@material-ui/core";
 import { Comments } from "./Comments";
 
 const Comment = ({ postInfo, onCommentAdded }) => {
