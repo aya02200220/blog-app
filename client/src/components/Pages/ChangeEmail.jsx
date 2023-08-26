@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { UserContext } from "../UserContext";
 import { Link } from "react-router-dom";
+import { SERVER_URL } from "../../Constants";
 
 import { FetchProfile } from "../Functions/FetchProfile";
 import { LocalStorageRemove, LocalStorage } from "../Functions/LocalStorage";
@@ -72,7 +73,7 @@ const ChangeEmail = () => {
       try {
         setEmailError("");
 
-        const response = await fetch("http://localhost:4000/updateEmail", {
+        const response = await fetch(`${SERVER_URL}/updateEmail`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -85,7 +86,7 @@ const ChangeEmail = () => {
         });
 
         // トークンなしパシワード変更///////////////////////////////////////////////////
-        // const response = await fetch("http://localhost:4000/updateEmail", {
+        // const response = await fetch(`${SERVER_URL}/updateEmail`, {
         //   method: "POST",
         //   headers: { "Content-Type": "application/json" },
         //   body: JSON.stringify({

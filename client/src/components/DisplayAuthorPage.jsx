@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { SERVER_URL } from "../Constants";
 import {
   Button,
   Box,
@@ -135,7 +136,7 @@ export const DisplayAuthorPage = ({
                   objectFit: "cover",
                 }}
                 component="img"
-                src={"http://localhost:4000/" + cover}
+                src={`${SERVER_URL}/` + cover}
               ></Box>
               <Box sx={{ display: "flex", flexDirection: "column" }}>
                 <Typography

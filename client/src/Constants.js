@@ -1,1 +1,1 @@
-export const DRAWER_WIDTH = 210;
+export const SERVER_URL = "http://localhost:4000";

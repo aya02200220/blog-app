@@ -3,6 +3,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { UserContext } from "../UserContext";
 import { Link } from "react-router-dom";
 import { VerifyPassword } from "../Functions/Verifications";
+import { SERVER_URL } from "../../Constants";
 
 import {
   Box,
@@ -74,7 +75,7 @@ const SecurityPage = () => {
       try {
         setPasswordError("");
 
-        const response = await fetch("http://localhost:4000/updatePassword", {
+        const response = await fetch(`${SERVER_URL}/updatePassword`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -87,7 +88,7 @@ const SecurityPage = () => {
         });
 
         // トークンなしパシワード変更///////////////////////////////////////////////////
-        // const response = await fetch("http://localhost:4000/updatePassword", {
+        // const response = await fetch(`${SERVER_URL}/updatePassword`, {
         //   method: "POST",
         //   headers: { "Content-Type": "application/json" },
         //   body: JSON.stringify({

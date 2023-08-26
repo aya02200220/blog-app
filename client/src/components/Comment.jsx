@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import { SERVER_URL } from "../Constants";
 import { UserContext } from "./UserContext";
 import { LoginIcon } from "./LoginIcon";
 import { GetLocalStorage } from "./Functions/LocalStorage";
@@ -47,15 +48,12 @@ const Comment = ({ postInfo, onCommentAdded }) => {
   const addComment = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(
-        `http://localhost:4000/post/comments/${postId}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ content: comment }),
-          credentials: "include",
-        }
-      );
+      const response = await fetch(`${SERVER_URL}/post/comments/${postId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content: comment }),
+        credentials: "include",
+      });
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error);
@@ -71,7 +69,7 @@ const Comment = ({ postInfo, onCommentAdded }) => {
   const handleDelete = async (postId, commentId) => {
     try {
       const response = await fetch(
-        `http://localhost:4000/posts/${postId}/comments/${commentId}`,
+        `${SERVER_URL}/posts/${postId}/comments/${commentId}`,
         {
           method: "DELETE",
           headers: {
@@ -96,9 +94,7 @@ const Comment = ({ postInfo, onCommentAdded }) => {
 
   const fetchComments = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:4000/post/comments/${postId}`
-      );
+      const response = await fetch(`${SERVER_URL}/post/comments/${postId}`);
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error);

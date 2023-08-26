@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect, useContext } from "react";
+import { SERVER_URL } from "../Constants";
 import PropTypes from "prop-types";
 import { format, differenceInDays } from "date-fns";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
@@ -252,7 +253,7 @@ export const Post = React.memo(function PostCard({
 
               <Box
                 component="img"
-                src={`http://localhost:4000/${cover}`}
+                src={`${SERVER_URL}/${cover}`}
                 sx={{
                   width: { xs: "100%", sm: "45%", md: "45%" },
                   minWidth: { xs: "100%", sm: "45%", md: "45%" },

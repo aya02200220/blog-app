@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import { SERVER_URL } from "../../Constants";
 /**
  * Login function to authenticate a user.
  * @param {string} email - User's email.
@@ -10,7 +11,7 @@ import axios from "axios";
 export const login = async (email, password) => {
   try {
     const response = await axios.post(
-      "http://localhost:4000/login",
+      `${SERVER_URL}/login`,
       { email, password },
       { withCredentials: true }
     );

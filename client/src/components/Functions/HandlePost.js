@@ -1,5 +1,7 @@
+import { SERVER_URL } from "../../Constants";
+
 export const deletePost = (postId) => {
-  fetch(`http://localhost:4000/post/${postId}`, {
+  fetch(`${SERVER_URL}/post/${postId}`, {
     method: "DELETE",
     credentials: "include", // サーバー側でセッションやクッキーを使用している場合に必要
   })

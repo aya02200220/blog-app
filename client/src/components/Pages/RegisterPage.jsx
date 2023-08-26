@@ -3,6 +3,7 @@ import { useState, useContext, useEffect } from "react";
 import { login } from "../Functions/Login";
 import FetchBackgroungImage from "../Functions/FetchBackgroundImage";
 import { VerifyPassword, VerifyEmailAddress } from "../Functions/Verifications";
+import { SERVER_URL } from "../../Constants";
 
 import { Button, InputAdornment, IconButton, Divider } from "@mui/material/";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -178,7 +179,7 @@ export default function SignUp() {
       return;
     }
 
-    const data = await fetch("http://localhost:4000/register", {
+    const data = await fetch(`${SERVER_URL}/register`, {
       method: "POST",
       body: JSON.stringify({ firstName, lastName, email, password }),
       headers: { "content-Type": "application/json" },

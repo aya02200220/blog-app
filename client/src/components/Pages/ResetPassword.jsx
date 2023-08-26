@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { VerifyPassword } from "../Functions/Verifications";
+import { SERVER_URL } from "../../Constants";
 
 import {
   Box,
@@ -70,7 +71,7 @@ function ResetPassword() {
 
     try {
       const response = await fetch(
-        `http://localhost:4000/password/reset/${resetToken}`,
+        `${SERVER_URL}/password/reset/${resetToken}`,
         {
           method: "POST",
           headers: {

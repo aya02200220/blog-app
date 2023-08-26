@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import { FavPost } from "../FavPost";
 import { Container } from "@mui/material";
 import { FetchUser } from "../Functions/FetchUser";
+import { SERVER_URL } from "../../Constants";
 
 const FavoritePage = () => {
   // const { userInfo } = useContext(UserContext);
@@ -21,7 +22,7 @@ const FavoritePage = () => {
     setLoading(true);
 
     if (isLogin) {
-      fetch("http://localhost:4000/favorites", {
+      fetch(`${SERVER_URL}/favorites`, {
         credentials: "include",
       })
         .then((res) => res.json())

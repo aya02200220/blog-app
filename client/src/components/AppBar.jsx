@@ -7,12 +7,12 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Typography from "@mui/material/Typography";
-import { DRAWER_WIDTH } from "../constants";
 import { LoginIcon } from "./LoginIcon";
 // import Logo from "../assets/Logo-icon.PNG";
 import Logo from "../assets/Logo-2.PNG";
-
 import { Box } from "@mui/material";
+
+const DRAWER_WIDTH = 210;
 
 const MyAppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",

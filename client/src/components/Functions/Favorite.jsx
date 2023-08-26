@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { SERVER_URL } from "../../Constants";
 
 import { toast } from "react-toastify";
 
@@ -39,7 +40,7 @@ export const Favorite = ({ favorite, userName, userId, _id, onComplete }) => {
   const addToFavorites = async (postId) => {
     try {
       // APIからの応答を受け取ってから状態を変更
-      const response = await fetch("http://localhost:4000/favorites", {
+      const response = await fetch(`${SERVER_URL}/favorites`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -65,13 +66,10 @@ export const Favorite = ({ favorite, userName, userId, _id, onComplete }) => {
   // お気に入りから削除する関数
   const removeFromFavorites = async (postId) => {
     try {
-      const response = await fetch(
-        `http://localhost:4000/favorites/${postId}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-        }
-      );
+      const response = await fetch(`${SERVER_URL}/favorites/${postId}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
 
       if (response.ok) {
         toast.success("Removed from your favorites"); // 成功メッセージをtoastで表示

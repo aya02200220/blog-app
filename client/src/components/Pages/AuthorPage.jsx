@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../UserContext";
 import { useParams } from "react-router-dom";
+import { SERVER_URL } from "../../Constants";
 
 import { CircularProgress, Container, Box } from "@mui/material";
 import Typography from "@mui/material/Typography";
@@ -30,7 +31,7 @@ const AuthorPage = () => {
   useEffect(() => {
     setLoading(true);
 
-    fetch(`http://localhost:4000/post/account/${accountId}`, {
+    fetch(`${SERVER_URL}/post/account/${accountId}`, {
       credentials: "include",
     })
       .then((res) => res.json())

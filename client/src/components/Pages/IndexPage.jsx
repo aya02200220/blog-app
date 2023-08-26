@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import { GetLocalStorage } from "../Functions/LocalStorage";
 import { fetchFavorites } from "../Functions/Favorites";
 import { FetchUser } from "../Functions/FetchUser";
+import { SERVER_URL } from "../../Constants";
 
 import Post from "../Post2";
 
@@ -63,7 +64,7 @@ const IndexPage = () => {
           }
         }
 
-        const postsResponse = await fetch("http://localhost:4000/post", {
+        const postsResponse = await fetch(`${SERVER_URL}/post`, {
           credentials: "include",
         });
         if (!postsResponse.ok) {

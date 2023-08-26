@@ -1,6 +1,7 @@
 import styles from "../../styles/main.module.scss";
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation, useParams, Link } from "react-router-dom";
+import { SERVER_URL } from "../../Constants";
 import { format } from "date-fns";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
@@ -55,7 +56,7 @@ const PostPage = () => {
   useEffect(() => {
     setLoading(true);
 
-    fetch(`http://localhost:4000/post/${id}`).then((res) => {
+    fetch(`${SERVER_URL}/post/${id}`).then((res) => {
       res.json().then((postInfo) => {
         setPostInfo(postInfo);
         setLoading(false);
@@ -227,7 +228,7 @@ const PostPage = () => {
                 </Box>
 
                 <div>
-                  <img src={`http://localhost:4000/${postInfo.cover}`} alt="" />
+                  <img src={`${SERVER_URL}/${postInfo.cover}`} alt="" />
                 </div>
                 <Box
                   sx={{ width: "100%", wordBreak: "break-word" }}

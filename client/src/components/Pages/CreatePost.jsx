@@ -2,6 +2,7 @@ import TextField from "@mui/material/TextField";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Link } from "react-router-dom";
+import { SERVER_URL } from "../../Constants";
 
 import { useState, useContext, useEffect } from "react";
 import { UserContext } from "../UserContext";
@@ -58,7 +59,7 @@ const CreatePost = () => {
     data.set("content", content);
     data.set("file", files[0]);
     e.preventDefault();
-    const res = await fetch("http://localhost:4000/post", {
+    const res = await fetch(`${SERVER_URL}/post`, {
       method: "POST",
       body: data,
       credentials: "include",

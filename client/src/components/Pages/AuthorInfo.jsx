@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { UserContext } from "../UserContext";
 import { Favorite } from "../Functions/Favorite";
 import { fetchFavorites } from "../Functions/Favorites";
+import { SERVER_URL } from "../../Constants";
 
 import { toast } from "react-toastify";
 import { Box, Avatar, Typography, IconButton, Skeleton } from "@mui/material";
@@ -75,9 +76,7 @@ export const AuthorInfo = ({
   const fetchAuthorInfo = async () => {
     // console.log("AuthorInfo------ポスト投稿者の情報を取得");
     try {
-      const response = await fetch(
-        `http://localhost:4000/user/${postInfo.author._id}`
-      );
+      const response = await fetch(`${SERVER_URL}/user/${postInfo.author._id}`);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -92,7 +91,7 @@ export const AuthorInfo = ({
   useEffect(() => {
     // console.log("AuthorInfo-------comment up date");
     if (postID) {
-      fetch(`http://localhost:4000/post/${postID}`)
+      fetch(`${SERVER_URL}/post/${postID}`)
         .then((res) => res.json())
         .then((fetchedPostInfo) => {
           setGetPostInfo(fetchedPostInfo);

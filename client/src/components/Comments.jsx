@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { SERVER_URL } from "../Constants";
 import { format } from "date-fns";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -58,7 +59,7 @@ export const Comments = ({
     setIsEditing(false);
     try {
       const response = await fetch(
-        `http://localhost:4000/posts/${postId}/comments/${commentId}`,
+        `${SERVER_URL}/posts/${postId}/comments/${commentId}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

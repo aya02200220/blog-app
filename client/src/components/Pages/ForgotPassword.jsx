@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { UserContext } from "../UserContext";
 import { Link } from "react-router-dom";
+import { SERVER_URL } from "../../Constants";
 
 import {
   Box,
@@ -26,7 +27,7 @@ function ForgotPassword() {
 
     setLoading(true); // Set loading state to true when the button is clicked
     try {
-      const response = await fetch("http://localhost:4000/password/forgot", {
+      const response = await fetch(`${SERVER_URL}/password/forgot`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

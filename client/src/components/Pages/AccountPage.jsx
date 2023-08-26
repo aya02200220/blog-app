@@ -1,5 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { SERVER_URL } from "../../Constants";
 
 import { UserContext } from "../UserContext";
 import styles from "../../styles/main.module.scss";
@@ -77,7 +78,7 @@ const AccountPage = () => {
         return;
       } else {
         try {
-          const response = await fetch("http://localhost:4000/updateProfile", {
+          const response = await fetch(`${SERVER_URL}/updateProfile`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

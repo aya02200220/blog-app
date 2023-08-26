@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect, Suspense } from "react";
 import { UserContext } from "./UserContext";
+import { SERVER_URL } from "../Constants";
 import { ToastContainer } from "react-toastify";
 
 import Box from "@mui/material/Box";
@@ -73,7 +74,7 @@ const Layout = () => {
   useEffect(() => {
     if (userData.userName) {
       // ログイン処理が完了している場合にユーザー情報を取得
-      fetch("http://localhost:4000/profile", {
+      fetch(`${SERVER_URL}/profile`, {
         credentials: "include",
       })
         .then((response) => {

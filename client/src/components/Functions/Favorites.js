@@ -1,9 +1,10 @@
 import React from "react";
+import { SERVER_URL } from "../../Constants";
 
 // fetchFavorites.js
 export const fetchFavorites = async (email) => {
   try {
-    const response = await fetch("http://localhost:4000/favorites", {
+    const response = await fetch(`${SERVER_URL}/favorites`, {
       credentials: "include",
     });
     if (!response.ok) {
@@ -19,7 +20,7 @@ export const fetchFavorites = async (email) => {
 // お気に入りから削除する関数
 export const removeFromFavorites = async (postId) => {
   try {
-    const response = await fetch(`http://localhost:4000/favorites/${postId}`, {
+    const response = await fetch(`${SERVER_URL}/favorites/${postId}`, {
       method: "DELETE",
       credentials: "include",
     });

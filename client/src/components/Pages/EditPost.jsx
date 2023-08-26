@@ -4,6 +4,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { SERVER_URL } from "../../Constants";
 
 import { Button, Box, IconButton, Typography } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -51,7 +52,7 @@ const EditPost = () => {
   const [editorHeight, setEditorHeight] = useState("180px");
 
   useEffect(() => {
-    fetch("http://localhost:4000/post/" + id).then((response) => {
+    fetch(`${SERVER_URL}/post/` + id).then((response) => {
       response.json().then((postInfo) => {
         setTitle(postInfo.title);
         setContent(postInfo.content);
@@ -75,7 +76,7 @@ const EditPost = () => {
     if (files?.[0]) {
       data.set("file", files?.[0]);
     }
-    const response = await fetch("http://localhost:4000/post", {
+    const response = await fetch(`${SERVER_URL}/post`, {
       method: "PUT",
       body: data,
       credentials: "include",

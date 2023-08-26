@@ -2,6 +2,7 @@ import { useState, useContext, useEffect } from "react";
 import { UserContext } from "./UserContext";
 import { LocalStorageRemove } from "./Functions/LocalStorage";
 import { useNavigate, useLocation } from "react-router-dom";
+import { SERVER_URL } from "../constants";
 
 import { toast, ToastContainer } from "react-toastify";
 
@@ -29,12 +30,12 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 
-import { DRAWER_WIDTH } from "../constants";
 import {
   Link as RouterLink,
   // LinkProps as RouterLinkProps,
 } from "react-router-dom";
 
+const DRAWER_WIDTH = 210;
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
@@ -126,7 +127,7 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
   }, [currentPath]);
 
   async function logout() {
-    const response = await fetch("http://localhost:4000/logout", {
+    const response = await fetch(`${SERVER_URL}/logout`, {
       credentials: "include",
       method: "POST",
     });

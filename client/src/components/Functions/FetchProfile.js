@@ -1,10 +1,11 @@
 // useFetchProfile.js
+import { SERVER_URL } from "../../Constants";
 
 export const FetchProfile = async (userName) => {
   console.log("FetchProfile----------------------");
   if (userName) {
     try {
-      const response = await fetch("http://localhost:4000/profile", {
+      const response = await fetch(`${SERVER_URL}/profile`, {
         credentials: "include",
       });
 
