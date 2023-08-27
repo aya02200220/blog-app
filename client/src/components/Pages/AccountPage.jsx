@@ -132,6 +132,7 @@ const AccountPage = () => {
           LocalStorageRemove();
           LocalStorage({ userInfo: newUserInfo });
         } catch (error) {
+          setIsUpdating(true);
           errorMsg(`There was a problem with the update operation:",
           ${error.message}`);
         }

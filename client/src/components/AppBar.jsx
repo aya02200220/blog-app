@@ -55,11 +55,10 @@ export const AppBar = (props, { userData }) => {
   const userId = props.userData?.userId;
 
   function isEmpty(obj) {
-    console.log(
-      "isEnpty",
-      Object.keys(obj).length === 0 && obj.constructor === Object
-    );
-    return Object.keys(obj).length === 0 && obj.constructor === Object;
+    if (obj !== undefined && obj !== null) {
+      return Object.keys(obj).length === 0 && obj.constructor === Object;
+    }
+    return true;
   }
 
   return (

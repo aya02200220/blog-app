@@ -2,7 +2,7 @@
 import { SERVER_URL } from "../../Constants";
 
 export const FetchProfile = async (userName) => {
-  console.log("FetchProfile----------------------");
+  // console.log("FetchProfile----------------------");
   if (userName) {
     try {
       const response = await fetch(`${SERVER_URL}/profile`, {

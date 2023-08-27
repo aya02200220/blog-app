@@ -19,12 +19,20 @@ const authMiddleware = (req, res, next) => {
 router.get("/profile", authMiddleware, async (req, res) => {
   try {
     const userId = req.userId;
-    console.log("/profile", userId);
     const updatedUserInfo = await User.findById(userId);
     if (!updatedUserInfo) {
       return res.status(404).json({ message: "User not found." });
     }
-    res.json(updatedUserInfo);
+
+    // MongooseのドキュメントをJavaScriptオブジェクトに変換
+    const userInfoObj = updatedUserInfo.toObject();
+
+    // _idをidに変更
+    userInfoObj.id = userInfoObj._id;
+    delete userInfoObj._id;
+
+    console.log("updatedUserInfo", userInfoObj);
+    res.json(userInfoObj);
   } catch (error) {
     console.error("Database error:", error);
     res.status(500).json({ message: "Internal server error." });

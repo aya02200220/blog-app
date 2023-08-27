@@ -17,6 +17,7 @@ export const login = async (email, password) => {
     );
     if (response.status === 200) {
       const userInfo = response.data;
+      console.log("Login", userInfo);
 
       clearLocalStorage();
       saveToLocalStorage({ userInfo });
