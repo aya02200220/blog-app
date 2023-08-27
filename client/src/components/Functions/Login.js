@@ -21,7 +21,7 @@ export const login = async (email, password) => {
 
       clearLocalStorage();
       saveToLocalStorage({ userInfo });
-      toast.success("You are logged in!", {
+      toast.success("You are Signed in!", {
         position: "top-center",
         autoClose: 900,
         hideProgressBar: false,

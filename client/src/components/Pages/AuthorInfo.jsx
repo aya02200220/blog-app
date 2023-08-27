@@ -33,7 +33,7 @@ export const AuthorInfo = ({
   const [comments, setComments] = useState([]);
   const favoriteCount = postInfo?.favorites.length;
 
-  console.log("AuthorInfo --------------------------------");
+  // console.log("AuthorInfo --------------------------------");
 
   // console.log("postInfo Author :", postInfo);
   // console.log("postInfo loginUser :", loginUser);
@@ -334,8 +334,8 @@ export const AuthorInfo = ({
                   <Favorite
                     onComplete={handleGrandChildComplete}
                     favorite={isFavorite}
-                    userName={loginUser.email}
-                    userId={loginUser.id}
+                    userName={loginUser?.email}
+                    userId={loginUser?.id}
                     _id={postID}
                     // _id={_id}
                   />

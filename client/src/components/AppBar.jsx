@@ -1,8 +1,11 @@
-import { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { UserContext } from "./UserContext";
+import { logout } from "./Functions/Logout";
+import { LocalStorageRemove } from "./Functions/LocalStorage";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import { Link } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 
 import { styled } from "@mui/material/styles";
 import MuiAppBar from "@mui/material/AppBar";
@@ -11,6 +14,8 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Typography from "@mui/material/Typography";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
+import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/material/Menu";
 
 import { LoginIcon } from "./LoginIcon";
 // import Logo from "../assets/Logo-icon.PNG";
@@ -54,12 +59,25 @@ export const AppBar = (props, { userData }) => {
   const userIcon = props.userData?.userIcon;
   const userId = props.userData?.userId;
 
+  const navigate = useNavigate();
+
   function isEmpty(obj) {
     if (obj !== undefined && obj !== null) {
       return Object.keys(obj).length === 0 && obj.constructor === Object;
     }
     return true;
   }
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = async () => {
+    setAnchorEl(null);
+    await logout(LocalStorageRemove, setUserInfo, navigate, toast);
+  };
 
   return (
     <MyAppBar position="absolute" open={open}>
@@ -130,19 +148,46 @@ export const AppBar = (props, { userData }) => {
 
             <IconButton
               size="large"
-              edge="end"
               aria-label="account of current user"
+              aria-controls="menu-appbar"
               aria-haspopup="true"
-              color="4e575f"
+              onClick={handleMenu}
+              color="inherit"
             >
-              <Link to={`/post/account/${userId}`}>
-                <LoginIcon
-                  firstLetter={firstName?.charAt(0)}
-                  lastLetter={lastName?.charAt(0)}
-                  userIcon={userIcon}
-                />
-              </Link>
+              {/* <IconButton
+                size="large"
+                edge="end"
+                aria-label="account of current user"
+                aria-haspopup="true"
+                color="4e575f"
+              > */}
+              {/* <Link to={`/post/account/${userId}`}> */}
+              <LoginIcon
+                firstLetter={firstName?.charAt(0)}
+                lastLetter={lastName?.charAt(0)}
+                userIcon={userIcon}
+              />
+              {/* </Link> */}
+              {/* </IconButton> */}
             </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              <MenuItem onClick={handleClose}>Sign Out</MenuItem>
+              {/* <MenuItem onClick={handleClose}>My account</MenuItem> */}
+            </Menu>
           </>
         )}
       </Toolbar>

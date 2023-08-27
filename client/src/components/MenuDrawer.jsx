@@ -1,9 +1,9 @@
 import { useState, useContext, useEffect } from "react";
 import { UserContext } from "./UserContext";
-import { LocalStorageRemove } from "./Functions/LocalStorage";
+import { LocalStorageRemove, GetLocalStorage } from "./Functions/LocalStorage";
 import { useNavigate, useLocation } from "react-router-dom";
 import { SERVER_URL } from "../Constants";
-import { GetLocalStorage } from "./Functions/LocalStorage";
+import { logout } from "./Functions/Logout";
 
 import { toast, ToastContainer } from "react-toastify";
 
@@ -83,6 +83,7 @@ const ListItemButton = (props) => {
         }),
         "&:hover": {
           backgroundColor: "#E2808A",
+          fontWeight: "700",
         },
         ...rest.sx,
       }}
@@ -98,23 +99,18 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
   const location = useLocation();
   const currentPath = location.pathname;
   const [showSecurity, setShowSecurity] = useState(false);
+  const [userId, setUserId] = useState(false);
 
   const { setUserInfo, userInfo } = useContext(UserContext);
 
-  const [userId, setUserId] = useState(() => {
-    const localUserInfo = GetLocalStorage();
-    return localUserInfo
-      ? localUserInfo.id
-        ? localUserInfo.id
-        : localUserInfo._id
-        ? localUserInfo._id
-        : null
-      : null;
-  });
-  const localUserInfo = GetLocalStorage();
-  console.log("localUserInfo", localUserInfo);
+  // const [userId, setUserId] = useState(() => {
+  //   const localUserInfo = GetLocalStorage();
+  //   return localUserInfo ? localUserInfo.id : null;
+  // });
+  // const localUserInfo = GetLocalStorage();
+  // console.log("localUserInfo", localUserInfo);
 
-  console.log("userData", userData);
+  // console.log("userData", userData);
   // console.log(!userData);
 
   function isEmpty(obj) {
@@ -138,34 +134,13 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
     }
   }, [currentPath]);
 
-  async function logout() {
-    const response = await fetch(`${SERVER_URL}/logout`, {
-      credentials: "include",
-      method: "POST",
-    });
+  useEffect(() => {
+    setUserId(userInfo?.id);
+  }, [userInfo]);
 
-    if (response.ok) {
-      LocalStorageRemove();
-      setUserInfo(null);
-
-      navigate("/temp");
-      setTimeout(() => navigate("/"), 0);
-      toast.success("You are Signed out!", {
-        position: "top-center",
-        autoClose: 900,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-    } else {
-      toast.error("Logout failed!");
-    }
-  }
-
-  // console.log("Setting userId:", userId);
+  const callLogout = async () => {
+    await logout(LocalStorageRemove, setUserInfo, navigate, toast);
+  };
 
   return (
     <>
@@ -288,7 +263,7 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
                     color: "#fff",
                   }}
                 >
-                  <ListItemButton onClick={logout}>
+                  <ListItemButton onClick={callLogout}>
                     <ListItemIcon>
                       <LogoutIcon
                         sx={{ color: "#fff", pl: 1, fontSize: "31px" }}

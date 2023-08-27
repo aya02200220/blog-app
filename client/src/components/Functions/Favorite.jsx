@@ -21,13 +21,13 @@ export const Favorite = ({ favorite, userName, userId, _id, onComplete }) => {
   }, [onComplete]);
 
   const handleFavoriteClick = (postId) => {
-    console.log("postId:", postId);
-    console.log("userName:", userName);
-    console.log("userId:", userId);
-    console.log("Post_id:", _id);
+    // console.log("postId:", postId);
+    // console.log("userName:", userName);
+    // console.log("userId:", userId);
+    // console.log("Post_id:", _id);
 
     if (!userName) {
-      toast.error("You need to login to bookmark!");
+      toast.error("Sign in to add a reading list!");
       return;
     }
     if (isFavorite) {
@@ -50,7 +50,6 @@ export const Favorite = ({ favorite, userName, userId, _id, onComplete }) => {
       });
 
       if (response.ok) {
-        console.log("内容確認：");
         toast.success("Added to your favorites");
         setIsFavorite(true); // ここで更新
       } else {
