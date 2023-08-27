@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect, Suspense } from "react";
 import { UserContext } from "./UserContext";
+import { GetLocalStorage } from "./Functions/LocalStorage";
 import { SERVER_URL } from "../Constants";
 import { ToastContainer } from "react-toastify";
 
@@ -28,51 +29,27 @@ const Layout = () => {
   };
 
   const { setUserInfo, userInfo } = useContext(UserContext);
-  // const [userInfoString, setUserInfoString] = useState(null);
+  // const [userData, setUserData] = useState("");
+  // const [firstName, setFirstName] = useState("");
+  // const [lastName, setLastName] = useState("");
+  // const [userName, setUserName] = useState("");
+  // const [bio, setBio] = useState("");
+  // const [userIcon, setUserIcon] = useState("");
+  // const [userId, setUserId] = useState("");
 
-  const [userData, setUserData] = useState({
-    firstName: null,
-    lastName: null,
-    userName: null,
-    userIcon: null,
-    userId: null,
+  const [userId, setUserId] = useState(() => {
+    const localUserInfo = GetLocalStorage();
+    return localUserInfo
+      ? localUserInfo.id
+        ? localUserInfo.id
+        : localUserInfo._id
+        ? localUserInfo._id
+        : null
+      : null;
   });
 
-  // console.log("Layout:", userData.userName);
-
   useEffect(() => {
-    const userInfoString = localStorage.getItem("userInfo");
-    if (userInfoString) {
-      const userInfoObj = JSON.parse(userInfoString);
-      // console.log("userInfoObj:", userInfoObj);
-      // setUserInfo(userInfoObj);
-      setUserData((prevState) => ({
-        ...prevState,
-        firstName: userInfoObj.firstName,
-      }));
-      setUserData((prevState) => ({
-        ...prevState,
-        lastName: userInfoObj.lastName,
-      }));
-      setUserData((prevState) => ({
-        ...prevState,
-        userName: userInfoObj.email,
-      }));
-      setUserData((prevState) => ({
-        ...prevState,
-        userIcon: userInfoObj.userIcon,
-      }));
-      setUserData((prevState) => ({
-        ...prevState,
-        userId: userInfoObj.id,
-      }));
-    }
-  }, [userInfo]);
-
-  // console.log("userData.userName:", userData.userName);
-
-  useEffect(() => {
-    if (userData.userName) {
+    if (userId) {
       // ログイン処理が完了している場合にユーザー情報を取得
       fetch(`${SERVER_URL}/profile`, {
         credentials: "include",
@@ -87,18 +64,18 @@ const Layout = () => {
           }
           return response.json();
         })
-        .then((userInfo) => {
-          setUserInfo(userInfo);
+        .then((userData) => {
+          setUserInfo(userData);
+          // console.log("userData********", userData);
         })
         .catch((error) => {
           console.error(
             "There was a problem with the fetch operation:",
             error.message
           );
-          // 必要に応じてユーザーへのエラー通知を行うなど、ここでのエラーハンドリングを強化できます
         });
     }
-  }, [userData.userName]);
+  }, [userId]);
 
   return (
     <>
@@ -106,13 +83,14 @@ const Layout = () => {
       <MemoizedAppBar
         open={open}
         toggleDrawer={toggleDrawer}
-        userData={userData}
+        userData={userInfo}
       />
       <MemoizedMenuDrawer
         open={open}
         toggleDrawer={toggleDrawer}
-        userData={userData}
+        userData={userInfo}
       />
+
       <Box
         component="main"
         sx={{

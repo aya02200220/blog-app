@@ -233,7 +233,6 @@ const SecurityPage = () => {
                       required
                       fullWidth
                       variant="outlined"
-                      id="filled-required"
                       label="Current Password"
                       type={showPassword1 ? "text" : "password"}
                       value={currentPassword}
@@ -260,7 +259,6 @@ const SecurityPage = () => {
                       required
                       fullWidth
                       variant="outlined"
-                      id="filled-required"
                       label="New Password"
                       type={showPassword2 ? "text" : "password"}
                       value={newPassword}

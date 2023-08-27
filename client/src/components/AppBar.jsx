@@ -1,3 +1,6 @@
+import { useState, useContext, useEffect } from "react";
+import { UserContext } from "./UserContext";
+
 import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
@@ -7,6 +10,8 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Typography from "@mui/material/Typography";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
+
 import { LoginIcon } from "./LoginIcon";
 // import Logo from "../assets/Logo-icon.PNG";
 import Logo from "../assets/Logo-2.png";
@@ -36,9 +41,10 @@ const MyAppBar = styled(MuiAppBar, {
 }));
 
 export const AppBar = (props, { userData }) => {
-  const title = "MERN-Blog";
+  // const title = "MERN-Blog";
   const open = props.open;
   const toggleDrawer = props.toggleDrawer;
+  const { setUserInfo, userInfo } = useContext(UserContext);
 
   // console.log("userData toggle:", props.userData);
 
@@ -47,6 +53,14 @@ export const AppBar = (props, { userData }) => {
   const userName = props.userData?.userName;
   const userIcon = props.userData?.userIcon;
   const userId = props.userData?.userId;
+
+  function isEmpty(obj) {
+    console.log(
+      "isEnpty",
+      Object.keys(obj).length === 0 && obj.constructor === Object
+    );
+    return Object.keys(obj).length === 0 && obj.constructor === Object;
+  }
 
   return (
     <MyAppBar position="absolute" open={open}>
@@ -88,26 +102,49 @@ export const AppBar = (props, { userData }) => {
               alt="Logo"
               style={{ height: "50px", verticalAlign: "middle" }}
             />
-            {/* {title} */}
           </Link>
         </Typography>
 
-        {userName && (
-          <IconButton
-            size="large"
-            edge="end"
-            aria-label="account of current user"
-            aria-haspopup="true"
-            color="4e575f"
-          >
-            <Link to={`/post/account/${userId}`}>
-              <LoginIcon
-                firstLetter={firstName.charAt(0)}
-                lastLetter={lastName.charAt(0)}
-                userIcon={userIcon}
-              />
+        {!isEmpty(userInfo) && (
+          <>
+            <Link to={"/create"}>
+              <IconButton
+                sx={{
+                  borderRadius: "5px",
+                  border: "solid 2px #2ba7bf",
+                  size: "small",
+                  p: "3px",
+                  pr: "8px",
+                  mr: 2,
+                  color: "#2ba7bf",
+                  backgroundColor: "#eef9fb",
+                }}
+              >
+                <BorderColorIcon
+                  sx={{ color: "#2ba7bf", pl: 1, fontSize: "31px" }}
+                />
+                <Typography sx={{ display: { xs: "none", sm: "block" } }}>
+                  Create Post
+                </Typography>
+              </IconButton>
             </Link>
-          </IconButton>
+
+            <IconButton
+              size="large"
+              edge="end"
+              aria-label="account of current user"
+              aria-haspopup="true"
+              color="4e575f"
+            >
+              <Link to={`/post/account/${userId}`}>
+                <LoginIcon
+                  firstLetter={firstName?.charAt(0)}
+                  lastLetter={lastName?.charAt(0)}
+                  userIcon={userIcon}
+                />
+              </Link>
+            </IconButton>
+          </>
         )}
       </Toolbar>
     </MyAppBar>

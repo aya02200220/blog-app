@@ -23,12 +23,12 @@ const IndexPage = () => {
   const [userName, setUserName] = useState(null);
   const [userId, setUserId] = useState(null);
 
-  if (userInfo) {
-    console.log(
-      "userInfoStringのオブジェクト要素数:",
-      Object.keys(userInfo).length
-    );
-  }
+  // if (userInfo) {
+  //   console.log(
+  //     "userInfoStringのオブジェクト要素数:",
+  //     Object.keys(userInfo).length
+  //   );
+  // }
   // console.log("firstName:", firstName);
   // console.log("lastName:", lastName);
   // console.log("userName email:", userName);

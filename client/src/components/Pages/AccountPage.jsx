@@ -31,6 +31,7 @@ const AccountPage = () => {
   const { setUserInfo, userInfo } = useContext(UserContext);
 
   const [loading, setLoading] = useState(true);
+  const [isUpdating, setIsUpdating] = useState(true);
   // const [userInfo, setUserInfo] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -62,6 +63,7 @@ const AccountPage = () => {
   }, [userInfo]);
 
   const updateUserData = async () => {
+    setIsUpdating(false);
     if (isChanged()) {
       if (!firstName || !lastName) {
         toast.error("Fill Required Form", {
@@ -74,11 +76,14 @@ const AccountPage = () => {
           progress: undefined,
           theme: "dark",
         });
+        setIsUpdating(true);
 
         return;
       } else {
+        const id = toast.loading("Updating...");
+
         try {
-          const response = await fetch(`${SERVER_URL}/updateProfile`, {
+          const response = await fetch(`${SERVER_URL}/profile/update`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -93,12 +98,18 @@ const AccountPage = () => {
           });
 
           if (!response.ok) {
+            setIsUpdating(true);
             const text = await response.text();
-            throw new Error(
-              `HTTP error! status: ${response.status}, message: ${text}`
-            );
+            toast.update(id, {
+              render: `${text}`,
+              type: "error",
+              isLoading: false,
+              autoClose: 4000,
+            });
+            throw new Error();
+            // `HTTP error! status: ${response.status}, message: ${text}`
           }
-          toast.success("Profile updated successfully!");
+          // toast.success("Profile updated successfully!");
 
           const updatedInfo = await response.json();
           // ユーザー情報を再取得
@@ -109,6 +120,14 @@ const AccountPage = () => {
           setUserName(newUserInfo.email);
           setBio(newUserInfo.bio);
           setUserIcon(newUserInfo.userIcon);
+
+          setIsUpdating(true);
+          toast.update(id, {
+            render: "Profile updated successfully!",
+            type: "success",
+            isLoading: false,
+            autoClose: 1000,
+          });
 
           LocalStorageRemove();
           LocalStorage({ userInfo: newUserInfo });
@@ -322,7 +341,7 @@ const AccountPage = () => {
               <Box sx={{ m: 2 }}>
                 <Button
                   onClick={updateUserData}
-                  disabled={!isChanged()}
+                  disabled={!isChanged() || !isUpdating}
                   variant="contained"
                   fullWidth
                   sx={{ height: "40px" }}

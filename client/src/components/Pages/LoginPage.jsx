@@ -117,11 +117,11 @@ export default function SignIn() {
     }
 
     const userInfo = await login(email, password);
-    console.log("Call Login");
+    // console.log("Call Login");
     if (userInfo) {
       setUserInfo(userInfo);
       setRedirect(true);
-      console.log("Call Login userInfo:", userInfo);
+      // console.log("Call Login userInfo:", userInfo);
     }
   };
 

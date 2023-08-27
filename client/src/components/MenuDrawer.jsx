@@ -3,6 +3,7 @@ import { UserContext } from "./UserContext";
 import { LocalStorageRemove } from "./Functions/LocalStorage";
 import { useNavigate, useLocation } from "react-router-dom";
 import { SERVER_URL } from "../Constants";
+import { GetLocalStorage } from "./Functions/LocalStorage";
 
 import { toast, ToastContainer } from "react-toastify";
 
@@ -20,20 +21,15 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 
 import HomeIcon from "@mui/icons-material/Home";
 import LockIcon from "@mui/icons-material/Lock";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import BorderColorIcon from "@mui/icons-material/BorderColor";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
-import ArticleIcon from "@mui/icons-material/Article";
-import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import ContactPageIcon from "@mui/icons-material/ContactPage";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
-import {
-  Link as RouterLink,
-  // LinkProps as RouterLinkProps,
-} from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
 const DRAWER_WIDTH = 210;
 const Drawer = styled(MuiDrawer, {
@@ -104,13 +100,28 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
   const [showSecurity, setShowSecurity] = useState(false);
 
   const { setUserInfo, userInfo } = useContext(UserContext);
-  const firstName = userData?.firstName;
-  const lastName = userData?.lastName;
-  const userName = userData?.userName;
-  const userId = userData?.userId;
 
-  // console.log("userId::::::**********", userId);
-  // console.log(showSecurity);
+  const [userId, setUserId] = useState(() => {
+    const localUserInfo = GetLocalStorage();
+    return localUserInfo
+      ? localUserInfo.id
+        ? localUserInfo.id
+        : localUserInfo._id
+        ? localUserInfo._id
+        : null
+      : null;
+  });
+
+  console.log("userData", userData);
+  console.log(!userData);
+
+  function isEmpty(obj) {
+    console.log(
+      "isEnpty",
+      Object.keys(obj).length === 0 && obj.constructor === Object
+    );
+    return Object.keys(obj).length === 0 && obj.constructor === Object;
+  }
 
   useEffect(() => {
     // console.log("currentPath", currentPath, userId);
@@ -139,7 +150,7 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
       navigate("/temp");
       setTimeout(() => navigate("/"), 0);
       toast.success("You are Signed out!", {
-        position: "top-right",
+        position: "top-center",
         autoClose: 900,
         hideProgressBar: false,
         closeOnClick: true,
@@ -153,20 +164,7 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
     }
   }
 
-  const handleClick = () => {
-    if (!userName) {
-      toast.info("Sign in to create a new post!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-    }
-  };
+  // console.log("Setting userId:", userId);
 
   return (
     <>
@@ -198,21 +196,7 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
               <ListItemText primary="Home" />
             </ListItemButton>
 
-            {/* <ListItemButton>
-              <ListItemIcon>
-                <BorderColorIcon
-                  sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
-                />
-              </ListItemIcon>
-              <NavLink
-                to={userName ? "/create" : "/login"}
-                onClick={handleClick}
-                activeStyle={{ color: "#E588A3" }} // ここでアクティブな場合のスタイルを指定
-              >
-                <ListItemText primary="Create Post" />
-              </NavLink>
-            </ListItemButton> */}
-            {userName && (
+            {!isEmpty(userInfo) && (
               <>
                 <ListItemButton to="/reading-list">
                   <ListItemIcon>
@@ -234,7 +218,7 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
                   }
                 >
                   <ListItemIcon>
-                    <PersonOutlineIcon
+                    <AccountCircleIcon
                       sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
                     />
                   </ListItemIcon>
@@ -251,11 +235,11 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
                     }
                   >
                     <ListItemIcon>
-                      <PersonOutlineIcon
+                      <ContactPageIcon
                         sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
                       />
                     </ListItemIcon>
-                    <ListItemText primary="Profile" />
+                    <ListItemText primary="Edit Profile" />
                   </ListItemButton>
 
                   <ListItemButton
@@ -290,21 +274,11 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
                     <ListItemText primary="Email" />
                   </ListItemButton>
                 </Collapse>
-                {userName && (
-                  <ListItemButton to={"/create"}>
-                    <ListItemIcon>
-                      <BorderColorIcon
-                        sx={{ color: "#fff", pl: 1, fontSize: "31px" }}
-                      />
-                    </ListItemIcon>
-                    <ListItemText primary="Create Post" />
-                  </ListItemButton>
-                )}
               </>
             )}
             {/* ///////////////////////////////////////////////////////////////// */}
 
-            {userName && (
+            {!isEmpty(userInfo) && (
               <Box sx={{ mt: 3 }}>
                 <Box
                   sx={{
@@ -324,8 +298,8 @@ export const MenuDrawer = ({ open, toggleDrawer, userData }) => {
                 </Box>
               </Box>
             )}
-            {!userName && (
-              <Box sx={{ mt: 3 }}>
+            {isEmpty(userInfo) && (
+              <Box sx={{ mt: 2 }}>
                 <Box sx={{ backgroundColor: "#7090BC", color: "#fff" }}>
                   <ListItemButton to="/login">
                     <ListItemIcon>

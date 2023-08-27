@@ -39,15 +39,13 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 const salt = bcrypt.genSaltSync(10);
-const secret = "f834rfnjefn934rhfeuifn34fj";
+const secret = process.env.JWT_SECRET;
 
 const authMiddleware = require("./middleware/auth.js");
 
 app.use("/uploads", express.static(__dirname + "/uploads"));
 
 const YOUR_CONNECTION_STRING = process.env.YOUR_CONNECTION_STRING;
-// console.log("YOUR_CONNECTION_STRING", YOUR_CONNECTION_STRING);
-
 const PORT = 4000;
 
 mongoose
@@ -85,6 +83,8 @@ mongoose
 
 const postsRoutes = require("./routes/posts");
 app.use(postsRoutes);
+const profileRoutes = require("./routes/profile");
+app.use(profileRoutes);
 //////////////////////////////////////////////////////
 
 app.post("/register", async (req, res) => {
@@ -170,84 +170,84 @@ app.post("/login", async (req, res) => {
   }
 });
 
-//////////// Profile endpoints ///////////////////////////////////////////
-app.get("/profile", authMiddleware, async (req, res) => {
-  const { token } = req.cookies;
-  jwt.verify(token, secret, async (err, info) => {
-    if (err) {
-      return res.status(401).json({ message: "Token verification failed." });
-    }
-    try {
-      // JWTからユーザーIDを取得（仮定）
-      const userId = info.id;
+// //////////// Profile endpoints ///////////////////////////////////////////
+// app.get("/profile", authMiddleware, async (req, res) => {
+//   const { token } = req.cookies;
+//   jwt.verify(token, secret, async (err, info) => {
+//     if (err) {
+//       return res.status(401).json({ message: "Token verification failed." });
+//     }
+//     try {
+//       // JWTからユーザーIDを取得（仮定）
+//       const userId = info.id;
 
-      // データベースからユーザーIDを使用して最新の情報を取得
-      const updatedUserInfo = await User.findById(userId);
-      if (!updatedUserInfo) {
-        return res.status(404).json({ message: "User not found." });
-      }
+//       // データベースからユーザーIDを使用して最新の情報を取得
+//       const updatedUserInfo = await User.findById(userId);
+//       if (!updatedUserInfo) {
+//         return res.status(404).json({ message: "User not found." });
+//       }
 
-      res.json(updatedUserInfo);
-    } catch (error) {
-      console.error("Database error:", error);
-      res.status(500).json({ message: "Internal server error." });
-    }
-  });
-});
+//       res.json(updatedUserInfo);
+//     } catch (error) {
+//       console.error("Database error:", error);
+//       res.status(500).json({ message: "Internal server error." });
+//     }
+//   });
+// });
 
-/////////////// FetchUser ///////////////////////////////////////
-app.get("/profile/:_id", async (req, res) => {
-  const { _id } = req.params;
-  try {
-    const user = await User.findById(_id);
+// /////////////// FetchUser ///////////////////////////////////////
+// app.get("/profile/:_id", async (req, res) => {
+//   const { _id } = req.params;
+//   try {
+//     const user = await User.findById(_id);
 
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
+//     if (!user) {
+//       return res.status(404).json({ error: "User not found" });
+//     }
 
-    res.status(200).json({ message: "Got User Info", user });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server Error" });
-  }
-});
+//     res.status(200).json({ message: "Got User Info", user });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: "Server Error" });
+//   }
+// });
 
-const authProfile = (req, res, next) => {
-  const { token } = req.cookies;
-  jwt.verify(token, secret, {}, (err, info) => {
-    if (err) {
-      return res.status(401).json({ message: "認証エラー" });
-    }
-    req.userId = info.id;
-    next();
-  });
-};
+// const authProfile = (req, res, next) => {
+//   const { token } = req.cookies;
+//   jwt.verify(token, secret, {}, (err, info) => {
+//     if (err) {
+//       return res.status(401).json({ message: "認証エラー" });
+//     }
+//     req.userId = info.id;
+//     next();
+//   });
+// };
 
-app.post("/updateProfile", authProfile, async (req, res) => {
-  const { firstName, lastName, userIcon, bio } = req.body;
-  // console.log("req.userId:", req.userId);
+// app.post("/updateProfile", authProfile, async (req, res) => {
+//   const { firstName, lastName, userIcon, bio } = req.body;
+//   // console.log("req.userId:", req.userId);
 
-  try {
-    const user = await User.findById(req.userId);
-    // const user = await User.findById(info.id); // ユーザーIDに基づいてユーザー情報を検索
-    // console.log("user", user);
+//   try {
+//     const user = await User.findById(req.userId);
+//     // const user = await User.findById(info.id); // ユーザーIDに基づいてユーザー情報を検索
+//     // console.log("user", user);
 
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
+//     if (!user) {
+//       return res.status(404).json({ error: "User not found" });
+//     }
 
-    if (firstName) user.firstName = firstName;
-    if (lastName) user.lastName = lastName;
-    if (userIcon) user.userIcon = userIcon;
-    if (bio !== undefined && bio !== null) user.bio = bio;
+//     if (firstName) user.firstName = firstName;
+//     if (lastName) user.lastName = lastName;
+//     if (userIcon) user.userIcon = userIcon;
+//     if (bio !== undefined && bio !== null) user.bio = bio;
 
-    await user.save();
-    res.status(200).json({ message: "プロファイルが更新されました", user });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "サーバーエラーが発生しました" });
-  }
-});
+//     await user.save();
+//     res.status(200).json({ message: "プロファイルが更新されました", user });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: "サーバーエラーが発生しました" });
+//   }
+// });
 
 ///////////////////////////////////////////////////////////////////////////////////
 
