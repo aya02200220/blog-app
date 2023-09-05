@@ -17,8 +17,7 @@ const { log } = require("console");
 const app = express();
 
 const allowedOrigins = [
-  "https://blog-app-du13.vercel.app",
-  "https://noir-rose.vercel.app",
+  "https://noir-rose-munj9evek-aya02200220.vercel.app/",
   "http://localhost:5173",
 ];
 
