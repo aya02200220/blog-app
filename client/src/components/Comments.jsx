@@ -46,7 +46,7 @@ export const Comments = ({
     ? format(new Date(createdAt), "MMM d , yyyy")
     : "";
 
-  console.log(authorId, storageID);
+  // console.log(authorId, storageID);
 
   const isAuthor = authorId === storageID;
 
