@@ -45,7 +45,7 @@ const authMiddleware = require("./middleware/auth.js");
 app.use("/uploads", express.static(__dirname + "/uploads"));
 
 const YOUR_CONNECTION_STRING = process.env.YOUR_CONNECTION_STRING;
-const PORT = 4000;
+const PORT = 10000 || 3030;
 
 mongoose
   .connect(YOUR_CONNECTION_STRING, {
