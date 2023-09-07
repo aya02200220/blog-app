@@ -128,17 +128,17 @@ export const AppBar = (props, { userData }) => {
               <IconButton
                 sx={{
                   borderRadius: "5px",
-                  border: "solid 2px #2ba7bf",
+                  border: "solid 2px #E28089",
                   size: "small",
                   p: "3px",
                   pr: "8px",
                   mr: 2,
-                  color: "#2ba7bf",
-                  backgroundColor: "#eef9fb",
+                  color: "#E28089",
+                  backgroundColor: "#ffeff1",
                 }}
               >
                 <BorderColorIcon
-                  sx={{ color: "#2ba7bf", pl: 1, fontSize: "31px" }}
+                  sx={{ color: "#E28089", pl: 1, fontSize: "31px" }}
                 />
                 <Typography sx={{ display: { xs: "none", sm: "block" } }}>
                   Create Post
