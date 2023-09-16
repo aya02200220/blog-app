@@ -9,7 +9,6 @@ const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const fs = require("fs");
 const multer = require("multer");
-const uploadMiddleware = multer({ dest: "uploads/" });
 const PostModel = require("../models/Post");
 const secret = process.env.JWT_SECRET;
 const router = express.Router();
