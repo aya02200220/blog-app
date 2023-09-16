@@ -197,11 +197,11 @@ export default function SignUp() {
     // e.preventDefault();
 
     const userInfo = await login(email, password);
-    console.log("Call Login");
+    // console.log("Call Login");
     if (userInfo) {
       setUserInfo(userInfo);
       setRedirect(true);
-      console.log("Call Login userInfo:", userInfo);
+      // console.log("Call Login userInfo:", userInfo);
     }
   };
 
@@ -339,7 +339,7 @@ export default function SignUp() {
                   name="Confirm password"
                   label="Confirm Password"
                   type={showPassword ? "text" : "password"}
-                  id="password"
+                  id="Confirm password"
                   autoComplete="new-password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}

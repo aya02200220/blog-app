@@ -58,7 +58,7 @@ export const Favorite = ({ favorite, userName, userId, _id, onComplete }) => {
       }
     } catch (error) {
       console.error(error);
-      toast.error("Failed to add to favorites");
+      toast.error("Sign in to save the post to your reading list!");
     }
   };
 

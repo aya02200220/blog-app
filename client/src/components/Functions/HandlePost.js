@@ -8,7 +8,7 @@ export const deletePost = (postId) => {
     .then((response) => response.json())
     .then((data) => {
       if (data.message) {
-        console.log(data.message);
+        // console.log(data.message);
         // ポストが削除された後の処理（例: 画面の更新）
       }
     })

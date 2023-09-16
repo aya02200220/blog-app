@@ -26,7 +26,7 @@ const PostPage = () => {
   const location = useLocation(); // 現在のlocationオブジェクトを取得
 
   const handleBackClick = () => {
-    console.log("location.state", location.state);
+    // console.log("location.state", location.state);
     if (location.state) {
       navigate(location.state); // 前のページに戻る
     } else {
