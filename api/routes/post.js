@@ -87,7 +87,7 @@ const uploadToCloudinary = (fileBuffer) => {
 router.put("/post", upload.single("file"), async (req, res) => {
   let imagePath;
 
-  console.log("Received data:", req.body, req.file);
+  // console.log("Received data:", req.body, req.file);
 
   if (req.file) {
     try {

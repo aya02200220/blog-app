@@ -74,7 +74,7 @@ export const DisplayAuthorPage = ({
   const handleRemoveFromFavorites = async () => {
     try {
       await deletePost(_id);
-      onRemovePost(_id);
+      // onRemovePost(_id);
     } catch (error) {
       console.error("Error removing favorite:", error);
     }
