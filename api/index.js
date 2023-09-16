@@ -40,9 +40,9 @@ app.use(cookieParser());
 const salt = bcrypt.genSaltSync(10);
 const secret = process.env.JWT_SECRET;
 
-const authMiddleware = require("./middleware/auth.js");
+// const authMiddleware = require("./middleware/auth.js");
 
-app.use("/uploads", express.static(__dirname + "/uploads"));
+// app.use("/uploads", express.static(__dirname + "/uploads"));
 
 const YOUR_CONNECTION_STRING = process.env.YOUR_CONNECTION_STRING;
 const PORT = 10000 || 3030;
