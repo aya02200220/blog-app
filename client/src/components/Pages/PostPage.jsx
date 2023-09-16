@@ -228,7 +228,8 @@ const PostPage = () => {
                 </Box>
 
                 <div>
-                  <img src={`${SERVER_URL}/${postInfo.cover}`} alt="" />
+                  {/* <img src={`${SERVER_URL}/${postInfo.cover}`} alt="" /> */}
+                  <img src={postInfo.cover} alt="" />
                 </div>
                 <Box
                   sx={{ width: "100%", wordBreak: "break-word" }}

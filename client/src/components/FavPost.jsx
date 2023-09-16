@@ -183,7 +183,7 @@ export const FavPost = ({
                   objectFit: "cover",
                 }}
                 component="img"
-                src={`${SERVER_URL}/` + cover}
+                src={cover}
               ></Box>
               <Box sx={{ display: "flex", flexDirection: "column" }}>
                 <Box

@@ -73,9 +73,13 @@ const EditPost = () => {
     data.set("summary", summary);
     data.set("content", content);
     data.set("id", id);
-    if (files?.[0]) {
-      data.set("file", files?.[0]);
+
+    if (files && files[0]) {
+      data.append("file", files[0]);
     }
+
+    console.log("Sending data:", data);
+
     const response = await fetch(`${SERVER_URL}/post`, {
       method: "PUT",
       body: data,
@@ -83,6 +87,8 @@ const EditPost = () => {
     });
     if (response.ok) {
       setRedirect(true);
+
+      console.log("Received response:", response);
     }
   }
 
