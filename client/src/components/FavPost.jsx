@@ -239,7 +239,7 @@ export const ConfirmDeleteDialog = (props) => {
       }}
     >
       <DialogTitle sx={{ lineHeight: "20px", textAlign: "center" }}>
-        Are you sure you want to remove this post from favorites?
+        Are you sure you want to remove this post from your reading list?
       </DialogTitle>
       <Box sx={{ display: "flex" }}>
         <Button

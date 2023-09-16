@@ -59,7 +59,7 @@ export const Comments = ({
     setIsEditing(false);
     try {
       const response = await fetch(
-        `${SERVER_URL}/posts/${postId}/comments/${commentId}`,
+        `${SERVER_URL}/comments/${postId}/${commentId}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

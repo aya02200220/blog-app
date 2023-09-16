@@ -26,13 +26,15 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 
 const ChangeEmail = () => {
+  const { setUserInfo, userInfo } = useContext(UserContext);
   const [loading, setLoading] = useState(true);
   // const [userInfo, setUserInfo] = useState("");
-  const [currentEmail, setCurrentEmail] = useState("");
+  const [currentEmail, setCurrentEmail] = useState(
+    userInfo ? userInfo.email : ""
+  );
   const [newEmail, setNewEmail] = useState("");
   const [confirmEmail, setConfirmEmail] = useState("");
   const [EmailError, setEmailError] = useState("");
-  const { setUserInfo, userInfo } = useContext(UserContext);
 
   const [showEmail1, setShowEmail1] = useState(false);
   const [showEmail2, setShowEmail2] = useState(false);
@@ -73,7 +75,7 @@ const ChangeEmail = () => {
       try {
         setEmailError("");
 
-        const response = await fetch(`${SERVER_URL}/updateEmail`, {
+        const response = await fetch(`${SERVER_URL}/update/email`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -86,7 +88,7 @@ const ChangeEmail = () => {
         });
 
         // トークンなしパシワード変更///////////////////////////////////////////////////
-        // const response = await fetch(`${SERVER_URL}/updateEmail`, {
+        // const response = await fetch(`${SERVER_URL}/update/email`, {
         //   method: "POST",
         //   headers: { "Content-Type": "application/json" },
         //   body: JSON.stringify({
@@ -140,6 +142,8 @@ const ChangeEmail = () => {
       theme: "dark",
     });
   };
+
+  // console.log("cul:", currentEmail, "new:", newEmail, "com:", confirmEmail);
 
   return (
     <>
@@ -241,7 +245,7 @@ const ChangeEmail = () => {
                       id="filled-required"
                       label="Current Email"
                       type={showEmail1 ? "text" : "Email"}
-                      value={userInfo ? userInfo.email : currentEmail}
+                      value={currentEmail}
                       onChange={(e) => setCurrentEmail(e.target.value)}
                       placeholder="Current Email"
                       // InputProps={{

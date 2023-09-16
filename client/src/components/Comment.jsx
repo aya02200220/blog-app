@@ -69,7 +69,7 @@ const Comment = ({ postInfo, onCommentAdded }) => {
   const handleDelete = async (postId, commentId) => {
     try {
       const response = await fetch(
-        `${SERVER_URL}/posts/${postId}/comments/${commentId}`,
+        `${SERVER_URL}/comments/${postId}/${commentId}`,
         {
           method: "DELETE",
           headers: {
@@ -81,7 +81,7 @@ const Comment = ({ postInfo, onCommentAdded }) => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data.message);
+        // console.log(data.message);
         fetchComments();
         onCommentAdded();
       } else {
