@@ -74,7 +74,7 @@ export const DisplayAuthorPage = ({
   const handleRemoveFromFavorites = async () => {
     try {
       await deletePost(_id);
-      onRemovePost(_id);
+      // onRemovePost(_id);
     } catch (error) {
       console.error("Error removing favorite:", error);
     }
@@ -136,7 +136,7 @@ export const DisplayAuthorPage = ({
                   objectFit: "cover",
                 }}
                 component="img"
-                src={`${SERVER_URL}/` + cover}
+                src={cover}
               ></Box>
               <Box sx={{ display: "flex", flexDirection: "column" }}>
                 <Typography

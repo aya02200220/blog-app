@@ -31,7 +31,7 @@ router.get("/profile", authMiddleware, async (req, res) => {
     userInfoObj.id = userInfoObj._id;
     delete userInfoObj._id;
 
-    console.log("updatedUserInfo", userInfoObj);
+    // console.log("updatedUserInfo", userInfoObj);
     res.json(userInfoObj);
   } catch (error) {
     console.error("Database error:", error);

@@ -1,18 +1,148 @@
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
+const multer = require("multer");
+const cloudinary = require("cloudinary").v2;
+
 const User = require("../models/User");
 const Post = require("../models/Post");
-
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const cookieParser = require("cookie-parser");
-const fs = require("fs");
-const multer = require("multer");
-const uploadMiddleware = multer({ dest: "uploads/" });
 const PostModel = require("../models/Post");
 const secret = process.env.JWT_SECRET;
 const router = express.Router();
+
+require("../controller/cloudinaryConfig");
+
+// Use memoryStorage to handle the file as a buffer.
+const storage = multer.memoryStorage();
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 10 * 1024 * 1024, // 10MB
+    fieldSize: 10 * 1024 * 1024, // 10MB
+  },
+});
+
+////// new post //////////////
+router.post("/post", upload.single("file"), async (req, res) => {
+  if (!req.file) {
+    console.log("ファイルなし");
+    return res
+      .status(400)
+      .json({ error: "ファイルがアップロードされていません" });
+  }
+
+  try {
+    const uploadResponse = await cloudinary.uploader
+      .upload_stream(
+        {
+          resource_type: "image",
+        },
+        async (error, result) => {
+          if (error) throw error;
+
+          const imagePath = result.url;
+
+          const { token } = req.cookies;
+          jwt.verify(token, secret, {}, async (err, info) => {
+            if (err) throw err;
+            const { title, summary, content } = req.body;
+
+            const newPost = await Post.create({
+              title,
+              summary,
+              content,
+              cover: imagePath,
+              author: info.id,
+            });
+
+            res.json(newPost);
+          });
+        }
+      )
+      .end(req.file.buffer);
+  } catch (error) {
+    console.error("Error uploading to Cloudinary:", error);
+    res.status(500).json({ error: "Failed to upload image to Cloudinary" });
+  }
+});
+
+////// edit post //////////////
+const uploadToCloudinary = (fileBuffer) => {
+  return new Promise((resolve, reject) => {
+    cloudinary.uploader
+      .upload_stream(
+        {
+          resource_type: "auto",
+        },
+        (error, result) => {
+          if (error) reject(error);
+          resolve(result);
+        }
+      )
+      .end(fileBuffer);
+  });
+};
+
+router.put("/post", upload.single("file"), async (req, res) => {
+  let imagePath;
+
+  // console.log("Received data:", req.body, req.file);
+
+  if (req.file) {
+    try {
+      const result = await uploadToCloudinary(req.file.buffer);
+      imagePath = result.url;
+      // console.log("Cloudinary result:", result);
+    } catch (error) {
+      console.error("Error uploading to Cloudinary:", error);
+      return res
+        .status(500)
+        .json({ error: "Failed to upload image to Cloudinary" });
+    }
+  }
+
+  const { token } = req.cookies;
+  jwt.verify(token, secret, {}, async (err, info) => {
+    if (err) throw err;
+    const { id, title, summary, content } = req.body;
+    const postDoc = await Post.findById(id);
+    const isAuthor = JSON.stringify(postDoc.author) === JSON.stringify(info.id);
+    if (!isAuthor) {
+      return res.status(400).json("you are not the author");
+    }
+    await postDoc.updateOne({
+      title,
+      summary,
+      content,
+      cover: imagePath ? imagePath : postDoc.cover,
+    });
+
+    const updatedPost = await Post.findById(id); // 更新後のドキュメントを取得
+    res.json(updatedPost); // 更新後のドキュメントを返す
+  });
+});
+
+////// get posts //////////////
+router.get("/post", async (req, res) => {
+  res.json(
+    await Post.find()
+      .populate("author", ["firstName", "lastName", "email"])
+      .sort({ createdAt: -1 })
+      .limit(15)
+  );
+});
+
+////// get a post by post ID //////////////
+router.get("/post/:id", async (req, res) => {
+  const { id } = req.params;
+  const postInfo = await Post.findById(id).populate("author", [
+    "firstName",
+    "lastName",
+    "email",
+  ]);
+  res.json(postInfo);
+});
 
 //////////// Delete Post ///////////////////////
 router.delete("/post/:id", async (req, res) => {
@@ -43,85 +173,6 @@ router.get("/post/account/:authorId", async (req, res) => {
     console.error("Error fetching posts by author:", error);
     res.status(500).json({ error: "Server error" });
   }
-});
-
-router.put("/post", uploadMiddleware.single("file"), async (req, res) => {
-  let newPath = null;
-  if (req.file) {
-    const { originalname, path } = req.file;
-    const parts = originalname.split(".");
-    const ext = parts[parts.length - 1];
-    newPath = path + "." + ext;
-    fs.renameSync(path, newPath);
-  }
-
-  const { token } = req.cookies;
-  jwt.verify(token, secret, {}, async (err, info) => {
-    if (err) throw err;
-    const { id, title, summary, content } = req.body;
-    const postDoc = await Post.findById(id);
-    const isAuthor = JSON.stringify(postDoc.author) === JSON.stringify(info.id);
-    if (!isAuthor) {
-      return res.status(400).json("you are not the author");
-    }
-    await postDoc.updateOne({
-      title,
-      summary,
-      content,
-      cover: newPath ? newPath : postDoc.cover,
-    });
-
-    res.json(postDoc);
-  });
-});
-
-router.get("/post", async (req, res) => {
-  res.json(
-    await Post.find()
-      .populate("author", ["firstName", "lastName", "email"])
-      .sort({ createdAt: -1 })
-      .limit(15)
-  );
-});
-
-router.get("/post/:id", async (req, res) => {
-  const { id } = req.params;
-  const postInfo = await Post.findById(id).populate("author", [
-    "firstName",
-    "lastName",
-    "email",
-  ]);
-  res.json(postInfo);
-});
-
-router.post("/post", uploadMiddleware.single("file"), async (req, res) => {
-  if (!req.file) {
-    console.log("ファイルなし");
-    // ファイルがアップロードされていない場合のエラーハンドリング
-    return res
-      .status(400)
-      .json({ error: "ファイルがアップロードされていません" });
-  }
-
-  const { originalname, path } = req.file;
-  const parts = originalname.split(".");
-  const ext = parts[parts.length - 1];
-  const newPath = path + "." + ext;
-  fs.renameSync(path, newPath);
-
-  const { token } = req.cookies;
-  jwt.verify(token, secret, {}, async (err, info) => {
-    if (err) throw err;
-    const { title, summary, content } = req.body;
-    const newPost = await Post.create({
-      title,
-      summary,
-      content,
-      cover: newPath,
-      author: info.id,
-    });
-    res.json(newPost);
-  });
 });
 
 ///////////////// Comment ////////////////////////////////

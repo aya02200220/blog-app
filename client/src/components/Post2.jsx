@@ -253,7 +253,8 @@ export const Post = React.memo(function PostCard({
 
               <Box
                 component="img"
-                src={`${SERVER_URL}/${cover}`}
+                // src={`${SERVER_URL}/${cover}`}
+                src={`${cover}`}
                 sx={{
                   width: { xs: "100%", sm: "45%", md: "45%" },
                   minWidth: { xs: "100%", sm: "45%", md: "45%" },

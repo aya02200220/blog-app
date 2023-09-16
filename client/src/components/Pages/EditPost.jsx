@@ -1,4 +1,5 @@
 import TextField from "@mui/material/TextField";
+import { ToastContainer, toast } from "react-toastify";
 
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -50,6 +51,7 @@ const EditPost = () => {
   const [redirect, setRedirect] = useState(false);
   const [loading, setLoading] = useState(true); // add this line
   const [editorHeight, setEditorHeight] = useState("180px");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     fetch(`${SERVER_URL}/post/` + id).then((response) => {
@@ -68,14 +70,20 @@ const EditPost = () => {
 
   async function updatePost(ev) {
     ev.preventDefault();
+    setIsSubmitting(true);
+
+    // const id = toast.loading("Please wait...");
+
     const data = new FormData();
     data.set("title", title);
     data.set("summary", summary);
     data.set("content", content);
     data.set("id", id);
-    if (files?.[0]) {
-      data.set("file", files?.[0]);
+
+    if (files && files[0]) {
+      data.append("file", files[0]);
     }
+
     const response = await fetch(`${SERVER_URL}/post`, {
       method: "PUT",
       body: data,
@@ -84,6 +92,15 @@ const EditPost = () => {
     if (response.ok) {
       setRedirect(true);
     }
+
+    // toast.update(id, {
+    //   render: "Updated",
+    //   type: "success",
+    //   isLoading: false,
+    //   autoClose: 3000,
+    // });
+
+    setIsSubmitting(false);
   }
 
   if (redirect) {
@@ -160,6 +177,7 @@ const EditPost = () => {
                   variant="contained"
                   sx={{ height: "45px", mt: { xs: 9, sm: 6, md: 6 } }}
                   onClick={updatePost}
+                  disabled={isSubmitting}
                 >
                   Update Post
                 </Button>{" "}
