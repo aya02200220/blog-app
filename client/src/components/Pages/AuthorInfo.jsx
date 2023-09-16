@@ -138,6 +138,7 @@ export const AuthorInfo = ({
   let firstName, lastName, followers, userIcon;
   if (authorInfo) {
     ({ firstName, lastName, followers, userIcon } = authorInfo);
+    // console.log(firstName, lastName, "icon:", userIcon);
   }
 
   if (!authorInfo) return <AuthorInfoFalse />;
@@ -178,7 +179,7 @@ export const AuthorInfo = ({
             }}
           >
             <Link to={`/post/account/${postInfo.author._id}`}>
-              {firstName && lastName && userIcon ? (
+              {firstName && lastName ? (
                 <Avatar
                   {...stringAvatar(`${firstName} ${lastName}`)}
                   src={userIcon}

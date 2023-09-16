@@ -75,7 +75,7 @@ const SecurityPage = () => {
       try {
         setPasswordError("");
 
-        const response = await fetch(`${SERVER_URL}/updatePassword`, {
+        const response = await fetch(`${SERVER_URL}/update/password`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -88,7 +88,7 @@ const SecurityPage = () => {
         });
 
         // トークンなしパシワード変更///////////////////////////////////////////////////
-        // const response = await fetch(`${SERVER_URL}/updatePassword`, {
+        // const response = await fetch(`${SERVER_URL}/update/password`, {
         //   method: "POST",
         //   headers: { "Content-Type": "application/json" },
         //   body: JSON.stringify({

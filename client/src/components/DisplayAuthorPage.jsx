@@ -211,7 +211,7 @@ export const ConfirmDeleteDialog = (props) => {
       <DialogTitle sx={{ textAlign: "center" }}>
         {isAuthor ? (
           <Typography sx={{ fontSize: "20px", lineHeight: "21px" }}>
-            Are you sure you want to remove this post from favorites?
+            Are you sure you want to remove this post from your reading list?
           </Typography>
         ) : (
           <Box
