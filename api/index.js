@@ -17,7 +17,7 @@ const { log } = require("console");
 const app = express();
 
 const allowedOrigins = [
-  "https://noir-rose-munj9evek-aya02200220.vercel.app/",
+  "https://noir-rose-munj9evek-aya02200220.vercel.app",
   "http://localhost:5173",
 ];
 
@@ -37,11 +37,10 @@ app.use(
 
 app.use(express.json());
 app.use(cookieParser());
-const salt = bcrypt.genSaltSync(10);
-const secret = process.env.JWT_SECRET;
+// const salt = bcrypt.genSaltSync(10);
+// const secret = process.env.JWT_SECRET;
 
 // const authMiddleware = require("./middleware/auth.js");
-
 // app.use("/uploads", express.static(__dirname + "/uploads"));
 
 const YOUR_CONNECTION_STRING = process.env.YOUR_CONNECTION_STRING;
