@@ -42,6 +42,7 @@ router.get("/profile", authMiddleware, async (req, res) => {
 // 特定のユーザー情報を取得するエンドポイント
 router.get("/profile/:_id", async (req, res) => {
   const { _id } = req.params;
+  // console.log(_id);
   try {
     const user = await User.findById(_id);
     if (!user) {
