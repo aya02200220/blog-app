@@ -13,6 +13,8 @@ import { GetLocalStorage } from "./Functions/LocalStorage";
 import cx from "clsx";
 import { Box, IconButton, Button, Typography } from "@mui/material";
 import { alpha } from "@mui/material/styles";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { toast } from "react-toastify";
 
 import ShareIcon from "@mui/icons-material/Share";
 
@@ -29,6 +31,7 @@ export const Post = React.memo(function PostCard({
   const [isFavorite, setIsFavorite] = useState(favorite);
   const [userName, setUserName] = useState("");
   const [userId, setUserId] = useState(favorite);
+  const [isCopied, setIsCopied] = useState(false);
 
   useEffect(() => {
     const userInfo = GetLocalStorage();
@@ -38,7 +41,18 @@ export const Post = React.memo(function PostCard({
     }
   }, []);
 
-  // const { setUserInfo, userInfo } = useContext(UserContext);
+  const handleShare = () => {
+    toast("URL is copied to clipboard!", {
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  };
 
   // 文字列として表現されるHTMLをDOMツリーに変換 //////////////////////////////
   const parser = new DOMParser();
@@ -147,20 +161,20 @@ export const Post = React.memo(function PostCard({
             </IconButton>
           </Link>
         </Box>
-        <Link to={`/post/${_id}`}>
-          <Box
-            sx={{
-              height: { xs: "inherit", sm: "260px", md: "260px" },
-              width: { xs: "295px", sm: "500px", md: "600px" },
-              maxWidth: { xs: "295px", sm: "500px", md: "600px" },
-              // border: "solid 1px black",
-              borderBottom: "solid 1px #dedede",
-              mb: 2,
-              backgroundColor: "#fff",
-              borderRadius: 2,
-              overflow: "hidden",
-            }}
-          >
+        <Box
+          sx={{
+            height: { xs: "inherit", sm: "260px", md: "260px" },
+            width: { xs: "295px", sm: "500px", md: "600px" },
+            maxWidth: { xs: "295px", sm: "500px", md: "600px" },
+            // border: "solid 1px black",
+            borderBottom: "solid 1px #dedede",
+            mb: 2,
+            backgroundColor: "#fff",
+            borderRadius: 2,
+            overflow: "hidden",
+          }}
+        >
+          <Link to={`/post/${_id}`}>
             {/* ///////////////////////////// カード上部コンテンツ */}
             <Box
               sx={{
@@ -253,7 +267,6 @@ export const Post = React.memo(function PostCard({
 
               <Box
                 component="img"
-                // src={`${SERVER_URL}/${cover}`}
                 src={`${cover}`}
                 sx={{
                   width: { xs: "100%", sm: "45%", md: "45%" },
@@ -267,28 +280,34 @@ export const Post = React.memo(function PostCard({
                 }}
               ></Box>
             </Box>
-            <Box
-              sx={{
-                m: 1,
-                zIndex: "tooltip",
-                display: "flex",
-              }}
+          </Link>
+
+          <Box
+            sx={{
+              m: 1,
+              zIndex: "tooltip",
+              display: "flex",
+            }}
+          >
+            <CopyToClipboard
+              text={`https://noir-rose.vercel.app/post/${_id}`}
+              onCopy={handleShare}
             >
               <IconButton size="small">
                 <ShareIcon />
               </IconButton>
+            </CopyToClipboard>
 
-              <IconButton size="small">
-                <Favorite
-                  favorite={favorite}
-                  userName={userName}
-                  userId={userId}
-                  _id={_id}
-                />
-              </IconButton>
-            </Box>
+            <IconButton size="small">
+              <Favorite
+                favorite={favorite}
+                userName={userName}
+                userId={userId}
+                _id={_id}
+              />
+            </IconButton>
           </Box>
-        </Link>
+        </Box>
       </Box>
     </>
   );

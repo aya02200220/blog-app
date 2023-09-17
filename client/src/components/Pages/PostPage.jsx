@@ -228,7 +228,6 @@ const PostPage = () => {
                 </Box>
 
                 <div>
-                  {/* <img src={`${SERVER_URL}/${postInfo.cover}`} alt="" /> */}
                   <img src={postInfo.cover} alt="" />
                 </div>
                 <Box
