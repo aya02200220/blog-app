@@ -1,6 +1,6 @@
 # NoirRose Blogging Platform
 
-![NoirRose Logo](https://res.cloudinary.com/dmgelthfq/image/upload/v1694952182/White_Black_Bold_Minimalist_Beauty_Blogger_Logo_-_1_qh7rw1.png)
+![NoirRose Logo](https://res.cloudinary.com/dmgelthfq/image/upload/v1694952848/Beige_Butterfly_Flower_Shop_Logo_n4w5te.png)
 
 ## Description
 

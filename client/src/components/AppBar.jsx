@@ -19,7 +19,7 @@ import Menu from "@mui/material/Menu";
 
 import { LoginIcon } from "./LoginIcon";
 // import Logo from "../assets/Logo-icon.PNG";
-import Logo from "../assets/Logo-2.png";
+import Logo from "../assets/Logo.png";
 import { Box } from "@mui/material";
 
 const DRAWER_WIDTH = 210;
@@ -117,7 +117,11 @@ export const AppBar = (props, { userData }) => {
             <img
               src={Logo}
               alt="Logo"
-              style={{ height: "50px", verticalAlign: "middle" }}
+              style={{
+                height: "60px",
+                width: "120px",
+                verticalAlign: "middle",
+              }}
             />
           </Link>
         </Typography>
