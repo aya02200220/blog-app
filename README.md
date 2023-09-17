@@ -1,16 +1,20 @@
 # NoirRose Blogging Platform
 
+![NoirRose Logo](https://res.cloudinary.com/dmgelthfq/image/upload/v1694951786/Logo-2_jiov7y.png)
+
 ## Description
 
 NoirRose is a modern blogging platform built with MERN Stack (MongoDB, Express, React, and Node.js). The application allows both guests and registered users to read blog posts. For additional features like posting blogs or adding to favorites, signing up is required.
+
+In addition to traditional storage methods, NoirRose utilizes **Cloudinary** for efficient and seamless image hosting.
 
 ## Features
 
 - Read blogs as a guest or registered user
 - User authentication
 - Create, edit, delete blog posts (for registered users)
-- Add posts to your reading
-  list (for registered users)
+- Add posts to your reading list (for registered users)
+- Cloud-hosted images using Cloudinary
 
 ## Dependencies
 
@@ -26,6 +30,7 @@ The project uses the following npm packages:
 - multer
 - nodemailer
 - nodemon
+- cloudinary (for image hosting)
 
 ## How to Set Up Locally
 
@@ -33,6 +38,7 @@ The project uses the following npm packages:
 
 - Node.js installed
 - MongoDB instance running
+- A Cloudinary account (for image hosting)
 
 ### Installation
 
@@ -54,25 +60,18 @@ The project uses the following npm packages:
    npm install
    ```
 
-4. Create a `.env` file for environment variables such as database connection strings, secret keys, etc.
+4. Create a `.env` file for environment variables such as database connection strings, secret keys, Cloudinary credentials, etc.
 
 5. Start the development server
+
    ```
    npm run dev
    ```
 
-## API Endpoints
-
-(Provide a list of API endpoints and their functionality)
-
 ## Author
 
-(Your Name)
+AyaIshimura
 
 ## License
 
 This project is licensed under the ISC License.
-
----
-
-Feel free to modify the README to better suit the specifics of your project.
