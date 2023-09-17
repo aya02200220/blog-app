@@ -18,6 +18,7 @@ const app = express();
 
 const allowedOrigins = [
   "https://noir-rose-r4o0l6ukr-aya02200220.vercel.app",
+  "https://noir-rose-aya02200220.vercel.app/",
   "https://www.noir-rose.com",
   "https://noir-rose.vercel.app",
   "http://localhost:5173",
