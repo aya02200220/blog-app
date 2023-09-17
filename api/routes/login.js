@@ -48,6 +48,7 @@ router.post("/login", async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true, // JavaScriptからのアクセスを制限
       secure: process.env.NODE_ENV === "production", // 本番環境ではHTTPS接続でのみクッキーを送信
+      // secure: false,
       sameSite: "lax", // サードパーティのサイトからのクッキー送信を制限
     });
     // console.log("token", token);
