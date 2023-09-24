@@ -409,7 +409,15 @@ export default function SignUp() {
               <Grid container justifyContent="flex-end">
                 <Grid item>
                   <Link to="/login" sx={{ color: "#fff", fontWeight: "300" }}>
-                    Already have an account?
+                    <Typography
+                      sx={{
+                        color: "#fff",
+                        fontWeight: "300",
+                        ":hover": { color: "blue" },
+                      }}
+                    >
+                      Already have an account?
+                    </Typography>
                   </Link>
                 </Grid>
               </Grid>

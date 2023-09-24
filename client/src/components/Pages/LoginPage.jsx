@@ -231,17 +231,30 @@ export default function SignIn() {
                     to="/register"
                     style={{ color: "#fff", fontWeight: "300" }}
                   >
-                    Create a new account?
+                    <Typography
+                      sx={{
+                        color: "#fff",
+                        fontWeight: "300",
+                        ":hover": { color: "blue" },
+                      }}
+                    >
+                      Create a new account?
+                    </Typography>
                   </Link>
                 </Grid>
               </Grid>
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <Link
-                    to="/password/forgot"
-                    sx={{ color: "#fff", fontWeight: "300" }}
-                  >
-                    Forgot password?
+                  <Link to="/password/forgot">
+                    <Typography
+                      sx={{
+                        color: "#fff",
+                        fontWeight: "300",
+                        ":hover": { color: "blue" },
+                      }}
+                    >
+                      Forgot password?
+                    </Typography>
                   </Link>
                 </Grid>
               </Grid>
