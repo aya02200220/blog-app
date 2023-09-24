@@ -1,6 +1,6 @@
 // import * as React from "react";
 import { useState, useContext, useEffect } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 
 import { login } from "../Functions/Login";
 import FetchBackgroungImage from "../Functions/FetchBackgroundImage";
@@ -8,7 +8,7 @@ import FetchBackgroungImage from "../Functions/FetchBackgroundImage";
 import { Button, InputAdornment, IconButton } from "@mui/material/";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
+// import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Visibility from "@mui/icons-material/Visibility";
@@ -45,7 +45,7 @@ function Copyright(props) {
   return (
     <Typography align="center" zIndex={1} {...props}>
       {"Copyright © "}
-      <Link color="inherit" href="/">
+      <Link color="inherit" to="/">
         MERN-Blog
       </Link>{" "}
       {new Date().getFullYear()}
@@ -228,8 +228,8 @@ export default function SignIn() {
               <Grid container justifyContent="flex-end">
                 <Grid item>
                   <Link
-                    href="/register"
-                    sx={{ color: "#fff", fontWeight: "300" }}
+                    to="/register"
+                    style={{ color: "#fff", fontWeight: "300" }}
                   >
                     Create a new account?
                   </Link>
@@ -238,7 +238,7 @@ export default function SignIn() {
               <Grid container justifyContent="flex-end">
                 <Grid item>
                   <Link
-                    href="/password/forgot"
+                    to="/password/forgot"
                     sx={{ color: "#fff", fontWeight: "300" }}
                   >
                     Forgot password?

@@ -5,10 +5,12 @@ import FetchBackgroungImage from "../Functions/FetchBackgroundImage";
 import { VerifyPassword, VerifyEmailAddress } from "../Functions/Verifications";
 import { SERVER_URL } from "../../Constants";
 
+import { Link } from "react-router-dom";
+
 import { Button, InputAdornment, IconButton, Divider } from "@mui/material/";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
+// import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import { styled, alpha } from "@mui/material/styles";
@@ -69,7 +71,7 @@ function Copyright(props) {
   return (
     <Typography align="center" zIndex={1} {...props}>
       {"Copyright © "}
-      <Link color="inherit" href="/">
+      <Link color="inherit" to="/">
         MERN-Blog
       </Link>{" "}
       {new Date().getFullYear()}
@@ -406,7 +408,7 @@ export default function SignUp() {
             <Box sx={{ zIndex: 2, position: "relative" }}>
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <Link href="/login" sx={{ color: "#fff", fontWeight: "300" }}>
+                  <Link to="/login" sx={{ color: "#fff", fontWeight: "300" }}>
                     Already have an account?
                   </Link>
                 </Grid>
